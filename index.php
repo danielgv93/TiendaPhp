@@ -1,13 +1,38 @@
 <?php
 require_once "sql/queries.php";
 
+$passRepetida = "";
+$errorAddUser = "";
+$camposSinIntroducir = "";
 $errorLogin = "";
+$correctAddUser = "";
 if (isset($_POST["login"])) {
-    if (checkUsuarioPass($_POST["usuario"], $_POST["password"])) {
+    if (checkUsuarioPass($_POST["usuario"], $_POST["contraseña"])) {
         header("Location: main.php");
         exit();
     } else {
-        $errorLogin = "Error de login";
+        $errorLogin = "Usuario o contraseña incorrectos";
+    }
+}
+
+if (isset($_POST["registro"])) {
+    /* Comprobar si los dos campos de las contraseñas coinciden */
+    if ($_POST["contraseña"] === $_POST["confirm-contraseña"]) {
+        /* Comprobar si estan rellenos todos los campos */
+        if (!empty($_POST["nombre"]) && !empty($_POST["apellidos"]) && !empty($_POST["email"])
+            && !empty($_POST["usuario"]) && !empty($_POST["contraseña"])) {
+            /* Añadir usuario y redireccionar */
+            if (addUsuario($_POST["nombre"], $_POST["apellidos"], $_POST["email"], $_POST["usuario"],
+                    $_POST["contraseña"]) === true) {
+                $correctAddUser = "Usuario añadido correctamente!";
+            } else {
+                $errorAddUser = "El usuario ya existe";
+            }
+        } else {
+            $camposSinIntroducir = "Hay campos sin introducir";
+        }
+    } else {
+        $passRepetida = "Las contraseñas deben de ser iguales";
     }
 }
 ?>
@@ -38,13 +63,17 @@ if (isset($_POST["login"])) {
                 <div class="panel-body">
                     <div class="row">
                         <div class="col-lg-12">
-                            <form id="login-form" action="#" method="post" role="form" style="display: block;">
+                            <form id="login-form" action="<?= $_SERVER["PHP_SELF"] ?>" method="post" role="form"
+                                  style="display: block;">
 
                                 <div class="form-group">
-                                    <input type="text" name="usuario" id="usuario" tabindex="1" class="form-control" placeholder="Usuario" value="<?php if (isset($_POST["register"]) && isset($_POST["usuario"])) echo htmlEntities($_POST["usuario"], ENT_QUOTES); ?>">
+                                    <input type="text" name="usuario" id="usuario" tabindex="1" class="form-control"
+                                           placeholder="Usuario"
+                                           value="<?php if ((isset($_POST["registro"]) || isset($_POST["login"])) && isset($_POST["usuario"])) echo htmlEntities($_POST["usuario"], ENT_QUOTES); ?>">
                                 </div>
                                 <div class="form-group">
-                                    <input type="password" name="contraseña" id="contraseña" tabindex="2" class="form-control" placeholder="Contraseña">
+                                    <input type="password" name="contraseña" id="contraseña" tabindex="2"
+                                           class="form-control" placeholder="Contraseña">
                                 </div>
                                 <div class="form-group text-center">
                                     <input type="checkbox" tabindex="3" class="" name="recordar" id="recordar">
@@ -53,7 +82,8 @@ if (isset($_POST["login"])) {
                                 <div class="form-group">
                                     <div class="row">
                                         <div class="col-sm-6 col-sm-offset-3">
-                                            <input type="submit" name="login" id="login" tabindex="4" class="form-control btn btn-login" value="Iniciar sesión">
+                                            <input type="submit" name="login" id="login" tabindex="4"
+                                                   class="form-control btn btn-login" value="Iniciar sesión">
                                         </div>
                                     </div>
                                 </div>
@@ -61,59 +91,49 @@ if (isset($_POST["login"])) {
                                     <div class="row">
                                         <div class="col-lg-12">
                                             <div class="text-center">
-                                                <a href="https://www.google.com/search?q=como+recuperar+contrase%C3%B1as+no+guardadas+en+google+chrome&rlz=1C1CHBF_esES857ES857&oq=como+&aqs=chrome.1.69i57j0i67j0i433j0l2j69i65j69i60l2.2247j0j4&sourceid=chrome&ie=UTF-8" target="blank" tabindex="5" class="olvido-contraseña">¿Has olvidado tu contraseña?</a>
+                                                <a href="https://www.google.com/search?q=como+recuperar+contrase%C3%B1as+no+guardadas+en+google+chrome&rlz=1C1CHBF_esES857ES857&oq=como+&aqs=chrome.1.69i57j0i67j0i433j0l2j69i65j69i60l2.2247j0j4&sourceid=chrome&ie=UTF-8"
+                                                   target="blank" tabindex="5" class="olvido-contraseña">¿Has olvidado
+                                                    tu contraseña?</a>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </form>
-                            <form id="register-form" action="#" method="post" role="form" style="display: none;">
+                            <form id="register-form" action="<?= $_SERVER["PHP_SELF"] ?>" method="post" role="form"
+                                  style="display: none;">
                                 <div class="form-group">
-                                    <input type="text" name="nombre" id="usuario" tabindex="1" class="form-control" placeholder="Nombre" value="<?php if (isset($_POST["registro"]) && isset($_POST["nombre"])) echo htmlEntities($_POST["nombre"], ENT_QUOTES); ?>">
+                                    <input type="text" name="nombre" id="usuario" tabindex="1" class="form-control"
+                                           placeholder="Nombre" required
+                                           value="<?php if (isset($_POST["registro"]) && isset($_POST["nombre"])) echo htmlEntities($_POST["nombre"], ENT_QUOTES); ?>">
                                 </div>
                                 <div class="form-group">
-                                    <input type="text" name="apellidos" id="apellidos" tabindex="1" class="form-control" placeholder="Apellidos" value="<?php if (isset($_POST["registro"]) && isset($_POST["apellidos"])) echo htmlEntities($_POST["apellidos"], ENT_QUOTES); ?>">
+                                    <input type="text" name="apellidos" id="apellidos" tabindex="1" class="form-control"
+                                           placeholder="Apellidos" required
+                                           value="<?php if (isset($_POST["registro"]) && isset($_POST["apellidos"])) echo htmlEntities($_POST["apellidos"], ENT_QUOTES); ?>">
                                 </div>
                                 <div class="form-group">
-                                    <input type="text" name="usuario" id="usuario" tabindex="1" class="form-control" placeholder="Usuario" value="<?php if (isset($_POST["registro"]) && isset($_POST["usuario"])) echo htmlEntities($_POST["usuario"], ENT_QUOTES); ?>">
+                                    <input type="text" name="usuario" id="usuario" tabindex="1" class="form-control"
+                                           placeholder="Usuario" required
+                                           value="<?php if (isset($_POST["registro"]) && isset($_POST["usuario"])) echo htmlEntities($_POST["usuario"], ENT_QUOTES); ?>">
                                 </div>
                                 <div class="form-group">
-                                    <input type="email" name="email" id="email" tabindex="1" class="form-control" placeholder="Correo electronico" value="<?php if (isset($_POST["registro"]) && isset($_POST["email"])) echo htmlEntities($_POST["email"], ENT_QUOTES); ?>">
+                                    <input type="email" name="email" id="email" tabindex="1" class="form-control"
+                                           placeholder="Correo electronico" required
+                                           value="<?php if (isset($_POST["registro"]) && isset($_POST["email"])) echo htmlEntities($_POST["email"], ENT_QUOTES); ?>">
                                 </div>
                                 <div class="form-group">
-                                    <input type="password" name="contraseña" id="contraseña" tabindex="2" class="form-control" placeholder="Contraseña">
+                                    <input type="password" name="contraseña" id="contraseña" tabindex="2"
+                                           class="form-control" placeholder="Contraseña" required>
                                 </div>
                                 <div class="form-group">
-                                    <input type="password" name="confirm-contraseña" id="confirm-contraseña" tabindex="2" class="form-control" placeholder="Confirmar contraseña">
+                                    <input type="password" name="confirm-contraseña" id="confirm-contraseña"
+                                           tabindex="2" class="form-control" placeholder="Confirmar contraseña" required>
                                 </div>
                                 <div class="form-group">
                                     <div class="row">
                                         <div class="col-sm-6 col-sm-offset-3">
-                                            <input type="submit" name="registro" id="registro" tabindex="4" class="form-control btn btn-register mb-2" value="Crear cuenta">
-                                            <?php
-                                            require_once "funciones.php";
-                                            if (isset($_POST["registro"])) {
-                                                $usuario = $_POST["usuario"];
-                                                $contraseña = md5($_POST["contraseña"]);
-                                                $contraseña2 = md5($_POST["confirm-contraseña"]);
-
-                                                if (contraseñaCorrecta($contraseña, $contraseña2)) {
-                                                    if (addUsuario($usuario, $contraseña)) {
-                                                        echo "<div class='alert alert-success mt-2' role='alert'>";
-                                                        echo "Usuario añadido correctamente!";
-                                                        echo "</div>";
-                                                    } else {
-                                                        echo "<div class='alert alert-danger mt-2' role='alert'>";
-                                                        echo "Error al registrarse!";
-                                                        echo "</div>";
-                                                    }
-                                                } else {
-                                                    echo "<div class='alert alert-danger mt-3' role='alert'>";
-                                                    echo "Las contraseñas no coinciden!";
-                                                    echo "</div>";
-                                                }
-                                            };
-                                            ?>
+                                            <input type="submit" name="registro" id="registro" tabindex="4"
+                                                   class="form-control btn btn-register mb-2" value="Crear cuenta">
                                         </div>
                                     </div>
                                 </div>
@@ -126,7 +146,33 @@ if (isset($_POST["login"])) {
     </div>
     <div class="row">
         <div class="col-12 bg-dark">
-            <footer>dhfjkwhdefu</footer>
+            <footer>
+                <?php if (!empty($errorLogin)) : ?>
+                    <div class='alert alert-danger mt-3' role='alert'>
+                        <?= $errorLogin ?>
+                    </div>
+                <?php endif; ?>
+                <?php if (!empty($correctAddUser)) : ?>
+                    <div class='alert alert-success mt-2' role='alert'>
+                        <?= $correctAddUser ?>
+                    </div>
+                <?php endif; ?>
+                <?php if (!empty($errorAddUser)) : ?>
+                    <div class='alert alert-danger mt-2' role='alert'>
+                        <?= $errorAddUser ?>
+                    </div>
+                <?php endif; ?>
+                <?php if (!empty($passRepetida)) : ?>
+                    <div class='alert alert-danger mt-3' role='alert'>
+                        <?= $passRepetida ?>
+                    </div>
+                <?php endif; ?>
+                <?php if (!empty($camposSinIntroducir)) : ?>
+                    <div class='alert alert-danger mt-3' role='alert'>
+                        <?= $camposSinIntroducir ?>
+                    </div>
+                <?php endif; ?>
+            </footer>
         </div>
     </div>
 </div>
