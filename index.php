@@ -143,6 +143,31 @@ if (isset($_POST["registro"])) {
                                             </div>
                                         </div>
                                     </div>
+                                    <?php if (!empty($errorLogin)) : ?>
+                                        <div class='alert alert-danger mt-3 col-3 offset-5' role='alert'>
+                                            <?= $errorLogin ?>
+                                        </div>
+                                    <?php endif; ?>
+                                    <?php if (!empty($correctAddUser)) : ?>
+                                        <div class='alert alert-success mt-2 col-3 offset-5' role='alert'>
+                                            <?= $correctAddUser ?>
+                                        </div>
+                                    <?php endif; ?>
+                                    <?php if (!empty($errorAddUser)) : ?>
+                                        <div class='alert alert-danger mt-2 col-3 offset-5' role='alert'>
+                                            <?= $errorAddUser ?>
+                                        </div>
+                                    <?php endif; ?>
+                                    <?php if (!empty($passRepetida)) : ?>
+                                        <div class='alert alert-danger mt-3 col-3 offset-5' role='alert'>
+                                            <?= $passRepetida ?>
+                                        </div>
+                                    <?php endif; ?>
+                                    <?php if (!empty($camposSinIntroducir)) : ?>
+                                        <div class='alert alert-danger mt-3 col-3 offset-5' role='alert'>
+                                            <?= $camposSinIntroducir ?>
+                                        </div>
+                                    <?php endif; ?>
                                 </form>
                             </div>
                         </div>
@@ -150,38 +175,14 @@ if (isset($_POST["registro"])) {
                 </div>
             </div>
         </div>
-        <div class="row" id="pie">
-            
-            <div class="col-12 text-white text-center" id="pie"  style="margin-top:300px; background:black; color:white; width:100%;">
+    </div>
+    <div class="container-fluid">
+        <div class="row align-items-end" id="pie">
+            <div class="col-12 bg-primary text-white text-center" id="pie" style="position: absolute;  bottom: 0; width: 100%;">
                 <footer>
                     <p>&trade; TODOS LOS DERECHOS RESERVADOS</p>
-                    <p>IES Miguel Herrero</p>
+                    <p><a href="http://web2.iesmiguelherrero.com/" class="alert-link" target="blank" style="color:white;">IES Miguel Herrero</a> </p>
                     <p>P3 &copy; 2020</p>
-                    <?php if (!empty($errorLogin)) : ?>
-                        <div class='alert alert-danger mt-3 col-3 offset-5' role='alert'>
-                            <?= $errorLogin ?>
-                        </div>
-                    <?php endif; ?>
-                    <?php if (!empty($correctAddUser)) : ?>
-                        <div class='alert alert-success mt-2 col-3 offset-5' role='alert'>
-                            <?= $correctAddUser ?>
-                        </div>
-                    <?php endif; ?>
-                    <?php if (!empty($errorAddUser)) : ?>
-                        <div class='alert alert-danger mt-2 col-3 offset-5' role='alert'>
-                            <?= $errorAddUser ?>
-                        </div>
-                    <?php endif; ?>
-                    <?php if (!empty($passRepetida)) : ?>
-                        <div class='alert alert-danger mt-3 col-3 offset-5' role='alert'>
-                            <?= $passRepetida ?>
-                        </div>
-                    <?php endif; ?>
-                    <?php if (!empty($camposSinIntroducir)) : ?>
-                        <div class='alert alert-danger mt-3 col-3 offset-5' role='alert'>
-                            <?= $camposSinIntroducir ?>
-                        </div>
-                    <?php endif; ?>
                 </footer>
             </div>
         </div>
