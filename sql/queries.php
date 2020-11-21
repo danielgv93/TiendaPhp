@@ -33,7 +33,6 @@ function addUsuario($nombre, $apellidos, $email, $usuario, $password)
             throw new Exception("El usuario ya existe");
         }
     } catch (Exception $e) {
-        echo $e->getMessage();
         unset($conexion);
         return false;
     }
