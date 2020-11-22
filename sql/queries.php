@@ -112,9 +112,9 @@ function getDispositivos()
     $resultado->bindColumn(10, $pulgadas);
     $resultado->bindColumn(11, $stock);
     while ($resultado->fetch(PDO::FETCH_BOUND)) {
-        $datos[] = array("id" => $id, "modelo" => $modelo, "precio" => $precio, "gama" => $gama, "anio" => $anio,
+        $datos[$id] = array("modelo" => $modelo, "precio" => $precio, "gama" => $gama, "anio" => $anio,
             "ram" => $ram, "almacenamiento" => $almacenamiento, "procesador" => $procesador, "bateria" => $bateria,
-            "pulgadas" => $pulgadas, "stock" => $stock, );
+            "pulgadas" => $pulgadas, "stock" => $stock);
     }
     return $datos;
 }
@@ -131,4 +131,92 @@ function getGamas()
     return $datos;
 }
 
-;
+function updateStock($id, $stock)
+{
+    $conexion = getConexionPDO();
+    $sql = "UPDATE dispositivos SET stock = ? WHERE id_dispositivo = ?;";
+    $consulta = $conexion->prepare($sql);
+    $consulta->bindParam(1, $stock);
+    $consulta->bindParam(2, $id);
+    if ($consulta->execute() != true) throw new Exception("No se ha podido actualizar el stock");
+    unset($conexion);
+    return true;
+
+}
+
+function addMovil($modelo, $precio, $gama, $anio, $ram, $almacenamiento, $procesador, $bateria, $pulgadas,
+                  $camara, $notch)
+{
+    $conexion = getConexionPDO();
+    /* SE COMPRUEBA QUE NO HAY UN MISMO MODELO EN LA BASE DE DATOS */
+    /*TODO: ARREGLAR LA CONSULTA PREPARADA DE ESTA QUERY*/
+    $sql = "SELECT COUNT(*) from dispositivos where modelo = ?;";
+    $resultado = $conexion->prepare($sql);
+    $resultado->bindParam(1, $modelo);
+    if ($resultado->execute() !== 0) {
+        unset($conexion);
+        throw new Exception("Ya hay un modelo igual en la base de datos");
+    }
+    /* SE HACE INSERT CON TRANSACCIÓN EN dispositivos Y moviles */
+    $conexion->beginTransaction();
+    try {
+        $sql = "INSERT INTO dispositivos (modelo, precio, gama, anio, ram, almacenamiento, procesador, bateria, pulgadas)
+                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);";
+        $insert = $conexion->prepare($sql);
+        $insert->bindParam(1, $modelo);
+        $insert->bindParam(2, $precio);
+        $insert->bindParam(3, $gama);
+        $insert->bindParam(4, $anio);
+        $insert->bindParam(5, $ram);
+        $insert->bindParam(6, $almacenamiento);
+        $insert->bindParam(7, $procesador);
+        $insert->bindParam(8, $bateria);
+        $insert->bindParam(9, $pulgadas);
+        if ($insert->execute()) {
+            throw new Exception("Error al insertar el dispositivo");
+        }
+        $sql = "INSERT INTO moviles (id_movil, camara, notch) VALUES 
+                    ((SELECT id_dispositivo from dispositivos order by id_dispositivo desc limit 1), ?, ?);";
+        $insert = $conexion->prepare($sql);
+        $insert->bindParam(1, $camara);
+        $insert->bindParam(2, $notch);
+        if ($insert->execute()) {
+            throw new Exception("Error al insertar el movil");
+        }
+        $conexion->commit();
+        unset($conexion);
+        return true;
+    } catch (Exception $e) {
+        $conexion->rollBack();
+        unset($conexion);
+        return false;
+    }
+}
+
+
+/*function getMoviles()
+{
+    $conexion = getConexionPDO();
+    $sql = "SELECT * from dispositivos d inner join moviles m on d.id_dispositivo = m.id_movil;";
+    $resultado = $conexion->query($sql);
+    $resultado->bindColumn(1, $id);
+    $resultado->bindColumn(2, $modelo);
+    $resultado->bindColumn(3, $precio);
+    $resultado->bindColumn(4, $gama);
+    $resultado->bindColumn(5, $anio);
+    $resultado->bindColumn(6, $ram);
+    $resultado->bindColumn(7, $almacenamiento);
+    $resultado->bindColumn(8, $procesador);
+    $resultado->bindColumn(9, $bateria);
+    $resultado->bindColumn(10, $pulgadas);
+    $resultado->bindColumn(11, $stock);
+    $resultado->bindColumn(12, $idMovil);
+    $resultado->bindColumn(13, $camara);
+    $resultado->bindColumn(14, $notch);
+    while ($resultado->fetch(PDO::FETCH_BOUND)) {
+        $datos[$id] = array("modelo" => $modelo, "precio" => $precio, "gama" => $gama, "anio" => $anio,
+            "ram" => $ram, "almacenamiento" => $almacenamiento, "procesador" => $procesador, "bateria" => $bateria,
+            "pulgadas" => $pulgadas, "stock" => $stock, "camara" => $camara, "notch" => $notch);
+    }
+    return $datos;
+}*/
