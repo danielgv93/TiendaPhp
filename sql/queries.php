@@ -149,11 +149,12 @@ function addMovil($modelo, $precio, $gama, $anio, $ram, $almacenamiento, $proces
 {
     $conexion = getConexionPDO();
     /* SE COMPRUEBA QUE NO HAY UN MISMO MODELO EN LA BASE DE DATOS */
-    /*TODO: ARREGLAR LA CONSULTA PREPARADA DE ESTA QUERY*/
     $sql = "SELECT COUNT(*) from dispositivos where modelo = ?;";
     $resultado = $conexion->prepare($sql);
     $resultado->bindParam(1, $modelo);
-    if ($resultado->execute() !== 0) {
+    $resultado->execute();
+    $resultado->bindColumn(1,$coincidencia);
+    if ($coincidencia != 0) {
         unset($conexion);
         throw new Exception("Ya hay un modelo igual en la base de datos");
     }
@@ -172,7 +173,7 @@ function addMovil($modelo, $precio, $gama, $anio, $ram, $almacenamiento, $proces
         $insert->bindParam(7, $procesador);
         $insert->bindParam(8, $bateria);
         $insert->bindParam(9, $pulgadas);
-        if ($insert->execute()) {
+        if ($insert->execute() == false) {
             throw new Exception("Error al insertar el dispositivo");
         }
         $sql = "INSERT INTO moviles (id_movil, camara, notch) VALUES 
@@ -180,7 +181,7 @@ function addMovil($modelo, $precio, $gama, $anio, $ram, $almacenamiento, $proces
         $insert = $conexion->prepare($sql);
         $insert->bindParam(1, $camara);
         $insert->bindParam(2, $notch);
-        if ($insert->execute()) {
+        if ($insert->execute() == false) {
             throw new Exception("Error al insertar el movil");
         }
         $conexion->commit();
@@ -193,6 +194,54 @@ function addMovil($modelo, $precio, $gama, $anio, $ram, $almacenamiento, $proces
     }
 }
 
+function addReloj($modelo, $precio, $gama, $anio, $ram, $almacenamiento, $procesador, $bateria, $pulgadas,
+                  $sim)
+{
+    $conexion = getConexionPDO();
+    /* SE COMPRUEBA QUE NO HAY UN MISMO MODELO EN LA BASE DE DATOS */
+    $sql = "SELECT COUNT(*) from dispositivos where modelo = ?;";
+    $resultado = $conexion->prepare($sql);
+    $resultado->bindParam(1, $modelo);
+    $resultado->execute();
+    $resultado->bindColumn(1,$coincidencia);
+    if ($coincidencia != 0) {
+        unset($conexion);
+        throw new Exception("Ya hay un modelo igual en la base de datos");
+    }
+    /* SE HACE INSERT CON TRANSACCIÓN EN dispositivos Y relojes */
+    $conexion->beginTransaction();
+    try {
+        $sql = "INSERT INTO dispositivos (modelo, precio, gama, anio, ram, almacenamiento, procesador, bateria, pulgadas)
+                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);";
+        $insert = $conexion->prepare($sql);
+        $insert->bindParam(1, $modelo);
+        $insert->bindParam(2, $precio);
+        $insert->bindParam(3, $gama);
+        $insert->bindParam(4, $anio);
+        $insert->bindParam(5, $ram);
+        $insert->bindParam(6, $almacenamiento);
+        $insert->bindParam(7, $procesador);
+        $insert->bindParam(8, $bateria);
+        $insert->bindParam(9, $pulgadas);
+        if ($insert->execute() == false) {
+            throw new Exception("Error al insertar el dispositivo");
+        }
+        $sql = "INSERT INTO relojes (id_reloj, sim) VALUES 
+                    ((SELECT id_dispositivo from dispositivos order by id_dispositivo desc limit 1), ?);";
+        $insert = $conexion->prepare($sql);
+        $insert->bindParam(1, $sim);
+        if ($insert->execute() == false) {
+            throw new Exception("Error al insertar el reloj");
+        }
+        $conexion->commit();
+        unset($conexion);
+        return true;
+    } catch (Exception $e) {
+        $conexion->rollBack();
+        unset($conexion);
+        return false;
+    }
+}
 
 /*function getMoviles()
 {
