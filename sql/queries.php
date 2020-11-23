@@ -119,6 +119,21 @@ function getDispositivos()
     return $datos;
 }
 
+function getModelosBusqueda()
+{
+    $conexion = getConexionPDO();
+    $sql = "SELECT id_dispositivo, modelo from dispositivos;";
+    $resultado = $conexion->query($sql);
+    $resultado->bindColumn(1, $id);
+    $resultado->bindColumn(2, $modelo);
+    $resultado->bindColumn(3, $precio);
+
+    while ($resultado->fetch(PDO::FETCH_BOUND)) {
+        $datos[$id] = array("modelo" => $modelo, "precio" => $precio);
+    }
+    return $datos;
+}
+
 function getGamas()
 {
     $conexion = getConexionPDO();
@@ -242,6 +257,8 @@ function addReloj($modelo, $precio, $gama, $anio, $ram, $almacenamiento, $proces
         return false;
     }
 }
+
+
 
 /*function getMoviles()
 {
