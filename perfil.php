@@ -12,6 +12,7 @@
 </head>
 <body>
 <!--TODO: CREAR EDITOR DEL PERFIL-->
+<a href="main.php">Volver</a>
 <a href="borrar_insertar.php">Configurar trastienda</a>
 </body>
 </html>
