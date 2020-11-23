@@ -122,14 +122,15 @@ function getDispositivos()
 function getModelosBusqueda()
 {
     $conexion = getConexionPDO();
-    $sql = "SELECT id_dispositivo, modelo from dispositivos;";
+    $sql = "SELECT id_dispositivo, imagen, modelo, precio from dispositivos;";
     $resultado = $conexion->query($sql);
     $resultado->bindColumn(1, $id);
-    $resultado->bindColumn(2, $modelo);
-    $resultado->bindColumn(3, $precio);
+    $resultado->bindColumn(2, $imagen);
+    $resultado->bindColumn(3, $modelo);
+    $resultado->bindColumn(4, $precio);
 
     while ($resultado->fetch(PDO::FETCH_BOUND)) {
-        $datos[$id] = array("modelo" => $modelo, "precio" => $precio);
+        $datos[$id] = array("imagen" => $imagen, "modelo" => $modelo, "precio" => $precio);
     }
     return $datos;
 }

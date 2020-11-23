@@ -2,6 +2,26 @@
 require_once "sql/queries.php";
 
 
+
+if (isset($_POST["buscar"])) {
+    $arrayDispositivos = busqueda();
+}
+
+
+function busqueda()
+{
+    if (empty($_POST["busquedaInput"])) {
+        $arrayDispositivos = getModelosBusqueda();
+    } else {
+        $busqueda = strtolower($_POST["busquedaInput"]);
+        foreach (getModelosBusqueda() as $id => $dispositivo) {
+            if (strpos(strtolower($dispositivo["modelo"]), $busqueda) !== false) {
+                $arrayDispositivos[$id] = $dispositivo;
+            }
+        }
+    }
+    return $arrayDispositivos;
+}
 ?>
 
 <!DOCTYPE html>
@@ -11,7 +31,7 @@ require_once "sql/queries.php";
     <meta charset='UTF-8'>
     <meta name='viewport' content='width=device-width, initial-scale=1, shrink-to-fit=no'>
     <meta http-equiv='X-UA-Compatible' content='ie=edge'>
-    <title>Main</title>
+    <title>Encuentra tu dispositivo</title>
     <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css' integrity='sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm' crossorigin='anonymous'>
     <link rel="shorcut icon" href="img/logo.png">
     <link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css">
@@ -20,7 +40,7 @@ require_once "sql/queries.php";
 
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-        <a class="navbar-brand" href="#">
+        <a class="navbar-brand" href="main.php">
             <img src="img/logo.png" width="30" height="30" class="d-inline-block align-top">
             P3
         </a>
@@ -31,7 +51,7 @@ require_once "sql/queries.php";
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item active">
-                    <a class="nav-link" href="#">Inicio <span class="sr-only"></span></a>
+                    <a class="nav-link" href="main.php">Inicio <span class="sr-only"></span></a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="perfil.php">Perfil</a>
@@ -49,14 +69,28 @@ require_once "sql/queries.php";
                 </li>
 
             </ul>
-            <form class="form-inline my-2 my-lg-0">
-                <input class="form-control mr-sm-2" type="search" placeholder="Buscar" aria-label="Search">
+            <form method="post" action="<?= htmlspecialchars($_SERVER["PHP_SELF"]) ?>" class="form-inline my-2 my-lg-0">
+                <input class="form-control mr-sm-2" name="busquedaInput" type="search" placeholder="Buscar" aria-label="Search">
                 <input type="submit" class="btn btn-primary btn-warning" name="buscar" id="buscar"> <span class="glyphicon glyphicon-stats"></span>
 
             </form>
         </div>
     </nav>
-    
+    <?php if (isset($_POST["buscar"])) : ?>
+        <table>
+            <?php foreach ($arrayDispositivos as $id => $producto) : ?>
+                <tr>
+                    <th><img src="<?= $producto["imagen"] ?>" style="width: 100px;"></th>
+                </tr>
+                <tr>
+                    <td><?= $producto["modelo"] ?></td>
+                </tr>
+                <tr>
+                    <td><?= $producto["precio"] ?> €</td>
+                </tr>
+            <?php endforeach; ?>
+        </table>
+    <?php endif; ?>
 </body>
 <script src='https://code.jquery.com/jquery-3.2.1.slim.min.js' integrity='sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN' crossorigin='anonymous'></script>
 <script src='https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js' integrity='sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q' crossorigin='anonymous'></script>
