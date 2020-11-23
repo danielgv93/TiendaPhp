@@ -2,7 +2,7 @@
 require_once "sql/queries.php";
 
 $stockUpdated = "";
-$movilAdded = "";
+$dispositivoAdded = "";
 if (isset($_POST["updateStock"])) {
     try {
         updateStock($_POST["idModelo"], $_POST["stockDispositivo"]);
@@ -13,11 +13,20 @@ if (isset($_POST["updateStock"])) {
 }
 if (isset($_POST["insertarMovil"])) {
     try {
-        addMovil($_POST["modelo"], $_POST["precio"], $_POST["gama"], $_POST["anio"], $_POST["ram"], $_POST["almacenamiento"],
-            $_POST["procesador"], $_POST["bateria"], $_POST["pulgadas"], $_POST["camara"], $_POST["notch"]);
-        $movilAdded = "Movil añadido con éxito";
+        if (addMovil($_POST["modelo"], $_POST["precio"], $_POST["gama"], $_POST["anio"], $_POST["ram"], $_POST["almacenamiento"],
+            $_POST["procesador"], $_POST["bateria"], $_POST["pulgadas"], $_POST["camara"], $_POST["notch"]))
+        $dispositivoAdded = "Movil añadido con éxito";
     } catch (Exception $e) {
-        $movilAdded = $e->getMessage();
+        $dispositivoAdded = $e->getMessage();
+    }
+}
+if (isset($_POST["insertarReloj"])) {
+    try {
+        if (addReloj($_POST["modelo"], $_POST["precio"], $_POST["gama"], $_POST["anio"], $_POST["ram"], $_POST["almacenamiento"],
+            $_POST["procesador"], $_POST["bateria"], $_POST["pulgadas"], $_POST["sim"]))
+            $dispositivoAdded = "Reloj añadido con éxito";
+    } catch (Exception $e) {
+        $dispositivoAdded = $e->getMessage();
     }
 }
 ?>
@@ -70,7 +79,7 @@ if (isset($_POST["insertarMovil"])) {
     </select>
     <input type="submit" name="submitTipoDisp" value="Elegir">
 </form>
-<?= $movilAdded ?>
+<?= $dispositivoAdded ?>
 <!-- INSERTAR MOVIL A LA BASE DE DATOS -->
 <?php if (isset($_POST["submitTipoDisp"]) && $_POST["tipoDispositivo"] == "movil"): ?>
     <h2>Insertar Características del Móvil</h2>
