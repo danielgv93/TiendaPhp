@@ -110,17 +110,17 @@ if (isset($_POST["insertarReloj"])) {
     <h2>Insertar Características del Reloj</h2>
     <form action="<?= htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="post">
         Modelo<input type="text" name="modelo">
-        Precio<input type="number" name="precio" step="any">
+        Precio<input type="number" name="precio" step="any" min="0">
         Gama<select name="gama">
             <option value="alta">Alta</option>
             <option value="media">Media</option>
             <option value="baja">Baja</option>
         </select>
-        Año de lanzamiento<input type="number" name="anio">
+        Año de lanzamiento<input type="number" name="anio" min="0">
         RAM<input type="text" name="ram">
-        Almacenamiento<input type="number" name="almacenamiento">
+        Almacenamiento<input type="number" name="almacenamiento" min="0">
         Procesador<input type="text" name="procesador">
-        Batería<input type="number" name="bateria">
+        Batería<input type="number" name="bateria" min="0">
         Pulgadas pantalla<input type="number" name="pulgadas" step="any">
         SIM<select name="sim">
             <option value="1">Si</option>
