@@ -56,6 +56,7 @@ if (isset($_POST["registro"])) {
     <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
     <link rel="stylesheet" href="css/estilo.css">
     <script src="js/script.js"></script>
+    <link rel="shorcut icon" href="img/logo.png"
 </head>
 
 <body>
@@ -67,7 +68,6 @@ if (isset($_POST["registro"])) {
                     <div class="card-body text-primary">
                         <h4 class="card-title">Conócenos</h4>
                         <p class="card-text">Tu tienda de informática online, y cada vez la de más gente. Precios imbatibles y calidad superior!</p>
-                        <a href="#" class="btn btn-primary">Visítanos</a>
                     </div>
                 </div>
             </div>
@@ -87,7 +87,7 @@ if (isset($_POST["registro"])) {
                     <div class="panel-body">
                         <div class="row">
                             <div class="col-lg-12">
-                                <form id="login-form" action="<?= $_SERVER["PHP_SELF"] ?>" method="post" role="form" style="display: block;">
+                                <form id="login-form" action="<?= $_SERVER["PHP_SELF"] ?>" method="post" role="form" style="display: block;" >
 
                                     <div class="form-group">
                                         <input type="text" name="usuario" id="usuario" tabindex="1" class="form-control" placeholder="Usuario" value="<?php if ((isset($_POST["registro"]) || isset($_POST["login"])) && isset($_POST["usuario"])) echo htmlEntities($_POST["usuario"], ENT_QUOTES); ?>">
@@ -176,9 +176,9 @@ if (isset($_POST["registro"])) {
             </div>
         </div>
     </div>
-    <div class="container-fluid">
-        <div class="row align-items-end" id="pie">
-            <div class="col-12 bg-primary text-white text-center" id="pie" style="position: absolute;  bottom: 0; width: 100%;">
+    <div class="container-fluid bg-primary navbar navbar-fixed-bottom" >
+        <div class="row align-items-end">
+            <div class="col-12  text-white text-center">
                 <footer>
                     <p>&trade; TODOS LOS DERECHOS RESERVADOS</p>
                     <p><a href="http://web2.iesmiguelherrero.com/" class="alert-link" target="blank" style="color:white;">IES Miguel Herrero</a> </p>
@@ -188,5 +188,4 @@ if (isset($_POST["registro"])) {
         </div>
     </div>
 </body>
-
 </html>
