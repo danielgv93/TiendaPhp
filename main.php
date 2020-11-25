@@ -79,6 +79,12 @@ function busqueda()
     <?php if (isset($_POST["buscar"])) : ?>
         <table>
             <?php foreach ($arrayDispositivos as $id => $producto) : ?>
+            <!--AQUI VA CADA TARJETA DE LA BUSQUEDA-->
+
+
+
+
+            <!--HASTA AQUI LA TARJETA-->
                 <tr>
                     <th><img src="<?= $producto["imagen"] ?>" style="width: 100px;"></th>
                 </tr>
