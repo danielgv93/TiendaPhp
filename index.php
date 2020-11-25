@@ -143,32 +143,32 @@ if (isset($_POST["registro"])) {
                                             </div>
                                         </div>
                                     </div>
-                                    <?php if (!empty($errorLogin)) : ?>
-                                        <div class='alert alert-danger mt-3 col-3 offset-5' role='alert'>
-                                            <?= $errorLogin ?>
-                                        </div>
-                                    <?php endif; ?>
-                                    <?php if (!empty($correctAddUser)) : ?>
-                                        <div class='alert alert-success mt-2 col-3 offset-5' role='alert'>
-                                            <?= $correctAddUser ?>
-                                        </div>
-                                    <?php endif; ?>
-                                    <?php if (!empty($errorAddUser)) : ?>
-                                        <div class='alert alert-danger mt-2 col-3 offset-5' role='alert'>
-                                            <?= $errorAddUser ?>
-                                        </div>
-                                    <?php endif; ?>
-                                    <?php if (!empty($passRepetida)) : ?>
-                                        <div class='alert alert-danger mt-3 col-3 offset-5' role='alert'>
-                                            <?= $passRepetida ?>
-                                        </div>
-                                    <?php endif; ?>
-                                    <?php if (!empty($camposSinIntroducir)) : ?>
-                                        <div class='alert alert-danger mt-3 col-3 offset-5' role='alert'>
-                                            <?= $camposSinIntroducir ?>
-                                        </div>
-                                    <?php endif; ?>
                                 </form>
+                                <?php if (!empty($errorLogin)) : ?>
+                                    <div class='alert alert-danger mt-3 col-3 offset-5' role='alert'>
+                                        <?= $errorLogin ?>
+                                    </div>
+                                <?php endif; ?>
+                                <?php if (!empty($correctAddUser)) : ?>
+                                    <div class='alert alert-success mt-2 col-3 offset-5' role='alert'>
+                                        <?= $correctAddUser ?>
+                                    </div>
+                                <?php endif; ?>
+                                <?php if (!empty($errorAddUser)) : ?>
+                                    <div class='alert alert-danger mt-2 col-3 offset-5' role='alert'>
+                                        <?= $errorAddUser ?>
+                                    </div>
+                                <?php endif; ?>
+                                <?php if (!empty($passRepetida)) : ?>
+                                    <div class='alert alert-danger mt-3 col-3 offset-5' role='alert'>
+                                        <?= $passRepetida ?>
+                                    </div>
+                                <?php endif; ?>
+                                <?php if (!empty($camposSinIntroducir)) : ?>
+                                    <div class='alert alert-danger mt-3 col-3 offset-5' role='alert'>
+                                        <?= $camposSinIntroducir ?>
+                                    </div>
+                                <?php endif; ?>
                             </div>
                         </div>
                     </div>
