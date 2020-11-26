@@ -213,7 +213,7 @@ function addMovil($modelo, $precio, $gama, $anio, $ram, $almacenamiento, $proces
     }
 }
 
-function addReloj($modelo, $precio, $gama, $anio, $ram, $almacenamiento, $procesador, $bateria, $pulgadas,
+function addReloj($modelo, $precio, $gama, $anio, $ram, $almacenamiento, $procesador, $bateria, $pulgadas, $imagen,
                   $sim)
 {
     $conexion = getConexionPDO();
@@ -229,8 +229,8 @@ function addReloj($modelo, $precio, $gama, $anio, $ram, $almacenamiento, $proces
     /* SE HACE INSERT CON TRANSACCIÓN EN dispositivos Y relojes */
     $conexion->beginTransaction();
     try {
-        $sql = "INSERT INTO dispositivos (modelo, precio, gama, anio, ram, almacenamiento, procesador, bateria, pulgadas)
-                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);";
+        $sql = "INSERT INTO dispositivos (modelo, precio, gama, anio, ram, almacenamiento, procesador, bateria, pulgadas, imagen)
+                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
         $insert = $conexion->prepare($sql);
         $insert->bindParam(1, $modelo);
         $insert->bindParam(2, $precio);
@@ -241,6 +241,7 @@ function addReloj($modelo, $precio, $gama, $anio, $ram, $almacenamiento, $proces
         $insert->bindParam(7, $procesador);
         $insert->bindParam(8, $bateria);
         $insert->bindParam(9, $pulgadas);
+        $insert->bindParam(10, $imagen);
         if ($insert->execute() == false) {
             throw new Exception("Error al insertar el dispositivo");
         }
@@ -400,6 +401,13 @@ function getTipoDispositivo($id)
     }
     unset($conexion);
     return "reloj";
+}
+
+function borrarModelo($id)
+{
+    $conexion = getConexionPDO();
+    $sql = "DELETE FROM dispositivos WHERE id_dispositivo = ?;";
+    //TODO: SEGUIR LA QUERY
 }
 
 ;
