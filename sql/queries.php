@@ -121,6 +121,7 @@ function getDispositivos()
 
 function getModelosBusqueda()
 {
+    /*TODO: INTRODUCIR UN PARAMETRO DE BUSQUEDA DENTRO DE LA QUERY, EN LUGAR DE EN EL CODIGO CON LIKE %x%*/
     $conexion = getConexionPDO();
     $sql = "SELECT id_dispositivo, imagen, modelo, precio from dispositivos;";
     $resultado = $conexion->query($sql);
@@ -160,25 +161,26 @@ function updateStock($id, $stock)
 
 }
 
-function addMovil($modelo, $precio, $gama, $anio, $ram, $almacenamiento, $procesador, $bateria, $pulgadas,
+function addMovil($modelo, $precio, $gama, $anio, $ram, $almacenamiento, $procesador, $bateria, $pulgadas, $imagen,
                   $camara, $notch)
 {
     $conexion = getConexionPDO();
     /* SE COMPRUEBA QUE NO HAY UN MISMO MODELO EN LA BASE DE DATOS */
-    $sql = "SELECT COUNT(*) from dispositivos where modelo = ?;";
+    $sql = "SELECT COUNT(*) as iguales from dispositivos where modelo = ?;";
     $resultado = $conexion->prepare($sql);
     $resultado->bindParam(1, $modelo);
     $resultado->execute();
-    $resultado->bindColumn(1,$coincidencia);
-    if ($coincidencia != 0) {
-        unset($conexion);
+    $fila = $resultado->fetch();
+    if ($fila["iguales"] != 0) {
         throw new Exception("Ya hay un modelo igual en la base de datos");
     }
+
+
     /* SE HACE INSERT CON TRANSACCIÓN EN dispositivos Y moviles */
     $conexion->beginTransaction();
     try {
-        $sql = "INSERT INTO dispositivos (modelo, precio, gama, anio, ram, almacenamiento, procesador, bateria, pulgadas)
-                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);";
+        $sql = "INSERT INTO dispositivos (modelo, precio, gama, anio, ram, almacenamiento, procesador, bateria, pulgadas, imagen)
+                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
         $insert = $conexion->prepare($sql);
         $insert->bindParam(1, $modelo);
         $insert->bindParam(2, $precio);
@@ -189,6 +191,7 @@ function addMovil($modelo, $precio, $gama, $anio, $ram, $almacenamiento, $proces
         $insert->bindParam(7, $procesador);
         $insert->bindParam(8, $bateria);
         $insert->bindParam(9, $pulgadas);
+        $insert->bindParam(10, $imagen);
         if ($insert->execute() == false) {
             throw new Exception("Error al insertar el dispositivo");
         }
@@ -215,13 +218,12 @@ function addReloj($modelo, $precio, $gama, $anio, $ram, $almacenamiento, $proces
 {
     $conexion = getConexionPDO();
     /* SE COMPRUEBA QUE NO HAY UN MISMO MODELO EN LA BASE DE DATOS */
-    $sql = "SELECT COUNT(*) from dispositivos where modelo = ?;";
+    $sql = "SELECT COUNT(*) as iguales from dispositivos where modelo = ?;";
     $resultado = $conexion->prepare($sql);
     $resultado->bindParam(1, $modelo);
     $resultado->execute();
-    $resultado->bindColumn(1,$coincidencia);
-    if ($coincidencia != 0) {
-        unset($conexion);
+    $fila = $resultado->fetch();
+    if ($fila["iguales"] != 0) {
         throw new Exception("Ya hay un modelo igual en la base de datos");
     }
     /* SE HACE INSERT CON TRANSACCIÓN EN dispositivos Y relojes */
@@ -259,9 +261,7 @@ function addReloj($modelo, $precio, $gama, $anio, $ram, $almacenamiento, $proces
     }
 }
 
-
-
-/*function getMoviles()
+function getMoviles()
 {
     $conexion = getConexionPDO();
     $sql = "SELECT * from dispositivos d inner join moviles m on d.id_dispositivo = m.id_movil;";
@@ -277,13 +277,129 @@ function addReloj($modelo, $precio, $gama, $anio, $ram, $almacenamiento, $proces
     $resultado->bindColumn(9, $bateria);
     $resultado->bindColumn(10, $pulgadas);
     $resultado->bindColumn(11, $stock);
-    $resultado->bindColumn(12, $idMovil);
-    $resultado->bindColumn(13, $camara);
-    $resultado->bindColumn(14, $notch);
+    $resultado->bindColumn(12, $imagen);
+    $resultado->bindColumn(13, $idMovil);
+    $resultado->bindColumn(14, $camara);
+    $resultado->bindColumn(15, $notch);
     while ($resultado->fetch(PDO::FETCH_BOUND)) {
         $datos[$id] = array("modelo" => $modelo, "precio" => $precio, "gama" => $gama, "anio" => $anio,
             "ram" => $ram, "almacenamiento" => $almacenamiento, "procesador" => $procesador, "bateria" => $bateria,
-            "pulgadas" => $pulgadas, "stock" => $stock, "camara" => $camara, "notch" => $notch);
+            "pulgadas" => $pulgadas,"imagen" => $imagen, "stock" => $stock, "camara" => $camara, "notch" => $notch);
     }
     return $datos;
-}*/
+}
+
+function getMovil($idSelected)
+{
+    $conexion = getConexionPDO();
+    $sql = "SELECT * from dispositivos d inner join moviles m on d.id_dispositivo = m.id_movil where id_dispositivo = ?;";
+    $resultado = $conexion->prepare($sql);
+    $resultado->bindParam(1, $idSelected);
+    $resultado->execute();
+    $resultado->bindColumn(1, $id);
+    $resultado->bindColumn(2, $modelo);
+    $resultado->bindColumn(3, $precio);
+    $resultado->bindColumn(4, $gama);
+    $resultado->bindColumn(5, $anio);
+    $resultado->bindColumn(6, $ram);
+    $resultado->bindColumn(7, $almacenamiento);
+    $resultado->bindColumn(8, $procesador);
+    $resultado->bindColumn(9, $bateria);
+    $resultado->bindColumn(10, $pulgadas);
+    $resultado->bindColumn(11, $stock);
+    $resultado->bindColumn(12, $imagen);
+    $resultado->bindColumn(13, $idMovil);
+    $resultado->bindColumn(14, $camara);
+    $resultado->bindColumn(15, $notch);
+    while ($resultado->fetch(PDO::FETCH_BOUND)) {
+        $datos[$id] = array("modelo" => $modelo, "precio" => $precio, "gama" => $gama, "anio" => $anio,
+            "ram" => $ram, "almacenamiento" => $almacenamiento, "procesador" => $procesador, "bateria" => $bateria,
+            "pulgadas" => $pulgadas,"imagen" => $imagen, "stock" => $stock, "camara" => $camara, "notch" => $notch);
+    }
+    return $datos;
+}
+
+function getRelojes()
+{
+    $conexion = getConexionPDO();
+    $sql = "SELECT * from dispositivos d inner join relojes m on d.id_dispositivo = m.id_reloj;";
+    $resultado = $conexion->query($sql);
+    $resultado->bindColumn(1, $id);
+    $resultado->bindColumn(2, $modelo);
+    $resultado->bindColumn(3, $precio);
+    $resultado->bindColumn(4, $gama);
+    $resultado->bindColumn(5, $anio);
+    $resultado->bindColumn(6, $ram);
+    $resultado->bindColumn(7, $almacenamiento);
+    $resultado->bindColumn(8, $procesador);
+    $resultado->bindColumn(9, $bateria);
+    $resultado->bindColumn(10, $pulgadas);
+    $resultado->bindColumn(11, $stock);
+    $resultado->bindColumn(12, $imagen);
+    $resultado->bindColumn(13, $idReloj);
+    $resultado->bindColumn(14, $sim);
+    while ($resultado->fetch(PDO::FETCH_BOUND)) {
+        $datos[$id] = array("modelo" => $modelo, "precio" => $precio, "gama" => $gama, "anio" => $anio,
+            "ram" => $ram, "almacenamiento" => $almacenamiento, "procesador" => $procesador, "bateria" => $bateria,
+            "pulgadas" => $pulgadas,"imagen" => $imagen, "stock" => $stock, "sim" => $sim);
+    }
+    return $datos;
+}
+
+function getReloj($idSelected)
+{
+    $conexion = getConexionPDO();
+    $sql = "SELECT * from dispositivos d inner join relojes m on d.id_dispositivo = m.id_reloj where id_dispositivo = ?;";
+    $resultado = $conexion->prepare($sql);
+    $resultado->bindParam(1, $idSelected);
+    $resultado->execute();
+    $resultado->bindColumn(1, $id);
+    $resultado->bindColumn(2, $modelo);
+    $resultado->bindColumn(3, $precio);
+    $resultado->bindColumn(4, $gama);
+    $resultado->bindColumn(5, $anio);
+    $resultado->bindColumn(6, $ram);
+    $resultado->bindColumn(7, $almacenamiento);
+    $resultado->bindColumn(8, $procesador);
+    $resultado->bindColumn(9, $bateria);
+    $resultado->bindColumn(10, $pulgadas);
+    $resultado->bindColumn(11, $stock);
+    $resultado->bindColumn(12, $imagen);
+    $resultado->bindColumn(13, $idReloj);
+    $resultado->bindColumn(14, $sim);
+    while ($resultado->fetch(PDO::FETCH_BOUND)) {
+        $datos[$id] = array("modelo" => $modelo, "precio" => $precio, "gama" => $gama, "anio" => $anio,
+            "ram" => $ram, "almacenamiento" => $almacenamiento, "procesador" => $procesador, "bateria" => $bateria,
+            "pulgadas" => $pulgadas,"imagen" => $imagen, "stock" => $stock, "sim" => $sim);
+    }
+    return $datos;
+}
+
+function getFicha($id)
+{
+    if (getTipoDispositivo($id) == "movil") {
+        return [getMovil($id), "movil"];
+    } else {
+        return [getReloj($id), "reloj"];
+    }
+}
+
+;
+
+function getTipoDispositivo($id)
+{
+    $conexion = getConexionPDO();
+    $sql = "SELECT COUNT(*) as iguales from moviles where id_movil = ?;";
+    $resultado = $conexion->prepare($sql);
+    $resultado->bindParam(1, $id);
+    $resultado->execute();
+    $fila = $resultado->fetch();
+    if ($fila["iguales"] != 0) {
+        unset($conexion);
+        return "movil";
+    }
+    unset($conexion);
+    return "reloj";
+}
+
+;
