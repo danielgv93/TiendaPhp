@@ -1,0 +1,116 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: #fbf3ff;
+}
+
+.container {
+    position: absolute;
+    max-width: 800px;
+    height: 500px;
+    margin: auto;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.derecha {
+    position: relative;
+    background-image: linear-gradient(45deg, #6873a5, #4b5890);
+    border-radius: 25px;
+    height: 100%;
+    padding: 25px;
+    color: rgb(192, 192, 192);
+    font-size: 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.izquierda {
+    position: relative;
+    background: #fff;
+    border-radius: 25px;
+    height: 100%;
+    padding: 25px;
+    padding-left: 50px;
+}
+
+.izquierda header {
+    color: #5361a0;
+    font-size: 27px;
+    font-weight: 700;
+    margin-bottom: 20px;
+}
+
+.row {
+    height: 100%;
+}
+
+.registro {
+    position: relative;
+    background: #fff;
+    height: 110%;
+    border-radius: 25px;
+    -webkit-box-shadow: 0px 10px 40px -10px rgba(0, 0, 0, 0.7);
+    -moz-box-shadow: 0px 10px 40px -10px rgba(0, 0, 0, 0.7);
+    box-shadow: 0px 10px 40px -10px rgba(0, 0, 0, 0.7);
+}
+
+.info {
+    position: relative;
+    margin: 20px;
+    margin-bottom: 100px;
+    font-size: 14px;
+}
+
+.izquierda .caja {
+    width: 230px;
+    border-radius: 25px;
+    padding: 10px;
+    padding-left: 50px;
+    border: none;
+    -webkit-box-shadow: 0px 10px 49px -14px rgba(0, 0, 0, 0.7);
+    -moz-box-shadow: 0px 10px 49px -14px rgba(0, 0, 0, 0.7);
+    box-shadow: 0px 10px 49px -14px rgba(0, 0, 0, 0.7);
+}
+
+.izquierda .caja:focus {
+    outline: none;
+}
+
+.formulario {
+    position: relative;
+    margin-top: 50px;
+}
+
+.izquierda .boton {
+    background: linear-gradient(45deg, #636fa3, #4b5890);
+    color: #fff;
+    width: 230px;
+    border: none;
+    border-radius: 25px;
+    padding: 10px;
+    -webkit-box-shadow: 0px 10px 41px -11px rgba(0, 0, 0, 0.7);
+    -moz-box-shadow: 0px 10px 41px -11px rgba(0, 0, 0, 0.7);
+    box-shadow: 0px 10px 41px -11px rgba(0, 0, 0, 0.7);
+}
+
+.izquierda .boton:hover {
+    background: linear-gradient(45deg, #57639b, #4f5d9c);
+    cursor: pointer;
+}
+
+.izquierda .boton:focus {
+    outline: none;
+}
+
+.izquierda .fas {
+    position: relative;
+    color: #6873a5;
+    left: 36px;
+}
