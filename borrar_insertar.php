@@ -23,10 +23,19 @@ if (isset($_POST["insertarMovil"]) && $_POST["modelo"] && $_POST["precio"]) {
 }
 if (isset($_POST["insertarReloj"]) && $_POST["modelo"] && $_POST["precio"]) {
     try {
-        // TODO: AÑADIR IMAGEN DE RELOJES
-        if (addReloj($_POST["modelo"], $_POST["precio"], $_POST["gama"], $_POST["anio"], $_POST["ram"], $_POST["almacenamiento"],
-            $_POST["procesador"], $_POST["bateria"], $_POST["pulgadas"], $_POST["sim"]))
-            $mensajeError .= "Reloj añadido con éxito";
+        if (($targetFile = getImagen()) !== false) {
+            if (addReloj($_POST["modelo"], $_POST["precio"], $_POST["gama"], $_POST["anio"], $_POST["ram"], $_POST["almacenamiento"],
+                $_POST["procesador"], $_POST["bateria"], $_POST["pulgadas"], $targetFile, $_POST["sim"]))
+                $mensajeError .= "Reloj añadido con éxito";
+        }
+    } catch (Exception $e) {
+        $mensajeError .= $e->getMessage();
+    }
+}
+if (isset($_POST["borrar"])) {
+    try {
+        // TODO: FUNCION BORRAR
+        $mensajeError = "Se ha borrado el siguiente dispositivo: " . $_POST["modelo"] . ".";
     } catch (Exception $e) {
         $mensajeError .= $e->getMessage();
     }
@@ -137,7 +146,7 @@ function getExtension($tipoImagen)
 <!-- INSERTAR RELOJ A LA BASE DE DATOS -->
 <?php if (isset($_POST["submitTipoDisp"]) && $_POST["tipoDispositivo"] == "reloj"): ?>
     <h2>Insertar Características del Reloj</h2>
-    <form action="<?= htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="post">
+    <form action="<?= htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="post" enctype="multipart/form-data">
         Modelo<input type="text" name="modelo" required>
         Precio<input type="number" name="precio" step="any" min="0" required>
         Gama<select name="gama">
@@ -155,9 +164,22 @@ function getExtension($tipoImagen)
             <option value="1">Si</option>
             <option value="0">No</option>
         </select>
+        <input type="file" name="imagen">
         <input type="submit" name="insertarReloj" value="Insertar Reloj">
     </form>
 <?php endif; ?>
+<!-- ELEGIR MODELO PARA BORRAR EL DISPOSITIVO -->
+<h2>Borrar</h2>
+<form action="<?= htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="post">
+    <select name="modelo">
+        <?php
+        $dispositivos = getDispositivos();
+        foreach ($dispositivos as $id => $dispositivo) : ?>
+            <option value="<?= $id ?>" <?php if (isset($_POST["elegirModelo"]) && ($id == $_POST["modelo"])) echo "selected" ?>><?= $dispositivo["modelo"] ?></option>
+        <?php endforeach; ?>
+    </select>
+    <input type="submit" name="borrar" value="Borrar Modelo">
+</form>
 <?= $mensajeError ?>
 </body>
 </html>
