@@ -1,34 +1,64 @@
 <?php
 require_once "sql/queries.php";
 
-$stockUpdated = "";
-$dispositivoAdded = "";
+$mensajeError = "";
 if (isset($_POST["updateStock"])) {
     try {
         updateStock($_POST["idModelo"], $_POST["stockDispositivo"]);
-        $stockUpdated = "El stock se ha modificado a " . $_POST["stockDispositivo"] . " unidades";
+        $mensajeError = "El stock se ha modificado a " . $_POST["stockDispositivo"] . " unidades";
     } catch (Exception $e) {
-        $stockUpdated = $e->getMessage();
+        $mensajeError .= $e->getMessage();
     }
 }
-if (isset($_POST["insertarMovil"])) {
+if (isset($_POST["insertarMovil"]) && $_POST["modelo"] && $_POST["precio"]) {
     try {
-        if (addMovil($_POST["modelo"], $_POST["precio"], $_POST["gama"], $_POST["anio"], $_POST["ram"], $_POST["almacenamiento"],
-            $_POST["procesador"], $_POST["bateria"], $_POST["pulgadas"], $_POST["camara"], $_POST["notch"]))
-        $dispositivoAdded = "Movil añadido con éxito";
+        if (($targetFile = getImagen()) !== false) {
+            if (addMovil($_POST["modelo"], $_POST["precio"], $_POST["gama"], $_POST["anio"], $_POST["ram"], $_POST["almacenamiento"],
+                $_POST["procesador"], $_POST["bateria"], $_POST["pulgadas"], $targetFile, $_POST["camara"], $_POST["notch"]))
+                $mensajeError .= "Movil añadido con éxito";
+        }
     } catch (Exception $e) {
-        $dispositivoAdded = $e->getMessage();
+        $mensajeError .= $e->getMessage();
     }
 }
-if (isset($_POST["insertarReloj"])) {
+if (isset($_POST["insertarReloj"]) && $_POST["modelo"] && $_POST["precio"]) {
     try {
+        // TODO: AÑADIR IMAGEN DE RELOJES
         if (addReloj($_POST["modelo"], $_POST["precio"], $_POST["gama"], $_POST["anio"], $_POST["ram"], $_POST["almacenamiento"],
             $_POST["procesador"], $_POST["bateria"], $_POST["pulgadas"], $_POST["sim"]))
-            $dispositivoAdded = "Reloj añadido con éxito";
+            $mensajeError .= "Reloj añadido con éxito";
     } catch (Exception $e) {
-        $dispositivoAdded = $e->getMessage();
+        $mensajeError .= $e->getMessage();
     }
 }
+
+function getImagen()
+{
+
+    $targetFile = "img/dispositivos/" . $_POST["modelo"] . "." . getExtension($_FILES["imagen"]["type"]);
+    if (!file_exists($_FILES["imagen"]["tmp_name"])) {
+        throw new Exception("Elige imagen para subir");
+    }
+    if (move_uploaded_file($_FILES["imagen"]["tmp_name"], $targetFile)) {
+        return $targetFile;
+    }
+    return false;
+}
+
+function getExtension($tipoImagen)
+{
+    try {
+        if ($tipoImagen == null) {
+            throw new Exception("Elige una imagen");
+        }
+        return explode("/", $tipoImagen)[1];
+    } catch (Exception $e) {
+
+    }
+
+}
+
+
 ?>
 
 <!doctype html>
@@ -64,7 +94,6 @@ if (isset($_POST["insertarReloj"])) {
     </form>
 <?php endif; ?>
 
-<?= $stockUpdated ?>
 <!-- ELEGIR DISPOSITIVO PARA INSERTAR -->
 <!-- HABRÁ 2 FORMS EN FUNCIÓN DE LA ELECCIÓN -->
 <h2>Insertar</h2>
@@ -79,13 +108,12 @@ if (isset($_POST["insertarReloj"])) {
     </select>
     <input type="submit" name="submitTipoDisp" value="Elegir">
 </form>
-<?= $dispositivoAdded ?>
 <!-- INSERTAR MOVIL A LA BASE DE DATOS -->
 <?php if (isset($_POST["submitTipoDisp"]) && $_POST["tipoDispositivo"] == "movil"): ?>
     <h2>Insertar Características del Móvil</h2>
-    <form action="<?= htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="post">
-        Modelo<input type="text" name="modelo">
-        Precio<input type="number" name="precio" step="any">
+    <form action="<?= htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="post" enctype="multipart/form-data">
+        Modelo<input type="text" name="modelo" required>
+        Precio<input type="number" name="precio" step="any" min="0" required>
         Gama<select name="gama">
             <option value="alta">Alta</option>
             <option value="media">Media</option>
@@ -102,6 +130,7 @@ if (isset($_POST["insertarReloj"])) {
             <option value="1">Si</option>
             <option value="0">No</option>
         </select>
+        <input type="file" name="imagen">
         <input type="submit" name="insertarMovil" value="Insertar Móvil">
     </form>
 <?php endif; ?>
@@ -109,8 +138,8 @@ if (isset($_POST["insertarReloj"])) {
 <?php if (isset($_POST["submitTipoDisp"]) && $_POST["tipoDispositivo"] == "reloj"): ?>
     <h2>Insertar Características del Reloj</h2>
     <form action="<?= htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="post">
-        Modelo<input type="text" name="modelo">
-        Precio<input type="number" name="precio" step="any" min="0">
+        Modelo<input type="text" name="modelo" required>
+        Precio<input type="number" name="precio" step="any" min="0" required>
         Gama<select name="gama">
             <option value="alta">Alta</option>
             <option value="media">Media</option>
@@ -129,5 +158,6 @@ if (isset($_POST["insertarReloj"])) {
         <input type="submit" name="insertarReloj" value="Insertar Reloj">
     </form>
 <?php endif; ?>
+<?= $mensajeError ?>
 </body>
 </html>
