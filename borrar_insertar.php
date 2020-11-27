@@ -34,8 +34,9 @@ if (isset($_POST["insertarReloj"]) && $_POST["modelo"] && $_POST["precio"]) {
 }
 if (isset($_POST["borrar"])) {
     try {
-        // TODO: FUNCION BORRAR
-        $mensajeError = "Se ha borrado el siguiente dispositivo: " . $_POST["modelo"] . ".";
+        if (borrarModelo($_POST["modelo"])) {
+        $mensajeError = "Se ha borrado el dispositivo";
+        }
     } catch (Exception $e) {
         $mensajeError .= $e->getMessage();
     }

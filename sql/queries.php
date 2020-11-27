@@ -407,6 +407,13 @@ function borrarModelo($id)
 {
     $conexion = getConexionPDO();
     $sql = "DELETE FROM dispositivos WHERE id_dispositivo = ?;";
+    $delete = $conexion->prepare($sql);
+    $delete->bindParam(1, $id);
+    if ($delete->execute() == false) {
+        throw new Exception("No se pudo borrar el modelo seleccionado");
+    }
+    unset($conexion);
+    return true;
     //TODO: SEGUIR LA QUERY
 }
 
