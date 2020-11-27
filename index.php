@@ -52,10 +52,10 @@ if (isset($_POST["login"])) {
 
                             <div class="form-group">
                                 <i class="fas fa-lock"></i>
-                                <input class="caja" type="password" id="contraseña" placeholder="Contraseña" required>
+                                <input class="caja" name="password" type="password" id="contraseña" placeholder="Contraseña" required>
                             </div>
                             <a href="https://www.google.com/search?q=como+recuperar+contrase%C3%B1as+no+guardadas+en+google+chrome&rlz=1C1CHBF_esES857ES857&oq=como+rec&aqs=chrome.1.69i57j69i59j0l6.1949j0j4&sourceid=chrome&ie=UTF-8">He olvidado mi contraseña</a>
-                            <input type="submit" class="boton mt-2" value="ENTRAR">
+                            <input type="submit" name="login" class="boton mt-2" value="ENTRAR">
                             <input type="button" class="boton mt-2" value="CREAR CUENTA">
                         </form>
 
