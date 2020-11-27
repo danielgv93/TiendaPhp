@@ -66,6 +66,7 @@ body {
     margin: 20px;
     margin-bottom: 100px;
     font-size: 14px;
+    color: white;
 }
 
 .izquierda .caja {
@@ -113,4 +114,16 @@ body {
     position: relative;
     color: #6873a5;
     left: 36px;
+}
+
+.slogan {
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 22px;
+    font-weight: bold;
+    font-style: italic;
+    color: white;
+}
+
+.logo {
+    height: 13.5em;
 }
