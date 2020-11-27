@@ -8,23 +8,25 @@ if (isset($_POST["registro"])) {
         /* Comprobar si los dos campos de las contraseñas coinciden */
         if ($_POST["contraseña"] === $_POST["confirm-contraseña"]) {
             /* Comprobar si estan rellenos todos los campos */
-            if (!empty($_POST["nombre"]) && !empty($_POST["apellidos"]) && !empty($_POST["email"])
-                && !empty($_POST["usuario"]) && !empty($_POST["contraseña"])) {
+            if (
+                !empty($_POST["nombre"]) && !empty($_POST["apellidos"]) && !empty($_POST["email"])
+                && !empty($_POST["usuario"]) && !empty($_POST["contraseña"])
+            ) {
                 /* Añadir usuario y redireccionar */
                 if (addUsuario($_POST["nombre"], $_POST["apellidos"], $_POST["email"], $_POST["usuario"], $_POST["contraseña"])) {
                     header("Location: index.php");
                     exit();
                 } else {
-                    $textoError = "El usuario ya existe";
+                    $textoError = "El usuario ya existe!";
                 }
             } else {
-                $textoError = "Hay campos sin introducir";
+                $textoError = "Hay campos sin introducir!";
             }
         } else {
-            $textoError = "Las contraseñas deben de ser iguales";
+            $textoError = "Las contraseñas deben de ser iguales!";
         }
     } else {
-        $textoError = "Acepte la politica de privacidad antes";
+        $textoError = "Acepte la politica de privacidad antes!";
     }
 }
 ?>
@@ -91,11 +93,12 @@ if (isset($_POST["registro"])) {
                         </form>
                     </div>
                 </div>
+
                 <div class="col-md-6">
                     <div class="derecha">
                         <div class="info">
                             <header><img class="img-fluid ml-5" src="img/logo.png" alt="Logo corporativo"></header>
-                            <p>Tu tienda de informática online, y cada día la de más gente!
+                            <p class="resumen">Tu tienda de informática online, y cada día la de más gente!
                                 Calidad superior a precios imbatibles
                             </p>
                         </div>
@@ -103,13 +106,16 @@ if (isset($_POST["registro"])) {
                     </div>
                 </div>
             </div>
+            <div class="row alerta">
+                <?php if (!empty($textoError)) : ?>
+                    <div class='col-12 mt-3 alert alert-danger text-center' role='alert'>
+                        <?= $textoError ?>
+                    </div>
+                <?php endif; ?>
+            </div>
         </div>
     </div>
-    <?php if (!empty($textoError)) : ?>
-        <div class='alert alert-danger mt-3 col-3 offset-5' role='alert'>
-            <?= $textoError ?>
-        </div>
-    <?php endif; ?>
+
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
@@ -117,4 +123,3 @@ if (isset($_POST["registro"])) {
 </body>
 
 </html>
-

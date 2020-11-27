@@ -13,7 +13,7 @@ body {
     max-width: 800px;
     height: 500px;
     margin: auto;
-    top: 50%;
+    top: 40%;
     left: 50%;
     transform: translate(-50%, -50%);
 }
@@ -47,7 +47,7 @@ body {
     margin-bottom: 20px;
 }
 
-.row {
+.row:first-of-type {
     height: 100%;
 }
 
@@ -70,7 +70,7 @@ body {
 }
 
 .izquierda .caja {
-    width: 230px;
+    width: 260px;
     border-radius: 25px;
     padding: 10px;
     padding-left: 50px;
@@ -124,6 +124,18 @@ body {
     color: white;
 }
 
+.resumen {
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 16px;
+    font-weight: bold;
+    color: white;
+}
+
 .logo {
     height: 13.5em;
+}
+
+.alerta {
+    font-weight: bold;
+    font-family: 'Times New Roman', Times, serif;
 }
