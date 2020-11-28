@@ -32,7 +32,6 @@ a {
 }
 
 footer {
-    position: fixed;
     bottom: 0;
     width: 100%;
     height: 50px;
@@ -43,16 +42,43 @@ footer {
     height: 50px;
 }
 
+.logout {
+    height: 40px;
+}
+
+.cart,
+.ficha {
+    height: 20px;
+}
+
+.ficha:hover {
+    background: rgb(35, 27, 151);
+}
+
+.stock {
+    height: 200px;
+}
+
 .dropdown-menu input:hover {
     cursor: pointer;
 }
 
-.buscador {
-    width: 100%;
+.buscar {
+    width: 20px;
+    border-top-color: red;
+}
+
+.perfil a:hover {
+    color: rgb(241, 234, 234);
+    text-decoration: none;
 }
 
 .navbar-toggler {
     background: white;
+}
+
+.card {
+    background: linear-gradient(45deg, #636fa3, #4b5890);
 }
 
 navbar-toggler-icon {

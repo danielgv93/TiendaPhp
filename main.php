@@ -42,6 +42,7 @@ function busqueda($busquedaSelected)
     <link rel="stylesheet" href="/font-awesome-4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="css/main.css">
 
+
 </head>
 
 <body>
@@ -50,7 +51,7 @@ function busqueda($busquedaSelected)
             <img src="img/logo.png" class="d-inline-block align-top imagen">
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
+            <i class="fas fa-align-justify"></i>
         </button>
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -81,12 +82,13 @@ function busqueda($busquedaSelected)
             </ul>
             <div class="col-6">
                 <form method="post" action="<?= htmlspecialchars($_SERVER["PHP_SELF"]) ?>" class="form-inline my-2 my-lg-0">
-                    <input class="form-control" name="busquedaInput" type="text" placeholder="Buscar" aria-label="Search">
-                    <input type="submit" class="btn btn-warning ml-2" name="buscar" value="" id="buscar"> <i class="fas fa-binoculars"></i>
+                    <input class="form-control buscador" name="busquedaInput" type="text" placeholder="Buscar" aria-label="Search">
+                    <button type="submit" class="btn btn-warning ml-2" name="buscar" id="buscar"> <img class="buscar" src="img/logout.svg" alt=""></button>
                 </form>
             </div>
-            <form method="post" action="<?= htmlspecialchars($_SERVER["PHP_SELF"]) ?>" class="form-inline my-2 my-lg-0">
-            Bienvenido<a href="perfil.php"><img class="img-fluid ml-2 user" src="img/user.png" alt="Logo Corporativo"></a>
+            <form method="post" class="perfil" action="<?= htmlspecialchars($_SERVER["PHP_SELF"]) ?>" class="form-inline my-2 my-lg-0">
+                <a href="perfil.php">Bienvenido<img class="img-fluid ml-3 user" src="img/user.png" alt="Logo Corporativo"></a>
+                <a href="index.php"><img class="img-fluid ml-3 logout" src="img/logout.svg" alt="Logout"></a>
             </form>
         </div>
     </nav>
@@ -94,39 +96,40 @@ function busqueda($busquedaSelected)
 
     <div class="container">
         <div class="card-deck justify-content-center">
-            <?php if (isset($_POST["buscar"]) || isset($_POST["telefonos"]) || isset($_POST["relojes"])) :
-                $elementoActual = 1;
+            <?php
+            $elementoActual = 1;
+            if (isset($_POST["buscar"]) || isset($_POST["telefonos"]) || isset($_POST["relojes"])) :
                 $limite = 5; ?>
                 <?php foreach ($arrayDispositivos as $id => $producto) : ?>
-                <!--AQUI VA CADA TARJETA DE LA BUSQUEDA-->
-                <?php if ($elementoActual === 1) echo "<div class='row'>" ?>
-                <div class="card mt-4">
-                    <form action="producto.php" method="get">
-                        <img class="card-img-top" src="<?= $producto["imagen"] ?>" alt="<?= $producto["modelo"] ?>">
-                        <div class="card-body">
-                            <input type="hidden" name="id" value="<?= $id ?>">
-                            <h5 class="card-title"><?= $producto["modelo"] ?></h5>
-                            <p class="card-text"><?= $producto["precio"] ?> €</p>
-                            <p class="card-text"><small class="text-muted"><input type="submit" name="ficha"
-                                                                                  value="Ver Ficha"></small></p>
-                        </div>
-                    </form>
-                </div>
-                <?php if ($elementoActual === $limite - 1) echo "</div>";
-                $elementoActual++;
-                if ($elementoActual === $limite) $elementoActual = 1; ?>
-            <?php endforeach; ?>
+                    <!--AQUI VA CADA TARJETA DE LA BUSQUEDA-->
+                    <?php if ($elementoActual === 1) echo "<div class='row'>" ?>
+                    <div class="card text-white mt-4">
+                        <form action="producto.php" method="get">
+                            <img class="card-img-top img-fluid" src="<?= $producto["imagen"] ?>" alt="<?= $producto["modelo"] ?>">
+                            <div class="card-body">
+                                <input type="hidden" name="id" value="<?= $id ?>">
+                                <h5 class="card-title"><?= $producto["modelo"] ?></h5>
+                                <p class="card-text"><?= $producto["precio"] ?> €</p>
+                                <div class="d-inline">
+                                    <p class="card-text"><small class="text-muted"><button type="submit" class="btn ml-2 d-inline" name="ficha" id="ficha"> <img class="ficha" src="img/ficha.png" alt=""></button></small></p>
+                                    <p class="card-text"><small class="text-muted"><button type="submit" class="btn btn-warning ml-2 d-inline" name="cart" id="cart"> <img class="cart" src="img/cart.svg" alt=""></button></small></p>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <?php if ($elementoActual === $limite - 1) echo "</div>";
+                    $elementoActual++;
+                    if ($elementoActual === $limite) $elementoActual = 1; ?>
+                <?php endforeach; ?>
             <?php endif; ?>
-            <?php if ($elementoActual !==  1) echo "</div>";?>
+            <?php if ($elementoActual !==  1) echo "</div>"; ?>
         </div>
     </div>
-
-
     <footer>
         <div class="text-center">
             pisicing olestias debitis dolor pariatur quam offic
         </div>
-    </footer>
+    </footer> 
 </body>
 <script src='https://code.jquery.com/jquery-3.2.1.slim.min.js' integrity='sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN' crossorigin='anonymous'></script>
 <script src='https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js' integrity='sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q' crossorigin='anonymous'></script>
