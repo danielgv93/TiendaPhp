@@ -61,6 +61,12 @@ function busqueda($busquedaSelected)
                 <li class="nav-item">
                     <a class="nav-link" href="perfil.php">Perfil</a>
                 </li>
+                <li class="nav-item">
+                    <form method="post" action="<?= htmlspecialchars($_SERVER["PHP_SELF"]) ?>" class="form-inline my-2 my-lg-0">
+                        <input class="form-control mr-sm-2" name="busquedaInput" type="text" placeholder="Buscar" aria-label="Search">
+                        <input type="submit" class="btn btn-primary btn-warning" name="buscar" value="" id="buscar"> <i class="fas fa-binoculars"></i>
+                    </form>
+                </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         Categorías
@@ -76,39 +82,37 @@ function busqueda($busquedaSelected)
                             <input type="submit" class="dropdown-item" value="Smartwaches">
                             <!--RATON MANO EN HOVER POR CSS-->
                         </form>
+
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="#">Otra vaina</a>
                     </div>
                 </li>
             </ul>
-            <form method="post" action="<?= htmlspecialchars($_SERVER["PHP_SELF"]) ?>" class="form-inline my-2 my-lg-0">
-                <input class="form-control mr-sm-2" name="busquedaInput" type="text" placeholder="Buscar" aria-label="Search">
-                <input type="submit" class="btn btn-primary btn-warning" name="buscar" value="" id="buscar"> <i class="fas fa-binoculars"></i>
-            </form>
+
         </div>
     </nav>
 
 
     <div class="container">
-            <div class="card-deck">
-                <?php if (isset($_POST["buscar"]) || isset($_POST["telefonos"]) || isset($_POST["relojes"])) : ?>
-                    <?php foreach ($arrayDispositivos as $id => $producto) : ?>
-                        <!--AQUI VA CADA TARJETA DE LA BUSQUEDA-->
-                        <div class="card">
-                            <form action="producto.php" method="get">
-                                <img class="card-img-top" src="<?= $producto["imagen"] ?>" alt="<?= $producto["modelo"] ?>">
-                                <div class="card-body">
-                                    <input type="hidden" name="id" value="<?= $id ?>">
-                                    <h5 class="card-title"><?= $producto["modelo"] ?></h5>
-                                    <p class="card-text"><?= $producto["precio"] ?> €</p>
-                                    <p class="card-text"><small class="text-muted"><input type="submit" name="ficha" value="Ver Ficha"></small></p>
-                                </div>
-                            </form>
-                        </div>
-                        <!--HASTA AQUI LA TARJETA-->
-                    <?php endforeach; ?>
-                <?php endif; ?>
-            </div>
+        <div class="card-deck">
+            <?php if (isset($_POST["buscar"]) || isset($_POST["telefonos"]) || isset($_POST["relojes"])) : ?>
+                <?php foreach ($arrayDispositivos as $id => $producto) : ?>
+                    <!--AQUI VA CADA TARJETA DE LA BUSQUEDA-->
+                    <div class="card">
+                        <form action="producto.php" method="get">
+                            <img class="card-img-top" src="<?= $producto["imagen"] ?>" alt="<?= $producto["modelo"] ?>">
+                            <div class="card-body">
+                                <input type="hidden" name="id" value="<?= $id ?>">
+                                <h5 class="card-title"><?= $producto["modelo"] ?></h5>
+                                <p class="card-text"><?= $producto["precio"] ?> €</p>
+                                <p class="card-text"><small class="text-muted"><input type="submit" name="ficha" value="Ver Ficha"></small></p>
+                            </div>
+                        </form>
+                    </div>
+                    <!--HASTA AQUI LA TARJETA-->
+                <?php endforeach; ?>
+            <?php endif; ?>
+        </div>
     </div>
 
 
