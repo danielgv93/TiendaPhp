@@ -35,7 +35,7 @@ if (isset($_POST["login"])) {
                 <div class="col-md-6">
                     <div class="derecha">
                         <div class="info">
-                            <header><img class="img-fluid ml-2 logo" src="img/logo.png" alt="Icon de user"></header>
+                            <header><img class="img-fluid ml-2 logo" src="img/logo.png" alt="Logo Corporativo"></header>
                             <p class="slogan ml-3">Choose the best, choose P3</p>
                         </div>
                     </div>

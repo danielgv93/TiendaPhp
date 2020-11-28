@@ -58,15 +58,6 @@ function busqueda($busquedaSelected)
                 <li class="nav-item active">
                     <a class="nav-link" href="main.php">Inicio <span class="sr-only"></span></a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="perfil.php">Perfil</a>
-                </li>
-                <li class="nav-item">
-                    <form method="post" action="<?= htmlspecialchars($_SERVER["PHP_SELF"]) ?>" class="form-inline my-2 my-lg-0">
-                        <input class="form-control mr-sm-2" name="busquedaInput" type="text" placeholder="Buscar" aria-label="Search">
-                        <input type="submit" class="btn btn-primary btn-warning" name="buscar" value="" id="buscar"> <i class="fas fa-binoculars"></i>
-                    </form>
-                </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         Categorías
@@ -82,13 +73,21 @@ function busqueda($busquedaSelected)
                             <input type="submit" class="dropdown-item" value="Smartwaches">
                             <!--RATON MANO EN HOVER POR CSS-->
                         </form>
-
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="#">Otra vaina</a>
                     </div>
                 </li>
-            </ul>
 
+            </ul>
+            <div class="col-6">
+                <form method="post" action="<?= htmlspecialchars($_SERVER["PHP_SELF"]) ?>" class="form-inline my-2 my-lg-0">
+                    <input class="form-control" name="busquedaInput" type="text" placeholder="Buscar" aria-label="Search">
+                    <input type="submit" class="btn btn-warning ml-2" name="buscar" value="" id="buscar"> <i class="fas fa-binoculars"></i>
+                </form>
+            </div>
+            <form method="post" action="<?= htmlspecialchars($_SERVER["PHP_SELF"]) ?>" class="form-inline my-2 my-lg-0">
+            Bienvenido<a href="perfil.php"><img class="img-fluid ml-2 user" src="img/user.png" alt="Logo Corporativo"></a>
+            </form>
         </div>
     </nav>
 

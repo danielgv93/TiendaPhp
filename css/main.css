@@ -38,3 +38,23 @@ footer {
     height: 50px;
     background: rgb(179, 143, 202);
 }
+
+.user {
+    height: 50px;
+}
+
+.dropdown-menu input:hover {
+    cursor: pointer;
+}
+
+.buscador {
+    width: 100%;
+}
+
+.navbar-toggler {
+    background: white;
+}
+
+navbar-toggler-icon {
+    color: black;
+}
