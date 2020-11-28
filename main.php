@@ -93,24 +93,31 @@ function busqueda($busquedaSelected)
 
 
     <div class="container">
-        <div class="card-deck">
-            <?php if (isset($_POST["buscar"]) || isset($_POST["telefonos"]) || isset($_POST["relojes"])) : ?>
+        <div class="card-deck justify-content-center">
+            <?php if (isset($_POST["buscar"]) || isset($_POST["telefonos"]) || isset($_POST["relojes"])) :
+                $elementoActual = 1;
+                $limite = 5; ?>
                 <?php foreach ($arrayDispositivos as $id => $producto) : ?>
-                    <!--AQUI VA CADA TARJETA DE LA BUSQUEDA-->
-                    <div class="card">
-                        <form action="producto.php" method="get">
-                            <img class="card-img-top" src="<?= $producto["imagen"] ?>" alt="<?= $producto["modelo"] ?>">
-                            <div class="card-body">
-                                <input type="hidden" name="id" value="<?= $id ?>">
-                                <h5 class="card-title"><?= $producto["modelo"] ?></h5>
-                                <p class="card-text"><?= $producto["precio"] ?> €</p>
-                                <p class="card-text"><small class="text-muted"><input type="submit" name="ficha" value="Ver Ficha"></small></p>
-                            </div>
-                        </form>
-                    </div>
-                    <!--HASTA AQUI LA TARJETA-->
-                <?php endforeach; ?>
+                <!--AQUI VA CADA TARJETA DE LA BUSQUEDA-->
+                <?php if ($elementoActual === 1) echo "<div class='row'>" ?>
+                <div class="card mt-4">
+                    <form action="producto.php" method="get">
+                        <img class="card-img-top" src="<?= $producto["imagen"] ?>" alt="<?= $producto["modelo"] ?>">
+                        <div class="card-body">
+                            <input type="hidden" name="id" value="<?= $id ?>">
+                            <h5 class="card-title"><?= $producto["modelo"] ?></h5>
+                            <p class="card-text"><?= $producto["precio"] ?> €</p>
+                            <p class="card-text"><small class="text-muted"><input type="submit" name="ficha"
+                                                                                  value="Ver Ficha"></small></p>
+                        </div>
+                    </form>
+                </div>
+                <?php if ($elementoActual === $limite - 1) echo "</div>";
+                $elementoActual++;
+                if ($elementoActual === $limite) $elementoActual = 1; ?>
+            <?php endforeach; ?>
             <?php endif; ?>
+            <?php if ($elementoActual !==  1) echo "</div>";?>
         </div>
     </div>
 
