@@ -24,7 +24,10 @@ function busqueda($busquedaSelected)
             }
         }
     }
-    return $arrayDispositivos;
+    if (isset($arrayDispositivos)) {
+        return $arrayDispositivos;
+    }
+    return false;
 }
 
 ?>
@@ -86,10 +89,10 @@ function busqueda($busquedaSelected)
                     <button type="submit" class="btn btn-warning ml-2" name="buscar" id="buscar"> <img class="buscar" src="img/logout.svg" alt=""></button>
                 </form>
             </div>
-            <form method="post" class="perfil" action="<?= htmlspecialchars($_SERVER["PHP_SELF"]) ?>" class="form-inline my-2 my-lg-0">
+            <div class="perfil form-inline my-2 my-lg-0">
                 <a href="perfil.php">Bienvenido<img class="img-fluid ml-3 user" src="img/user.png" alt="Logo Corporativo"></a>
                 <a href="index.php"><img class="img-fluid ml-3 logout" src="img/logout.svg" alt="Logout"></a>
-            </form>
+            </div>
         </div>
     </nav>
 
@@ -100,22 +103,24 @@ function busqueda($busquedaSelected)
             $elementoActual = 1;
             if (isset($_POST["buscar"]) || isset($_POST["telefonos"]) || isset($_POST["relojes"])) :
                 $limite = 5; ?>
-                <?php foreach ($arrayDispositivos as $id => $producto) : ?>
+                <?php if($arrayDispositivos !== false) foreach ($arrayDispositivos as $id => $producto) : ?>
                     <!--AQUI VA CADA TARJETA DE LA BUSQUEDA-->
                     <?php if ($elementoActual === 1) echo "<div class='row'>" ?>
                     <div class="card text-white mt-4">
-                        <form action="producto.php" method="get">
+
                             <img class="card-img-top img-fluid" src="<?= $producto["imagen"] ?>" alt="<?= $producto["modelo"] ?>">
                             <div class="card-body">
-                                <input type="hidden" name="id" value="<?= $id ?>">
                                 <h5 class="card-title"><?= $producto["modelo"] ?></h5>
                                 <p class="card-text"><?= $producto["precio"] ?> €</p>
                                 <div class="d-inline">
-                                    <p class="card-text"><small class="text-muted"><button type="submit" class="btn ml-2 d-inline" name="ficha" id="ficha"> <img class="ficha" src="img/ficha.png" alt=""></button></small></p>
-                                    <p class="card-text"><small class="text-muted"><button type="submit" class="btn btn-warning ml-2 d-inline" name="cart" id="cart"> <img class="cart" src="img/cart.svg" alt=""></button></small></p>
+                                    <form action="producto.php" method="get">
+                                        <input type="hidden" name="id" value="<?= $id ?>">
+                                        <p class="card-text"><small class="text-muted"><button type="submit" class="btn ml-2" name="ficha" id="ficha"> <img class="ficha" src="img/ficha.png" alt=""></button></small></p>
+                                    </form>
+                                    <p class="card-text"><small class="text-muted"><button type="button" class="btn btn-warning ml-2" name="cart" id="cart"><img class="cart" src="img/cart.svg" alt=""></button></small></p>
                                 </div>
                             </div>
-                        </form>
+
                     </div>
                     <?php if ($elementoActual === $limite - 1) echo "</div>";
                     $elementoActual++;

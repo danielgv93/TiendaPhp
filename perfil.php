@@ -46,8 +46,8 @@
                 <a href="borrar_insertar.php"><img class="img-fluid stock" src="img/stock.svg" alt="Modificar Stock"></a>
             </div>
                 <div class="col-4">
-                    <legend>Cambiar el usuario</legend>
-                    <a href="borrar_insertar.php"><img class="img-fluid stock" src="img/edit.png" alt="Modificar Stock"></a>
+                    <legend>Modificar usuario</legend>
+                    <a href=""><img class="img-fluid stock" src="img/edit.png" alt="Editar Perfil"></a>
                 </div>
         </div>
     </div>

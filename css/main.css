@@ -81,6 +81,10 @@ footer {
     background: linear-gradient(45deg, #636fa3, #4b5890);
 }
 
+.card-img-top {
+    height: 300px;
+}
+
 navbar-toggler-icon {
     color: black;
 }
