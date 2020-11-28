@@ -36,7 +36,7 @@ if (isset($_POST["login"])) {
                     <div class="derecha">
                         <div class="info">
                             <header><img class="img-fluid ml-2 logo" src="img/logo.png" alt="Icon de user"></header>
-                            <p class="slogan">Choose the best, choose P3</p>
+                            <p class="slogan ml-3">Choose the best, choose P3</p>
                         </div>
                     </div>
                 </div>
@@ -55,7 +55,7 @@ if (isset($_POST["login"])) {
                                 <input class="caja" name="password" type="password" id="contraseña" placeholder="Contraseña" required>
                             </div>
                             <a href="https://www.google.com/search?q=como+recuperar+contrase%C3%B1as+no+guardadas+en+google+chrome&rlz=1C1CHBF_esES857ES857&oq=como+rec&aqs=chrome.1.69i57j69i59j0l6.1949j0j4&sourceid=chrome&ie=UTF-8">He olvidado mi contraseña</a>
-                            <input type="submit" class="boton mt-2" value="ENTRAR">
+                            <input type="submit" name="login" class="boton mt-2" value="ENTRAR">
                             <a href="registro.php"><input type="button" class="boton mt-2" value="CREAR CUENTA"></a>
                         </form>
 
