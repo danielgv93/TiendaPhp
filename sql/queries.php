@@ -1,16 +1,6 @@
 <?php
 require_once "sql/Conexion.php";
 
-/**
- * Añade un usuario de tipo normal a la base de datos. Comprueba primero si existe un nombre de usuario igual en la BBDD.
- * Devuelve true si consigue insertar el usuario y falso junto con la excepción si no se inserta.
- * @param $nombre String de 20 caracteres como maximo con el nombre real del usuario.
- * @param $apellidos String de 50 caracteres como maximo con los apellidos del usuario.
- * @param $email String con el email del usuario.
- * @param $usuario String con el nickname o username del usuario.
- * @param $password String de 50 caracteres como maximo con la contraseña del usuario
- * @return bool
- */
 function addUsuario($nombre, $apellidos, $email, $usuario, $password)
 {
     $conexion = getConexionPDO();
@@ -39,13 +29,7 @@ function addUsuario($nombre, $apellidos, $email, $usuario, $password)
 
 }
 
-/**
- * Comprueba si un usuario es Administrador a partir de un nombre de usuario y contraseña
- * @param $usuario
- * @param $password
- * @return int 0 si es normal, 1 si es administrador
- */
-function isAdmin($usuario, $password)
+/*function isAdmin($usuario, $password)
 {
     $conexion = getConexionPDO();
     $sql = "SELECT admin from usuarios where usuario = ? AND pass = MD5(?)";
@@ -56,7 +40,7 @@ function isAdmin($usuario, $password)
     $fila = $consulta->fetch();
     unset($conexion);
     return $fila["admin"];
-}
+}*/
 
 function checkUsuario($usuario)
 {
@@ -65,15 +49,11 @@ function checkUsuario($usuario)
     $consulta = $conexion->prepare($sql);
     $consulta->bindParam(1, $usuario);
     if ($consulta->execute()) {
-        while ($fila = $consulta->fetch()) {
-            $datos[] = array("usuario" => $fila['usuario']);
+        if ($consulta->fetch()) {
+            return 1;
         }
     }
-    if (isset($datos)) {
-        return count($datos);
-    } else {
-        return 0;
-    }
+    return 0;
 }
 
 function checkUsuarioPass($usuario, $password)
@@ -84,15 +64,11 @@ function checkUsuarioPass($usuario, $password)
     $consulta->bindParam(1, $usuario);
     $consulta->bindParam(2, $password);
     if ($consulta->execute()) {
-        while ($fila = $consulta->fetch()) {
-            $datos[] = array("usuario" => $fila['usuario'], "password" => $fila['password']);
+        if ($consulta->fetch()) {
+            return 1;
         }
     }
-    if (isset($datos)) {
-        return count($datos);
-    } else {
-        return 0;
-    }
+    return 0;
 }
 
 function getDispositivos()
@@ -121,7 +97,6 @@ function getDispositivos()
 
 function getModelosBusqueda()
 {
-    /*TODO: INTRODUCIR UN PARAMETRO DE BUSQUEDA DENTRO DE LA QUERY, EN LUGAR DE EN EL CODIGO CON LIKE %x%*/
     $conexion = getConexionPDO();
     $sql = "SELECT id_dispositivo, imagen, modelo, precio from dispositivos;";
     $resultado = $conexion->query($sql);
@@ -136,7 +111,7 @@ function getModelosBusqueda()
     return $datos;
 }
 
-function getGamas()
+/*function getGamas()
 {
     $conexion = getConexionPDO();
     $sql = "SELECT DISTINCT gama from dispositivos;";
@@ -146,7 +121,7 @@ function getGamas()
         $datos[] = $gama;
     }
     return $datos;
-}
+}*/
 
 function updateStock($id, $stock)
 {
@@ -158,7 +133,6 @@ function updateStock($id, $stock)
     if ($consulta->execute() != true) throw new Exception("No se ha podido actualizar el stock");
     unset($conexion);
     return true;
-
 }
 
 function addMovil($modelo, $precio, $gama, $anio, $ram, $almacenamiento, $procesador, $bateria, $pulgadas, $imagen,
@@ -174,8 +148,6 @@ function addMovil($modelo, $precio, $gama, $anio, $ram, $almacenamiento, $proces
     if ($fila["iguales"] != 0) {
         throw new Exception("Ya hay un modelo igual en la base de datos");
     }
-
-
     /* SE HACE INSERT CON TRANSACCIÓN EN dispositivos Y moviles */
     $conexion->beginTransaction();
     try {
@@ -385,8 +357,6 @@ function getFicha($id)
     }
 }
 
-;
-
 function getTipoDispositivo($id)
 {
     $conexion = getConexionPDO();
@@ -414,7 +384,4 @@ function borrarModelo($id)
     }
     unset($conexion);
     return true;
-    //TODO: SEGUIR LA QUERY
 }
-
-;
