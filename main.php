@@ -85,10 +85,10 @@ function busqueda($busquedaSelected)
             <div class="col-6">
                 <form method="post" action="<?= htmlspecialchars($_SERVER["PHP_SELF"]) ?>" class="form-inline my-2 my-lg-0">
                     <input class="form-control buscador" name="busquedaInput" type="text" placeholder="Buscar" aria-label="Search" value="<?php if(isset($_POST["buscar"])) echo $_POST["busquedaInput"] ?>">
-                    <button type="submit" class="btn btn-warning ml-2" name="buscar" id="buscar"> <i class="fas fa-binoculars"></i></button>
+                    <button type="submit" class="btn btn-warning ml-2" name="buscar" id="buscar"> <i class="fas fa-search"></i></button>
                 </form>
             </div>
-            <form method="post" class="perfil" action="<?= htmlspecialchars($_SERVER["PHP_SELF"]) ?>" class="form-inline my-2 my-lg-0">
+            <form method="post" class="perfil form-inline my-2 my-lg-0" action="<?= htmlspecialchars($_SERVER["PHP_SELF"]) ?>">
                 <div class="usuario d-inline ml-1">
                     <a href="perfil.php">Bienvenido<i class="fas fa-user-tie fa-2x ml-2"></i></a>
                 </div>
