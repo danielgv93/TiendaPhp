@@ -74,7 +74,7 @@ function checkUsuarioPass($usuario, $password)
 function getDispositivos()
 {
     $conexion = getConexionPDO();
-    $sql = "SELECT * from dispositivos;";
+    $sql = "SELECT * from dispositivos order by modelo";
     $resultado = $conexion->query($sql);
     $resultado->bindColumn(1, $id);
     $resultado->bindColumn(2, $modelo);
@@ -98,7 +98,7 @@ function getDispositivos()
 function getModelosBusqueda()
 {
     $conexion = getConexionPDO();
-    $sql = "SELECT id_dispositivo, imagen, modelo, precio from dispositivos;";
+    $sql = "SELECT id_dispositivo, imagen, modelo, precio from dispositivos order by modelo;";
     $resultado = $conexion->query($sql);
     $resultado->bindColumn(1, $id);
     $resultado->bindColumn(2, $imagen);
@@ -237,7 +237,7 @@ function addReloj($modelo, $precio, $gama, $anio, $ram, $almacenamiento, $proces
 function getMoviles()
 {
     $conexion = getConexionPDO();
-    $sql = "SELECT * from dispositivos d inner join moviles m on d.id_dispositivo = m.id_movil;";
+    $sql = "SELECT * from dispositivos d inner join moviles m on d.id_dispositivo = m.id_movil order by modelo;";
     $resultado = $conexion->query($sql);
     $resultado->bindColumn(1, $id);
     $resultado->bindColumn(2, $modelo);
@@ -284,18 +284,17 @@ function getMovil($idSelected)
     $resultado->bindColumn(13, $idMovil);
     $resultado->bindColumn(14, $camara);
     $resultado->bindColumn(15, $notch);
-    while ($resultado->fetch(PDO::FETCH_BOUND)) {
-        $datos[$id] = array("modelo" => $modelo, "precio" => $precio, "gama" => $gama, "anio" => $anio,
-            "ram" => $ram, "almacenamiento" => $almacenamiento, "procesador" => $procesador, "bateria" => $bateria,
-            "pulgadas" => $pulgadas,"imagen" => $imagen, "stock" => $stock, "camara" => $camara, "notch" => $notch);
-    }
+    $resultado->fetch(PDO::FETCH_BOUND);
+    $datos[$id] = array("modelo" => $modelo, "precio" => $precio, "gama" => $gama, "anio" => $anio,
+        "ram" => $ram, "almacenamiento" => $almacenamiento, "procesador" => $procesador, "bateria" => $bateria,
+        "pulgadas" => $pulgadas,"imagen" => $imagen, "stock" => $stock, "camara" => $camara, "notch" => $notch);
     return $datos;
 }
 
 function getRelojes()
 {
     $conexion = getConexionPDO();
-    $sql = "SELECT * from dispositivos d inner join relojes m on d.id_dispositivo = m.id_reloj;";
+    $sql = "SELECT * from dispositivos d inner join relojes m on d.id_dispositivo = m.id_reloj order by modelo;";
     $resultado = $conexion->query($sql);
     $resultado->bindColumn(1, $id);
     $resultado->bindColumn(2, $modelo);
@@ -340,11 +339,10 @@ function getReloj($idSelected)
     $resultado->bindColumn(12, $imagen);
     $resultado->bindColumn(13, $idReloj);
     $resultado->bindColumn(14, $sim);
-    while ($resultado->fetch(PDO::FETCH_BOUND)) {
-        $datos[$id] = array("modelo" => $modelo, "precio" => $precio, "gama" => $gama, "anio" => $anio,
-            "ram" => $ram, "almacenamiento" => $almacenamiento, "procesador" => $procesador, "bateria" => $bateria,
-            "pulgadas" => $pulgadas,"imagen" => $imagen, "stock" => $stock, "sim" => $sim);
-    }
+    $resultado->fetch(PDO::FETCH_BOUND);
+    $datos[$id] = array("modelo" => $modelo, "precio" => $precio, "gama" => $gama, "anio" => $anio,
+        "ram" => $ram, "almacenamiento" => $almacenamiento, "procesador" => $procesador, "bateria" => $bateria,
+        "pulgadas" => $pulgadas,"imagen" => $imagen, "stock" => $stock, "sim" => $sim);
     return $datos;
 }
 
