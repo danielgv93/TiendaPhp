@@ -41,7 +41,7 @@ if (isset($_GET["ficha"])) {
 
             </ul>
          
-            <form method="post" class="perfil" action="<?= htmlspecialchars($_SERVER["PHP_SELF"]) ?>" class="form-inline my-2 my-lg-0">
+            <form method="post" class="perfil form-inline my-2 my-lg-0" action="<?= htmlspecialchars($_SERVER["PHP_SELF"]) ?>">
                 <div class="usuario d-inline ml-1">
                     <a href="perfil.php">Bienvenido<i class="fas fa-user-tie fa-2x ml-2"></i></a>
                 </div>
@@ -60,9 +60,15 @@ if (isset($_GET["ficha"])) {
                 <hr>
                 <p class="card-text">Precio: <?= $ficha["precio"] ?> €</p>
                 <p class="card-text">Gama <?= $ficha["gama"] ?></p>
+                <?php if(!empty($ficha["procesador"])) : ?>
                 <p class="card-text">Procesador: <?= $ficha["procesador"] ?></p>
+                <?php endif; ?>
+                <?php if(!empty($ficha["bateria"])) : ?>
                 <p class="card-text">Batería: <?= $ficha["bateria"] ?>mAh</p>
+                <?php endif; ?>
+                <?php if(!empty($ficha["pulgadas"])) : ?>
                 <p class="card-text">Pantalla: <?= $ficha["pulgadas"] ?> pulgadas</p>
+                <?php endif; ?>
                 <p class="card-text">Stock en tienda: <?= $ficha["stock"] ?> unidades</p>
                 <?php if ($tipo == "movil") : ?>
                     <p class="card-text">Camara trasera: <?= $ficha["camara"] ?>Mpx</p>
