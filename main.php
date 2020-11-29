@@ -15,10 +15,10 @@ if (isset($_POST["relojes"])) {
 function busqueda($busquedaSelected)
 {
     if (empty($busquedaSelected)) {
-        $arrayDispositivos = getModelosBusqueda();
+        $arrayDispositivos = getDispositivos();
     } else {
         $busqueda = strtolower($busquedaSelected);
-        foreach (getModelosBusqueda() as $id => $dispositivo) {
+        foreach (getDispositivos() as $id => $dispositivo) {
             if (strpos(strtolower($dispositivo["modelo"]), $busqueda) !== false) {
                 $arrayDispositivos[$id] = $dispositivo;
             }
@@ -57,7 +57,6 @@ function busqueda($busquedaSelected)
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <i class="fas fa-align-justify"></i>
         </button>
-
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item active">
@@ -71,16 +70,13 @@ function busqueda($busquedaSelected)
                         <form action="<?= htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="post">
                             <input type="hidden" name="telefonos">
                             <input type="submit" class="dropdown-item" value="Teléfonos">
-                            <!--RATON MANO EN HOVER POR CSS-->
                         </form>
                         <form action="<?= htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="post">
                             <input type="hidden" name="relojes">
                             <input type="submit" class="dropdown-item" value="Smartwaches">
-                            <!--RATON MANO EN HOVER POR CSS-->
                         </form>
                     </div>
                 </li>
-
             </ul>
             <div class="col-6">
                 <form method="post" action="<?= htmlspecialchars($_SERVER["PHP_SELF"]) ?>" class="form-inline my-2 my-lg-0">
@@ -98,7 +94,6 @@ function busqueda($busquedaSelected)
             </form>
         </div>
     </nav>
-
 
     <div class="container">
         <div class="card-deck justify-content-center">

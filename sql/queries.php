@@ -87,41 +87,14 @@ function getDispositivos()
     $resultado->bindColumn(9, $bateria);
     $resultado->bindColumn(10, $pulgadas);
     $resultado->bindColumn(11, $stock);
+    $resultado->bindColumn(12, $imagen);
     while ($resultado->fetch(PDO::FETCH_BOUND)) {
         $datos[$id] = array("modelo" => $modelo, "precio" => $precio, "gama" => $gama, "anio" => $anio,
             "ram" => $ram, "almacenamiento" => $almacenamiento, "procesador" => $procesador, "bateria" => $bateria,
-            "pulgadas" => $pulgadas, "stock" => $stock);
+            "pulgadas" => $pulgadas, "stock" => $stock, "imagen" => $imagen);
     }
     return $datos;
 }
-
-function getModelosBusqueda()
-{
-    $conexion = getConexionPDO();
-    $sql = "SELECT id_dispositivo, imagen, modelo, precio from dispositivos order by modelo;";
-    $resultado = $conexion->query($sql);
-    $resultado->bindColumn(1, $id);
-    $resultado->bindColumn(2, $imagen);
-    $resultado->bindColumn(3, $modelo);
-    $resultado->bindColumn(4, $precio);
-
-    while ($resultado->fetch(PDO::FETCH_BOUND)) {
-        $datos[$id] = array("imagen" => $imagen, "modelo" => $modelo, "precio" => $precio);
-    }
-    return $datos;
-}
-
-/*function getGamas()
-{
-    $conexion = getConexionPDO();
-    $sql = "SELECT DISTINCT gama from dispositivos;";
-    $resultado = $conexion->query($sql);
-    $resultado->bindColumn(1, $gama);
-    while ($resultado->fetch(PDO::FETCH_BOUND)) {
-        $datos[] = $gama;
-    }
-    return $datos;
-}*/
 
 function updateStock($id, $stock)
 {
