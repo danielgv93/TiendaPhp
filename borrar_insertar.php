@@ -31,7 +31,7 @@ if (isset($_POST["insertarMovil"]) && $_POST["modelo"] && $_POST["precio"]) {
                 $_POST["notch"]
             ))
 
-                $mensajeError .= "Movil añadido con éxito!>";
+                $mensajeError .= "Movil añadido con éxito!";
         }
     } catch (Exception $e) {
         $mensajeError .= $e->getMessage();
@@ -265,7 +265,7 @@ function getExtension($tipoImagen)
                         </div>
                         <form-group>
                             <label for="sim">SIM:</label>
-                            <select name="notch" class="form-control">
+                            <select name="sim" class="form-control">
                                 <option value="1">Si</option>
                                 <option value="0">No</option>
                             </select>
