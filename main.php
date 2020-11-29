@@ -78,15 +78,13 @@ function busqueda($busquedaSelected)
                             <input type="submit" class="dropdown-item" value="Smartwaches">
                             <!--RATON MANO EN HOVER POR CSS-->
                         </form>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#">Otra vaina</a>
                     </div>
                 </li>
 
             </ul>
             <div class="col-6">
                 <form method="post" action="<?= htmlspecialchars($_SERVER["PHP_SELF"]) ?>" class="form-inline my-2 my-lg-0">
-                    <input class="form-control buscador" name="busquedaInput" type="text" placeholder="Buscar" aria-label="Search">
+                    <input class="form-control buscador" name="busquedaInput" type="text" placeholder="Buscar" aria-label="Search" value="<?php if(isset($_POST["buscar"])) echo $_POST["busquedaInput"] ?>">
                     <button type="submit" class="btn btn-warning ml-2" name="buscar" id="buscar"> <i class="fas fa-binoculars"></i></button>
                 </form>
             </div>
@@ -106,8 +104,8 @@ function busqueda($busquedaSelected)
         <div class="card-deck justify-content-center">
             <?php
             $elementoActual = 1;
-            if (isset($_POST["buscar"]) || isset($_POST["telefonos"]) || isset($_POST["relojes"])) :
-                $limite = 5; ?>
+            $limite = 5;
+            if (isset($_POST["buscar"]) || isset($_POST["telefonos"]) || isset($_POST["relojes"])) : ?>
                 <?php if ($arrayDispositivos !== false) foreach ($arrayDispositivos as $id => $producto) : ?>
                     <!--AQUI VA CADA TARJETA DE LA BUSQUEDA-->
                     <?php if ($elementoActual === 1) echo "<div class='row'>" ?>
@@ -135,8 +133,8 @@ function busqueda($busquedaSelected)
                     $elementoActual++;
                     if ($elementoActual === $limite) $elementoActual = 1; ?>
                 <?php endforeach; ?>
+                <?php if ($elementoActual !==  1) echo "</div>"; ?>
             <?php endif; ?>
-            <?php if ($elementoActual !==  1) echo "</div>"; ?>
         </div>
     </div>
     <footer class="page-footer font-small blue">
