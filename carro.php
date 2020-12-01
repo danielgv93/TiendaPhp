@@ -92,7 +92,7 @@ require_once "funciones.php";
                                                         </th>
                                                         <td class="border-0 align-middle"><strong>tu vaina php</strong></td>
                                                         <td class="border-0 align-middle"><strong>tu vaina php</strong></td>
-                                                        <td class="align-middle"><button class="btn"><i class="fa fa-trash"></i></button>
+                                                        <td class="align-middle"><button class="btn"><i class="fas fa-trash"></i></button>
                                                     </tr>
                                                 </tbody>
                                             </table>
@@ -103,26 +103,26 @@ require_once "funciones.php";
 
                                 <div class="row py-5 p-4 bg-white rounded shadow-sm">
                                     <div class="col-lg-6">
-                                        <div class="bg-light rounded-pill px-4 py-3 text-uppercase font-weight-bold">Codigo de descuento</div>
+                                        <div class="bg-light px-4 py-3 text-uppercase font-weight-bold">Codigo de descuento</div>
                                         <div class="p-4">
-                                            <p class="font-italic mb-4">Si tienes codigo de descuento, introducelo debajo</p>
-                                            <div class="input-group mb-4 border rounded-pill p-2">
+                                            <p class="font-italic mb-4">Si tiene codigo de descuento, introducelo debajo</p>
+                                            <div class="input-group mb-4 border p-2">
                                                 <input type="text" placeholder="Cupón descuento" aria-describedby="button-addon3" class="form-control border-0">
                                                 <div class="input-group-append border-0">
-                                                    <button id="button-addon3" type="button" class="btn btn-dark px-4 rounded-pill"><i class="fa fa-gift mr-2"></i>Aplicar cupón</button>
+                                                    <button id="button-addon3" type="button" class="btn btn-dark px-4"><i class="fa fa-gift mr-2"></i>Aplicar cupón</button>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="bg-light rounded-pill px-4 py-3 text-uppercase font-weight-bold">Comentarios para el vendedor</div>
+                                        <div class="bg-light px-4 py-3 text-uppercase font-weight-bold">Comentarios para el vendedor</div>
                                         <div class="p-4">
-                                            <p class="font-italic mb-4">Si tienes algún comentario o sugerencia para el vendedor, por favor escríbela debajo</p>
+                                            <p class="font-italic mb-4">Si tiene algún comentario o sugerencia para el vendedor, por favor escríbela debajo</p>
                                             <textarea name="" cols="30" rows="2" class="form-control"></textarea>
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
-                                        <div class="bg-light rounded-pill px-4 py-3 text-uppercase font-weight-bold">Resumen del pedido</div>
+                                        <div class="bg-light px-4 py-3 text-uppercase font-weight-bold">Resumen del pedido</div>
                                         <div class="p-4">
-                                            <p class="font-italic mb-4">Gastos de envío y descuentos calculados</p>
+                                            <p class="font-italic mb-4">Gastos de envío y descuentos calculados a continuación</p>
                                             <ul class="list-unstyled mb-4">
                                                 <li class="d-flex justify-content-between py-3 border-bottom"><strong class="text-muted">Total pedido </strong><strong>
                                                         <!-- tu vaina php --></strong></li>
@@ -135,7 +135,7 @@ require_once "funciones.php";
                                                         <!-- tu vaina php -->
                                                     </h5>
                                                 </li>
-                                            </ul><a href="#" class="btn btn-dark rounded-pill py-2 btn-block">Continuar al pago</a>
+                                            </ul><a href="#" class="btn btn-dark py-2 btn-block">Continuar al pago</a>
                                         </div>
                                     </div>
                                 </div>

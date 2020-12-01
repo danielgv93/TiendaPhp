@@ -49,6 +49,15 @@ footer {
     position: relative;
 }
 
+.fas:hover {
+    color: rgb(255, 255, 255);
+}
+
+.fa-trash:hover {
+    color: red;
+    transform: scale(1.05);
+}
+
 .dropdown-menu input:hover {
     cursor: pointer;
 }
