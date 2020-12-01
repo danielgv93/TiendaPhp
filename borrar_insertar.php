@@ -3,6 +3,7 @@
 <div class='col-12 mt-3 alert alert-danger text-center' role='alert'>CLASE DE FALLO</div> -->
 <?php
 require_once "sql/queries.php";
+require_once "funciones.php";
 session_start();
 
 $mensajeError = "";
@@ -16,7 +17,7 @@ if (isset($_POST["updateStock"])) {
 }
 if (isset($_POST["insertarMovil"]) && $_POST["modelo"] && $_POST["precio"]) {
     try {
-        if (($targetFile = getImagen()) !== false) {
+        if (($targetFile = guardarImagenDispositivo($_POST["modelo"], $_FILES["imagen"])) !== false) {
             if (addMovil(
                 $_POST["modelo"],
                 $_POST["precio"],
@@ -40,7 +41,7 @@ if (isset($_POST["insertarMovil"]) && $_POST["modelo"] && $_POST["precio"]) {
 }
 if (isset($_POST["insertarReloj"]) && $_POST["modelo"] && $_POST["precio"]) {
     try {
-        if (($targetFile = getImagen()) !== false) {
+        if (($targetFile = guardarImagenDispositivo($_POST["modelo"], $_FILES["imagen"])) !== false) {
             if (addReloj(
                 $_POST["modelo"],
                 $_POST["precio"],
@@ -69,31 +70,6 @@ if (isset($_POST["borrar"])) {
         $mensajeError .= $e->getMessage();
     }
 }
-
-function getImagen()
-{
-
-    $targetFile = "img/dispositivos/" . $_POST["modelo"] . "." . getExtension($_FILES["imagen"]["type"]);
-    if (!file_exists($_FILES["imagen"]["tmp_name"])) {
-        throw new Exception("Elige imagen para subir");
-    }
-    if (move_uploaded_file($_FILES["imagen"]["tmp_name"], $targetFile)) {
-        return $targetFile;
-    }
-    return false;
-}
-
-function getExtension($tipoImagen)
-{
-    try {
-        if ($tipoImagen == null) {
-            throw new Exception("Elige una imagen");
-        }
-        return explode("/", $tipoImagen)[1];
-    } catch (Exception $e) {
-    }
-}
-
 
 ?>
 
@@ -287,7 +263,11 @@ function getExtension($tipoImagen)
                     </select>
                     <input type="submit" name="borrar" value="Borrar Modelo" class="btn btn-danger mt-2">
                 </form>
+                <?php if(!empty($mensajeError)) : ?>
+                <div class='col-12 mt-3 alert alert-warning text-center' role='alert'>
                 <?= $mensajeError ?>
+                </div>
+                <?php endif; ?>
             </div>
         </div>
     </div>

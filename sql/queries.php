@@ -380,3 +380,8 @@ function borrarModelo($id)
     unset($conexion);
     return true;
 }
+
+function getOfertas()
+{
+
+}
