@@ -52,19 +52,6 @@ function getUsuario($id)
     return 0;
 }
 
-/*function isAdmin($usuario, $password)
-{
-    $conexion = getConexionPDO();
-    $sql = "SELECT admin from usuarios where usuario = ? AND pass = MD5(?)";
-    $consulta = $conexion->prepare($sql);
-    $consulta->bindParam(1, $usuario);
-    $consulta->bindParam(2, $password);
-    $consulta->execute();
-    $fila = $consulta->fetch();
-    unset($conexion);
-    return $fila["admin"];
-}*/
-
 function checkUsuario($usuario)
 {
     $conexion = getConexionPDO();

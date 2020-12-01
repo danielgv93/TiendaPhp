@@ -12,9 +12,9 @@ function guardarImagenDispositivo($nombreImagen, $archivoImagen)
     return false;
 }
 
-function guardarImagenUsuario($nombreImagen, $archivoImagen)
+function guardarImagenUsuario($nombreUsuario, $archivoImagen)
 {
-    $targetFile = "img/dispositivos/" . $nombreImagen . "." . getExtension($archivoImagen["type"]);
+    $targetFile = "img/usuarios/" . $nombreUsuario . "." . getExtension($archivoImagen["type"]);
     if (!file_exists($archivoImagen["tmp_name"])) {
         throw new Exception("Elige imagen para subir");
     }
