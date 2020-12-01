@@ -1,12 +1,3 @@
-/*html {
-    background: #fbf3ff;
-}
-
-body {
-    height: 100%;
-    background: #fbf3ff;
-}*/
-
 html,
 body {
     background: #fbf3ff;
@@ -82,9 +73,14 @@ footer {
 
 .card {
     max-width: 300px;
+    transition: all .2s ease-in-out;
 }
 
-.aviso{
+.card:hover {
+    transform: scale(1.05);
+}
+
+.aviso {
     font-size: 29px;
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
     width: 100%;
@@ -93,3 +89,7 @@ footer {
     border-radius: 20px;
 }
 
+.carro {
+    color: black;
+    min-height: 100vh;
+}

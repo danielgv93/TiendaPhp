@@ -93,6 +93,9 @@ function busqueda($busquedaSelected)
                     <div class="logout d-inline ml-2">
                         <a href="index.php"><i class="fas fa-sign-out-alt fa-2x"></i></a>
                     </div>
+                    <div class="logout d-inline ml-2">
+                        <a href="carro.php"><i class="fas fa-shopping-cart fa-2x"></i></a>
+                    </div>
                 </form>
             </div>
         </nav>
@@ -107,7 +110,6 @@ function busqueda($busquedaSelected)
                         <!--AQUI VA CADA TARJETA DE LA BUSQUEDA-->
                         <?php if ($elementoActual === 1) echo "<div class='row'>" ?>
                         <div class="card text-white mt-4 carta">
-
                             <div class="imagenCarta">
                                 <img class="card-img-top" src="<?= $producto["imagen"] ?>" alt="<?= $producto["modelo"] ?>">
                             </div>
@@ -124,7 +126,6 @@ function busqueda($busquedaSelected)
                                     <button type="submit" class="btn btn-warning ml-2" name="cart" id="cart"> <i class="fas fa-shopping-cart"></i>
                                 </div>
                             </div>
-
                         </div>
                         <?php if ($elementoActual === $limite - 1) echo "</div>";
                         $elementoActual++;
