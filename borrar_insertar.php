@@ -109,7 +109,7 @@ if (isset($_POST["borrar"])) {
                         <a href="perfil.php">Bienvenido<i class="fas fa-user-tie fa-2x ml-2"></i></a>
                     </div>
                     <div class="logout d-inline ml-2">
-                        <a href="index.php"><i class="fas fa-sign-out-alt fa-2x"></i></a>
+                        <a href="logout.php"><i class="fas fa-sign-out-alt fa-2x"></i></a>
                     </div>
                 </form>
             </div>

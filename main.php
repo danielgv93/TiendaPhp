@@ -91,7 +91,7 @@ function busqueda($busquedaSelected)
                         <a href="perfil.php">Bienvenido <?= $_SESSION["visitante"]["nombre"] ?><i class="fas fa-user-tie fa-2x ml-2"></i></a>
                     </div>
                     <div class="logout d-inline ml-2">
-                        <a href="index.php"><i class="fas fa-sign-out-alt fa-2x"></i></a>
+                        <a href="logout.php"><i class="fas fa-sign-out-alt fa-2x"></i></a>
                     </div>
                     <div class="logout d-inline ml-2">
                         <a href="carro.php"><i class="fas fa-shopping-cart fa-2x"></i></a>

@@ -40,7 +40,7 @@ require_once "funciones.php";
                         <a href="perfil.php"><?= $_SESSION["visitante"]["nombre"] . " " . $_SESSION["visitante"]["apellidos"] ?><i class="fas fa-user-tie fa-2x ml-2"></i></a>
                     </div>
                     <div class="logout d-inline ml-2">
-                        <a href="index.php"><i class="fas fa-sign-out-alt fa-2x"></i></a>
+                        <a href="logout.php"><i class="fas fa-sign-out-alt fa-2x"></i></a>
                     </div>
                 </form>
             </div>

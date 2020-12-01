@@ -1,6 +1,12 @@
 <?php
-session_start();
 require_once "funciones.php";
+
+session_start();
+if (!isset($_SESSION["carrito"])) {
+    $_SESSION["carrito"][] = array("id" => 2, "modelo" => "One Plus 3", "imagen" => "img/dispositivos/OnePlus Nord.jpg",
+        "precio" => 30);
+}
+
 ?>
 <!DOCTYPE html>
 <html lang='en'>
@@ -48,7 +54,6 @@ require_once "funciones.php";
         </nav>
         <div class="container">
             <div class="row justify-content-center mt-5">
-                <?php if ($_SESSION["visitante"]["admin"] == 1) : ?>
                     <div class="px-4 px-lg-0">
 
                         <div class="pb-5">
@@ -81,10 +86,11 @@ require_once "funciones.php";
                                                 <!-- Esto lo metes en uno de esos bucles tuyos rechingones bien vergosos
                                             y sacas todos los productos que haya añadidos asin en esa tablita -->
                                                 <tbody>
+                                                <?php foreach($_SESSION["carrito"] as $producto) : ?>
                                                     <tr>
                                                         <th scope="row" class="border-0">
                                                             <div class="p-2">
-                                                                <img src="LA VAINA QUE SEA" alt="" width="70" class="img-fluid rounded shadow-sm">
+                                                                <img src="<?= $producto["imagen"] ?>" alt="" width="70" class="img-fluid rounded shadow-sm">
                                                                 <div class="ml-3 d-inline-block align-middle">
                                                                     <h5 class="mb-0"> <a href="#" class="text-dark d-inline-block align-middle">Poco Phone mi abuelo</a></h5><span class="text-muted font-weight-normal font-italic d-block">Categoría: Smartwaches</span>
                                                                 </div>
@@ -94,6 +100,7 @@ require_once "funciones.php";
                                                         <td class="border-0 align-middle"><strong>tu vaina php</strong></td>
                                                         <td class="align-middle"><button class="btn"><i class="fas fa-trash"></i></button>
                                                     </tr>
+                                                <?php endforeach; ?>
                                                 </tbody>
                                             </table>
                                         </div>
@@ -143,8 +150,6 @@ require_once "funciones.php";
                             </div>
                         </div>
                     </div>
-                <?php endif ?>
-
             </div>
         </div>
         <footer class="page-footer font-small blue">
