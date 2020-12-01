@@ -18,11 +18,13 @@ session_start();
 </head>
 
 <body>
+<?php if (isset($_SESSION["visitante"])): ?>
     <nav class="navbar navbar-expand-lg navegador text-light">
         <a class="navbar" href="main.php">
             <img src="img/logo.png" class="d-inline-block align-top imagen">
         </a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <i class="fas fa-align-justify"></i>
         </button>
 
@@ -33,7 +35,8 @@ session_start();
                 </li>
             </ul>
 
-            <form method="post" class="perfil" action="<?= htmlspecialchars($_SERVER["PHP_SELF"]) ?>" class="form-inline my-2 my-lg-0">
+            <form method="post" class="perfil form-inline my-2 my-lg-0"
+                  action="<?= htmlspecialchars($_SERVER["PHP_SELF"]) ?>">
                 <div class="usuario d-inline ml-1">
                     <a href="perfil.php">Bienvenido<i class="fas fa-user-tie fa-2x ml-2"></i></a>
                 </div>
@@ -67,6 +70,10 @@ session_start();
             <a href="https://twitter.com/IbaiLlanos"> <i class="fab fa-twitter"></i></a>
         </div>
     </footer>
+<?php else: ?>
+
+
+<?php endif;?>
 </body>
 <script src='https://code.jquery.com/jquery-3.2.1.slim.min.js' integrity='sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN' crossorigin='anonymous'></script>
 <script src='https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js' integrity='sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q' crossorigin='anonymous'></script>

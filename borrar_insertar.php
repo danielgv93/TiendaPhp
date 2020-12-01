@@ -113,6 +113,7 @@ function getExtension($tipoImagen)
 </head>
 
 <body>
+<?php if (isset($_SESSION["visitante"])): ?>
     <nav class="navbar navbar-expand-lg navegador text-light">
         <a class="navbar" href="main.php">
             <img src="img/logo.png" class="d-inline-block align-top imagen">
@@ -299,6 +300,10 @@ function getExtension($tipoImagen)
             <a href="https://twitter.com/IbaiLlanos"> <i class="fab fa-twitter"></i></a>
         </div>
     </footer>
+<?php else : ?>
+
+
+<?php endif; ?>
 </body>
 <script src='https://code.jquery.com/jquery-3.2.1.slim.min.js' integrity='sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN' crossorigin='anonymous'></script>
 <script src='https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js' integrity='sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q' crossorigin='anonymous'></script>
