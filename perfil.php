@@ -19,62 +19,66 @@ require_once "funciones.php";
 </head>
 
 <body>
-<?php if (isset($_SESSION["visitante"])): ?>
-    <nav class="navbar navbar-expand-lg navegador text-light">
-        <a class="navbar" href="main.php">
-            <img src="img/logo.png" class="d-inline-block align-top imagen">
-        </a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <i class="fas fa-align-justify"></i>
-        </button>
+    <?php if (isset($_SESSION["visitante"])) : ?>
+        <nav class="navbar navbar-expand-lg navegador text-light">
+            <a class="navbar" href="main.php">
+                <img src="img/logo.png" class="d-inline-block align-top imagen">
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <i class="fas fa-align-justify"></i>
+            </button>
 
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item active">
-                    <a class="nav-link" href="main.php">Inicio <span class="sr-only"></span></a>
-                </li>
-            </ul>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="main.php">Inicio <span class="sr-only"></span></a>
+                    </li>
+                </ul>
 
-            <form method="post" class="perfil form-inline my-2 my-lg-0"
-                  action="<?= htmlspecialchars($_SERVER["PHP_SELF"]) ?>">
-                <div class="usuario d-inline ml-1">
-                    <a href="perfil.php"><?= $_SESSION["visitante"]["nombre"] . " " . $_SESSION["visitante"]["apellidos"] ?><i class="fas fa-user-tie fa-2x ml-2"></i></a>
-                </div>
-                <div class="logout d-inline ml-2">
-                    <a href="index.php"><i class="fas fa-sign-out-alt fa-2x"></i></a>
-                </div>
-            </form>
-        </div>
+                <form method="post" class="perfil form-inline my-2 my-lg-0" action="<?= htmlspecialchars($_SERVER["PHP_SELF"]) ?>">
+                    <div class="usuario d-inline ml-1">
+                        <a href="perfil.php"><?= $_SESSION["visitante"]["nombre"] . " " . $_SESSION["visitante"]["apellidos"] ?><i class="fas fa-user-tie fa-2x ml-2"></i></a>
+                    </div>
+                    <div class="logout d-inline ml-2">
+                        <a href="index.php"><i class="fas fa-sign-out-alt fa-2x"></i></a>
+                    </div>
+                </form>
+            </div>
 
-    </nav>
-    <div class="container">
-        <div class="row justify-content-center mt-5">
-            <?php if ($_SESSION["visitante"]["admin"] == 1): ?>
+        </nav>
+        <div class="container">
+            <div class="row justify-content-center mt-5">
+                <?php if ($_SESSION["visitante"]["admin"] == 1) : ?>
+                    <div class="col-4">
+                        <legend>Configurar trastienda</legend>
+                        <a href="borrar_insertar.php"><i class="fas fa-box-open fa-10x"></i></a>
+                    </div>
+                <?php endif ?>
+                <!--TODO: CAMBIAR DATOS DEL USUARIO POR INPUTS-->
                 <div class="col-4">
-                    <legend>Configurar trastienda</legend>
-                    <a href="borrar_insertar.php"><i class="fas fa-box-open fa-10x"></i></a>
+                    <legend>Cambiar el usuario</legend>
+                    <a href="perfil.php"><i class="fas fa-user-edit fa-10x"></i></a>
                 </div>
-            <?php endif ?>
-            <!--TODO: CAMBIAR DATOS DEL USUARIO POR INPUTS-->
-            <div class="col-4">
-                <legend>Cambiar el usuario</legend>
-                <a href="perfil.php"><i class="fas fa-user-edit fa-10x"></i></a>
             </div>
         </div>
-    </div>
-    <footer class="page-footer font-small blue">
-        <div class="footer-copyright text-center py-3">&copy; 2020 Copyright:
-            <a href="http://web2.iesmiguelherrero.com/"> IES Miguel Herrero</a>
-            &reg; <a href="index.php">P3</a>
-            <a href="https://www.instagram.com/?hl=es"> <i class="fab fa-instagram ml-3"></i></a>
-            <a href="https://twitter.com/IbaiLlanos"> <i class="fab fa-twitter"></i></a>
+        <footer class="page-footer font-small blue">
+            <div class="footer-copyright text-center py-3">&copy; 2020 Copyright:
+                <a href="http://web2.iesmiguelherrero.com/"> IES Miguel Herrero</a>
+                &reg; <a href="index.php">P3</a>
+                <a href="https://www.instagram.com/?hl=es"> <i class="fab fa-instagram ml-3"></i></a>
+                <a href="https://twitter.com/IbaiLlanos"> <i class="fab fa-twitter"></i></a>
+            </div>
+        </footer>
+    <?php else : ?>
+        <div class="container">
+            <div>
+                <div class="alert alert-warning aviso" role="alert">
+                    Parece que aún no has <a href="index.php" class="alert-link">iniciado sesión</a>. No dudes en hacerlo!
+                    <i class="far fa-comment-dots"></i>
+                </div>
+            </div>
         </div>
-    </footer>
-<?php else: ?>
-
-
-<?php endif;?>
+    <?php endif; ?>
 </body>
 <script src='https://code.jquery.com/jquery-3.2.1.slim.min.js' integrity='sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN' crossorigin='anonymous'></script>
 <script src='https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js' integrity='sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q' crossorigin='anonymous'></script>

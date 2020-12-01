@@ -51,103 +51,107 @@ function busqueda($busquedaSelected)
 </head>
 
 <body>
-<?php if(isset($_SESSION["visitante"])) :?>
-    <nav class="navbar navbar-expand-lg navegador text-light">
-        <a class="navbar" href="main.php">
-            <img src="img/logo.png" class="d-inline-block align-top imagen">
-        </a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <i class="fas fa-align-justify"></i>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item active">
-                    <a class="nav-link" href="main.php">Inicio <span class="sr-only"></span></a>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Categorías
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <form action="<?= htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="post">
-                            <input type="hidden" name="telefonos">
-                            <input type="submit" class="dropdown-item" value="Teléfonos">
-                        </form>
-                        <form action="<?= htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="post">
-                            <input type="hidden" name="relojes">
-                            <input type="submit" class="dropdown-item" value="Smartwaches">
-                        </form>
+    <?php if (isset($_SESSION["visitante"])) : ?>
+        <nav class="navbar navbar-expand-lg navegador text-light">
+            <a class="navbar" href="main.php">
+                <img src="img/logo.png" class="d-inline-block align-top imagen">
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <i class="fas fa-align-justify"></i>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="main.php">Inicio <span class="sr-only"></span></a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Categorías
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <form action="<?= htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="post">
+                                <input type="hidden" name="telefonos">
+                                <input type="submit" class="dropdown-item" value="Teléfonos">
+                            </form>
+                            <form action="<?= htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="post">
+                                <input type="hidden" name="relojes">
+                                <input type="submit" class="dropdown-item" value="Smartwaches">
+                            </form>
+                        </div>
+                    </li>
+                </ul>
+                <div class="col-6">
+                    <form method="post" action="<?= htmlspecialchars($_SERVER["PHP_SELF"]) ?>" class="form-inline my-2 my-lg-0">
+                        <input class="form-control buscador" name="busquedaInput" type="text" placeholder="Buscar" aria-label="Search" value="<?php if (isset($_POST["buscar"])) echo $_POST["busquedaInput"] ?>">
+                        <button type="submit" class="btn btn-warning ml-2" name="buscar" id="buscar"> <i class="fas fa-search"></i></button>
+                    </form>
+                </div>
+                <form method="post" class="perfil form-inline my-2 my-lg-0" action="<?= htmlspecialchars($_SERVER["PHP_SELF"]) ?>">
+                    <div class="usuario d-inline ml-1">
+                        <a href="perfil.php">Bienvenido <?= $_SESSION["visitante"]["nombre"] ?><i class="fas fa-user-tie fa-2x ml-2"></i></a>
                     </div>
-                </li>
-            </ul>
-            <div class="col-6">
-                <form method="post" action="<?= htmlspecialchars($_SERVER["PHP_SELF"]) ?>" class="form-inline my-2 my-lg-0">
-                    <input class="form-control buscador" name="busquedaInput" type="text" placeholder="Buscar" aria-label="Search" value="<?php if(isset($_POST["buscar"])) echo $_POST["busquedaInput"] ?>">
-                    <button type="submit" class="btn btn-warning ml-2" name="buscar" id="buscar"> <i class="fas fa-search"></i></button>
+                    <div class="logout d-inline ml-2">
+                        <a href="index.php"><i class="fas fa-sign-out-alt fa-2x"></i></a>
+                    </div>
                 </form>
             </div>
-            <form method="post" class="perfil form-inline my-2 my-lg-0" action="<?= htmlspecialchars($_SERVER["PHP_SELF"]) ?>">
-                <div class="usuario d-inline ml-1">
-                    <a href="perfil.php">Bienvenido <?= $_SESSION["visitante"]["nombre"] ?><i class="fas fa-user-tie fa-2x ml-2"></i></a>
-                </div>
-                <div class="logout d-inline ml-2">
-                    <a href="index.php"><i class="fas fa-sign-out-alt fa-2x"></i></a>
-                </div>
-            </form>
-        </div>
-    </nav>
+        </nav>
 
-    <div class="container">
-        <div class="card-deck justify-content-center">
-            <?php
-            $elementoActual = 1;
-            $limite = 5;
-            if (isset($_POST["buscar"]) || isset($_POST["telefonos"]) || isset($_POST["relojes"])) : ?>
-                <?php if ($arrayDispositivos !== false) foreach ($arrayDispositivos as $id => $producto) : ?>
-                    <!--AQUI VA CADA TARJETA DE LA BUSQUEDA-->
-                    <?php if ($elementoActual === 1) echo "<div class='row'>" ?>
-                    <div class="card text-white mt-4 carta">
+        <div class="container">
+            <div class="card-deck justify-content-center">
+                <?php
+                $elementoActual = 1;
+                $limite = 5;
+                if (isset($_POST["buscar"]) || isset($_POST["telefonos"]) || isset($_POST["relojes"])) : ?>
+                    <?php if ($arrayDispositivos !== false) foreach ($arrayDispositivos as $id => $producto) : ?>
+                        <!--AQUI VA CADA TARJETA DE LA BUSQUEDA-->
+                        <?php if ($elementoActual === 1) echo "<div class='row'>" ?>
+                        <div class="card text-white mt-4 carta">
 
-                        <div class="imagenCarta">
-                            <img class="card-img-top" src="<?= $producto["imagen"] ?>" alt="<?= $producto["modelo"] ?>">
-                        </div>
-                        <div class="card-body">
-                            <h5 class="card-title"><?= $producto["modelo"] ?></h5>
-                            <p class="card-text"><?= $producto["precio"] ?> €</p>
-                            <form action="producto.php" method="get" class="d-inline">
-                                <input type="hidden" name="id" value="<?= $id ?>">
-                                <div class="d-inline">
-                                    <button type="submit" class="btn ml-2 btn btn-info" name="ficha" id="ficha"> <i class="fas fa-align-left"></i></button>
-                                </div>
-                            </form>
-                            <div class="d-inline">
-                                <button type="submit" class="btn btn-warning ml-2" name="cart" id="cart"> <i class="fas fa-shopping-cart"></i>
+                            <div class="imagenCarta">
+                                <img class="card-img-top" src="<?= $producto["imagen"] ?>" alt="<?= $producto["modelo"] ?>">
                             </div>
+                            <div class="card-body">
+                                <h5 class="card-title"><?= $producto["modelo"] ?></h5>
+                                <p class="card-text"><?= $producto["precio"] ?> €</p>
+                                <form action="producto.php" method="get" class="d-inline">
+                                    <input type="hidden" name="id" value="<?= $id ?>">
+                                    <div class="d-inline">
+                                        <button type="submit" class="btn ml-2 btn btn-info" name="ficha" id="ficha"> <i class="fas fa-align-left"></i></button>
+                                    </div>
+                                </form>
+                                <div class="d-inline">
+                                    <button type="submit" class="btn btn-warning ml-2" name="cart" id="cart"> <i class="fas fa-shopping-cart"></i>
+                                </div>
+                            </div>
+
                         </div>
-
-                    </div>
-                    <?php if ($elementoActual === $limite - 1) echo "</div>";
-                    $elementoActual++;
-                    if ($elementoActual === $limite) $elementoActual = 1; ?>
-                <?php endforeach; ?>
-                <?php if ($elementoActual !==  1) echo "</div>"; ?>
-            <?php endif; ?>
+                        <?php if ($elementoActual === $limite - 1) echo "</div>";
+                        $elementoActual++;
+                        if ($elementoActual === $limite) $elementoActual = 1; ?>
+                    <?php endforeach; ?>
+                    <?php if ($elementoActual !==  1) echo "</div>"; ?>
+                <?php endif; ?>
+            </div>
         </div>
-    </div>
-    <footer class="page-footer font-small blue">
-        <div class="footer-copyright text-center py-3">&copy; 2020 Copyright:
-            <a href="http://web2.iesmiguelherrero.com/"> IES Miguel Herrero</a>
-            &reg; <a href="index.php">P3</a>
-            <a href="https://www.instagram.com/?hl=es"> <i class="fab fa-instagram ml-3"></i></a>
-            <a href="https://twitter.com/IbaiLlanos"> <i class="fab fa-twitter"></i></a>
-        </div>
-    </footer>
+        <footer class="page-footer font-small blue">
+            <div class="footer-copyright text-center py-3">&copy; 2020 Copyright:
+                <a href="http://web2.iesmiguelherrero.com/"> IES Miguel Herrero</a>
+                &reg; <a href="index.php">P3</a>
+                <a href="https://www.instagram.com/?hl=es"> <i class="fab fa-instagram ml-3"></i></a>
+                <a href="https://twitter.com/IbaiLlanos"> <i class="fab fa-twitter"></i></a>
+            </div>
+        </footer>
     <?php else : ?>
-    <h1>NO SE PUEDE ACCEDER</h1><br>
-    <a href="index.php">VOLVER</a>
-
-
-    <?php endif;?>
+        <div class="container">
+            <div>
+                <div class="alert alert-warning aviso" role="alert">
+                    Parece que aún no has <a href="index.php" class="alert-link">iniciado sesión</a>. No dudes en hacerlo!
+                    <i class="far fa-comment-dots fa-8x"></i>
+                </div>
+            </div>
+        </div>
+    <?php endif; ?>
 </body>
 <script src='https://code.jquery.com/jquery-3.2.1.slim.min.js' integrity='sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN' crossorigin='anonymous'></script>
 <script src='https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js' integrity='sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q' crossorigin='anonymous'></script>

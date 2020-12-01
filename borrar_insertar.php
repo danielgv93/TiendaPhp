@@ -89,38 +89,171 @@ if (isset($_POST["borrar"])) {
 </head>
 
 <body>
-<?php if (isset($_SESSION["visitante"])): ?>
-    <nav class="navbar navbar-expand-lg navegador text-light">
-        <a class="navbar" href="main.php">
-            <img src="img/logo.png" class="d-inline-block align-top imagen">
-        </a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <i class="fas fa-align-justify"></i>
-        </button>
+    <?php if (isset($_SESSION["visitante"])) : ?>
+        <nav class="navbar navbar-expand-lg navegador text-light">
+            <a class="navbar" href="main.php">
+                <img src="img/logo.png" class="d-inline-block align-top imagen">
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <i class="fas fa-align-justify"></i>
+            </button>
 
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item active">
-                    <a class="nav-link" href="main.php">Inicio <span class="sr-only"></span></a>
-                </li>
-            </ul>
-            <form method="post" class="perfil" action="<?= htmlspecialchars($_SERVER["PHP_SELF"]) ?>" class="form-inline my-2 my-lg-0">
-                <div class="usuario d-inline ml-1">
-                    <a href="perfil.php">Bienvenido<i class="fas fa-user-tie fa-2x ml-2"></i></a>
-                </div>
-                <div class="logout d-inline ml-2">
-                    <a href="index.php"><i class="fas fa-sign-out-alt fa-2x"></i></a>
-                </div>
-            </form>
-        </div>
-    </nav>
-    <div class="container">
-        <div class="row justify-content-center mt-5">
-            <div class="col-6">
-                <!-- ELEGIR MODELO PARA CAMBIAR EL STOCK -->
-                <form action="<?= htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="post" class="border border-primary p-2 mb-3 rounded" name="formulario">
-                    <legend class="text-center header">Modificar stock</legend>
-                    <div class="form-group">
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="main.php">Inicio <span class="sr-only"></span></a>
+                    </li>
+                </ul>
+                <form method="post" class="perfil" action="<?= htmlspecialchars($_SERVER["PHP_SELF"]) ?>" class="form-inline my-2 my-lg-0">
+                    <div class="usuario d-inline ml-1">
+                        <a href="perfil.php">Bienvenido<i class="fas fa-user-tie fa-2x ml-2"></i></a>
+                    </div>
+                    <div class="logout d-inline ml-2">
+                        <a href="index.php"><i class="fas fa-sign-out-alt fa-2x"></i></a>
+                    </div>
+                </form>
+            </div>
+        </nav>
+        <div class="container">
+            <div class="row justify-content-center mt-5">
+                <div class="col-6">
+                    <!-- ELEGIR MODELO PARA CAMBIAR EL STOCK -->
+                    <form action="<?= htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="post" class="border border-primary p-2 mb-3 rounded" name="formulario">
+                        <legend class="text-center header">Modificar stock</legend>
+                        <div class="form-group">
+                            <select name="modelo" class="form-control">
+                                <?php
+                                $dispositivos = getDispositivos();
+                                foreach ($dispositivos as $id => $dispositivo) : ?>
+                                    <option value="<?= $id ?>" <?php if (isset($_POST["elegirModelo"]) && ($id == $_POST["modelo"])) echo "selected" ?>><?= $dispositivo["modelo"] ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
+                        <input type="submit" name="elegirModelo" class="btn btn-primary" value="Elegir Modelo">
+                    </form>
+
+                    <!-- CAMBIAR STOCK -->
+                    <?php if (isset($_POST["elegirModelo"])) : ?>
+                        <form action="<?= htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="post" class="border border-primary p-2 mb-3 rounded" name="formulario">
+                            <legend class="text-center header">Modelo elegido<?= " " . $dispositivos[$_POST["modelo"]]["modelo"] ?></legend>
+                            <div class="form-group">
+                                <input type="hidden" class="form-control" name="idModelo" value="<?= $_POST["modelo"] ?>">
+                                <label for="numero">Número de stock:</label>
+                                <input type="number" class="form-control" name="stockDispositivo" value="<?= $dispositivos[$_POST["modelo"]]["stock"] ?>">
+                            </div>
+                            <input type="submit" name="updateStock" class="btn btn-primary" value="Modificar Stock">
+                        </form>
+                    <?php endif; ?>
+
+                    <!-- ELEGIR DISPOSITIVO PARA INSERTAR -->
+                    <!-- HABRÁ 2 FORMS EN FUNCIÓN DE LA ELECCIÓN -->
+                    <form action="<?= htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="post" class="border border-primary p-2 mb- rounded" name="formulario">
+                        <legend class="text-center header">Insertar dispositivo</legend>
+                        <div class="form-group">
+                            <select name="tipoDispositivo" class="form-control">
+                                <option value="movil" <?php if (isset($_POST["submitTipoDisp"]) && ($_POST["tipoDispositivo"] == "movil")) echo "selected" ?>>
+                                    Móvil
+                                </option>
+                                <option value="reloj" <?php if (isset($_POST["submitTipoDisp"]) && ($_POST["tipoDispositivo"] == "reloj")) echo "selected" ?>>
+                                    Reloj
+                                </option>
+                            </select>
+                        </div>
+                        <input type="submit" name="submitTipoDisp" class="btn btn-primary" value="Elegir categoría">
+                    </form>
+
+
+                    <!-- INSERTAR MOVIL A LA BASE DE DATOS -->
+                    <?php if (isset($_POST["submitTipoDisp"]) && $_POST["tipoDispositivo"] == "movil") : ?>
+                        <form action="<?= htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="post" enctype="multipart/form-data" class="border border-primary p-2 mb-3 rounded">
+                            <legend class="text-center header">Insertar caracterísiticas del teléfono</legend>
+                            <div class="form-group">
+                                <label for="modelo">Modelo:</label>
+                                <input type="text" class="form-control" name="modelo" required>
+                                <label for="precio">Precio:</label>
+                                <input type="number" class="form-control" name="precio" step="any" min="0" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="gama">Gama:</label>
+                                <select name="gama" class="form-control">
+                                    <option value="alta">Alta</option>
+                                    <option value="media">Media</option>
+                                    <option value="baja">Baja</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="año">Año de lanzamiento:</label>
+                                <input type="number" class="form-control" name="anio">
+                                <label for="ram">RAM:</label>
+                                <input type="text" class="form-control" name="ram">
+                                <label for="Almacenamiento">Almacenamiento:</label>
+                                <input type="number" class="form-control" name="almacenamiento">
+                                <label for="procesador">Procesador:</label>
+                                <input type="text" class="form-control" name="procesador">
+                                <label for="bateria">Batería:</label>
+                                <input type="number" class="form-control" name="bateria">
+                                <label for="pulgadas">Pulgadas:</label>
+                                <input type="number" class="form-control" name="pulgadas" step="any">
+                                <label for="camara">Mpx:</label>
+                                <input type="number" class="form-control" name="camara" step="any">
+                            </div>
+                            <form-group>
+                                <label for="notch">Notch:</label>
+                                <select name="notch" class="form-control">
+                                    <option value="1">Si</option>
+                                    <option value="0">No</option>
+                                </select>
+                            </form-group>
+                            <input type="file" name="imagen" class="btn btn-secondary mt-2">
+                            <input type="submit" name="insertarMovil" value="Insertar Móvil" class="btn btn-success">
+                        </form>
+                    <?php endif; ?>
+                    <!-- INSERTAR RELOJ A LA BASE DE DATOS -->
+                    <?php if (isset($_POST["submitTipoDisp"]) && $_POST["tipoDispositivo"] == "reloj") : ?>
+                        <form action="<?= htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="post" enctype="multipart/form-data" class="border border-primary p-2 mb-3 rounded">
+                            <legend class="text-center header">Insertar caracterísiticas del reloj</legend>
+                            <div class="form-group">
+                                <label for="modelo">Modelo:</label>
+                                <input type="text" class="form-control" name="modelo" required>
+                                <label for="precio">Precio:</label>
+                                <input type="number" class="form-control" name="precio" step="any" min="0" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="gama">Gama:</label>
+                                <select name="gama" class="form-control">
+                                    <option value="alta">Alta</option>
+                                    <option value="media">Media</option>
+                                    <option value="baja">Baja</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="año">Año de lanzamiento:</label>
+                                <input type="number" class="form-control" name="anio">
+                                <label for="ram">RAM:</label>
+                                <input type="text" class="form-control" name="ram">
+                                <label for="Almacenamiento">Almacenamiento:</label>
+                                <input type="number" class="form-control" name="almacenamiento">
+                                <label for="procesador">Procesador:</label>
+                                <input type="text" class="form-control" name="procesador">
+                                <label for="bateria">Batería:</label>
+                                <input type="number" class="form-control" name="bateria">
+                                <label for="pulgadas">Pulgadas:</label>
+                                <input type="number" class="form-control" name="pulgadas" step="any">
+
+                            </div>
+                            <form-group>
+                                <label for="sim">SIM:</label>
+                                <select name="sim" class="form-control">
+                                    <option value="1">Si</option>
+                                    <option value="0">No</option>
+                                </select>
+                            </form-group>
+                            <input type="file" name="imagen" class="btn btn-secondary mt-2">
+                            <input type="submit" name="insertarReloj" value="Insertar Reloj" class="btn btn-success">
+                        </form>
+                    <?php endif; ?>
+                    <form action="<?= htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="post" class="border border-primary p-2 mt-3 rounded">
+                        <legend class="text-center header">Borrar dispositivo</legend>
                         <select name="modelo" class="form-control">
                             <?php
                             $dispositivos = getDispositivos();
@@ -128,162 +261,36 @@ if (isset($_POST["borrar"])) {
                                 <option value="<?= $id ?>" <?php if (isset($_POST["elegirModelo"]) && ($id == $_POST["modelo"])) echo "selected" ?>><?= $dispositivo["modelo"] ?></option>
                             <?php endforeach; ?>
                         </select>
-                    </div>
-                    <input type="submit" name="elegirModelo" class="btn btn-primary" value="Elegir Modelo">
-                </form>
-
-                <!-- CAMBIAR STOCK -->
-                <?php if (isset($_POST["elegirModelo"])) : ?>
-                    <form action="<?= htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="post" class="border border-primary p-2 mb-3 rounded" name="formulario">
-                        <legend class="text-center header">Modelo elegido<?= " " . $dispositivos[$_POST["modelo"]]["modelo"] ?></legend>
-                        <div class="form-group">
-                            <input type="hidden" class="form-control" name="idModelo" value="<?= $_POST["modelo"] ?>">
-                            <label for="numero">Número de stock:</label>
-                            <input type="number" class="form-control" name="stockDispositivo" value="<?= $dispositivos[$_POST["modelo"]]["stock"] ?>">
-                        </div>
-                        <input type="submit" name="updateStock" class="btn btn-primary" value="Modificar Stock">
+                        <input type="submit" name="borrar" value="Borrar Modelo" class="btn btn-danger mt-2">
                     </form>
-                <?php endif; ?>
-
-                <!-- ELEGIR DISPOSITIVO PARA INSERTAR -->
-                <!-- HABRÁ 2 FORMS EN FUNCIÓN DE LA ELECCIÓN -->
-                <form action="<?= htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="post" class="border border-primary p-2 mb- rounded" name="formulario">
-                    <legend class="text-center header">Insertar dispositivo</legend>
-                    <div class="form-group">
-                        <select name="tipoDispositivo" class="form-control">
-                            <option value="movil" <?php if (isset($_POST["submitTipoDisp"]) && ($_POST["tipoDispositivo"] == "movil")) echo "selected" ?>>
-                                Móvil
-                            </option>
-                            <option value="reloj" <?php if (isset($_POST["submitTipoDisp"]) && ($_POST["tipoDispositivo"] == "reloj")) echo "selected" ?>>
-                                Reloj
-                            </option>
-                        </select>
-                    </div>
-                    <input type="submit" name="submitTipoDisp" class="btn btn-primary" value="Elegir categoría">
-                </form>
-
-
-                <!-- INSERTAR MOVIL A LA BASE DE DATOS -->
-                <?php if (isset($_POST["submitTipoDisp"]) && $_POST["tipoDispositivo"] == "movil") : ?>
-                    <form action="<?= htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="post" enctype="multipart/form-data" class="border border-primary p-2 mb-3 rounded">
-                        <legend class="text-center header">Insertar caracterísiticas del teléfono</legend>
-                        <div class="form-group">
-                            <label for="modelo">Modelo:</label>
-                            <input type="text" class="form-control" name="modelo" required>
-                            <label for="precio">Precio:</label>
-                            <input type="number" class="form-control" name="precio" step="any" min="0" required>
+                    <?php if (!empty($mensajeError)) : ?>
+                        <div class='col-12 mt-3 alert alert-warning text-center' role='alert'>
+                            <?= $mensajeError ?>
                         </div>
-                        <div class="form-group">
-                            <label for="gama">Gama:</label>
-                            <select name="gama" class="form-control">
-                                <option value="alta">Alta</option>
-                                <option value="media">Media</option>
-                                <option value="baja">Baja</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="año">Año de lanzamiento:</label>
-                            <input type="number" class="form-control" name="anio">
-                            <label for="ram">RAM:</label>
-                            <input type="text" class="form-control" name="ram">
-                            <label for="Almacenamiento">Almacenamiento:</label>
-                            <input type="number" class="form-control" name="almacenamiento">
-                            <label for="procesador">Procesador:</label>
-                            <input type="text" class="form-control" name="procesador">
-                            <label for="bateria">Batería:</label>
-                            <input type="number" class="form-control" name="bateria">
-                            <label for="pulgadas">Pulgadas:</label>
-                            <input type="number" class="form-control" name="pulgadas" step="any">
-                            <label for="camara">Mpx:</label>
-                            <input type="number" class="form-control" name="camara" step="any">
-                        </div>
-                        <form-group>
-                            <label for="notch">Notch:</label>
-                            <select name="notch" class="form-control">
-                                <option value="1">Si</option>
-                                <option value="0">No</option>
-                            </select>
-                        </form-group>
-                        <input type="file" name="imagen" class="btn btn-secondary mt-2">
-                        <input type="submit" name="insertarMovil" value="Insertar Móvil" class="btn btn-success">
-                    </form>
-                <?php endif; ?>
-                <!-- INSERTAR RELOJ A LA BASE DE DATOS -->
-                <?php if (isset($_POST["submitTipoDisp"]) && $_POST["tipoDispositivo"] == "reloj") : ?>
-                    <form action="<?= htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="post" enctype="multipart/form-data" class="border border-primary p-2 mb-3 rounded">
-                        <legend class="text-center header">Insertar caracterísiticas del reloj</legend>
-                        <div class="form-group">
-                            <label for="modelo">Modelo:</label>
-                            <input type="text" class="form-control" name="modelo" required>
-                            <label for="precio">Precio:</label>
-                            <input type="number" class="form-control" name="precio" step="any" min="0" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="gama">Gama:</label>
-                            <select name="gama" class="form-control">
-                                <option value="alta">Alta</option>
-                                <option value="media">Media</option>
-                                <option value="baja">Baja</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="año">Año de lanzamiento:</label>
-                            <input type="number" class="form-control" name="anio">
-                            <label for="ram">RAM:</label>
-                            <input type="text" class="form-control" name="ram">
-                            <label for="Almacenamiento">Almacenamiento:</label>
-                            <input type="number" class="form-control" name="almacenamiento">
-                            <label for="procesador">Procesador:</label>
-                            <input type="text" class="form-control" name="procesador">
-                            <label for="bateria">Batería:</label>
-                            <input type="number" class="form-control" name="bateria">
-                            <label for="pulgadas">Pulgadas:</label>
-                            <input type="number" class="form-control" name="pulgadas" step="any">
-
-                        </div>
-                        <form-group>
-                            <label for="sim">SIM:</label>
-                            <select name="sim" class="form-control">
-                                <option value="1">Si</option>
-                                <option value="0">No</option>
-                            </select>
-                        </form-group>
-                        <input type="file" name="imagen" class="btn btn-secondary mt-2">
-                        <input type="submit" name="insertarReloj" value="Insertar Reloj" class="btn btn-success">
-                    </form>
-                <?php endif; ?>
-                <form action="<?= htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="post" class="border border-primary p-2 mt-3 rounded">
-                    <legend class="text-center header">Borrar dispositivo</legend>
-                    <select name="modelo" class="form-control">
-                        <?php
-                        $dispositivos = getDispositivos();
-                        foreach ($dispositivos as $id => $dispositivo) : ?>
-                            <option value="<?= $id ?>" <?php if (isset($_POST["elegirModelo"]) && ($id == $_POST["modelo"])) echo "selected" ?>><?= $dispositivo["modelo"] ?></option>
-                        <?php endforeach; ?>
-                    </select>
-                    <input type="submit" name="borrar" value="Borrar Modelo" class="btn btn-danger mt-2">
-                </form>
-                <?php if(!empty($mensajeError)) : ?>
-                <div class='col-12 mt-3 alert alert-warning text-center' role='alert'>
-                <?= $mensajeError ?>
+                    <?php endif; ?>
                 </div>
-                <?php endif; ?>
             </div>
         </div>
-    </div>
 
-    <footer class="page-footer font-small blue">
-        <div class="footer-copyright text-center py-3">&copy; 2020 Copyright:
-            <a href="http://web2.iesmiguelherrero.com/"> IES Miguel Herrero</a>
-            &reg; <a href="index.php">P3</a>
-            <a href="https://www.instagram.com/?hl=es"> <i class="fab fa-instagram ml-3"></i></a>
-            <a href="https://twitter.com/IbaiLlanos"> <i class="fab fa-twitter"></i></a>
+        <footer class="page-footer font-small blue">
+            <div class="footer-copyright text-center py-3">&copy; 2020 Copyright:
+                <a href="http://web2.iesmiguelherrero.com/"> IES Miguel Herrero</a>
+                &reg; <a href="index.php">P3</a>
+                <a href="https://www.instagram.com/?hl=es"> <i class="fab fa-instagram ml-3"></i></a>
+                <a href="https://twitter.com/IbaiLlanos"> <i class="fab fa-twitter"></i></a>
+            </div>
+        </footer>
+    <?php else : ?>
+        <div class="container">
+            <div>
+                <div class="alert alert-warning aviso" role="alert">
+                    Parece que aún no has <a href="index.php" class="alert-link">iniciado sesión</a>. No dudes en hacerlo!
+                    <i class="far fa-comment-dots fa-8x"></i>
+                </div>
+            </div>
         </div>
-    </footer>
-<?php else : ?>
 
-
-<?php endif; ?>
+    <?php endif; ?>
 </body>
 <script src='https://code.jquery.com/jquery-3.2.1.slim.min.js' integrity='sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN' crossorigin='anonymous'></script>
 <script src='https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js' integrity='sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q' crossorigin='anonymous'></script>
