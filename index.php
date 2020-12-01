@@ -1,12 +1,13 @@
 <?php
 require_once "sql/queries.php";
-
+session_start();
 $errorLogin = "";
 if (isset($_POST["login"])) {
     if (empty($_POST["usuario"]) || empty($_POST["password"])) {
         $errorLogin = "Debes introducir todos los campos";
     } else {
-        if (checkUsuarioPass($_POST["usuario"], $_POST["password"])) {
+        if (($id = checkUsuarioPass($_POST["usuario"], $_POST["password"])) !== 0) {
+            $_SESSION["visitante"] = getUsuario($id);
             header("Location: main.php");
             exit();
         } else {

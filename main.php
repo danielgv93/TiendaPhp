@@ -1,5 +1,6 @@
 <?php
 require_once "sql/queries.php";
+session_start();
 
 
 if (isset($_POST["buscar"])) {
@@ -50,6 +51,7 @@ function busqueda($busquedaSelected)
 </head>
 
 <body>
+<?php if(isset($_SESSION["visitante"])) :?>
     <nav class="navbar navbar-expand-lg navegador text-light">
         <a class="navbar" href="main.php">
             <img src="img/logo.png" class="d-inline-block align-top imagen">
@@ -86,7 +88,7 @@ function busqueda($busquedaSelected)
             </div>
             <form method="post" class="perfil form-inline my-2 my-lg-0" action="<?= htmlspecialchars($_SERVER["PHP_SELF"]) ?>">
                 <div class="usuario d-inline ml-1">
-                    <a href="perfil.php">Bienvenido<i class="fas fa-user-tie fa-2x ml-2"></i></a>
+                    <a href="perfil.php">Bienvenido <?= $_SESSION["visitante"]["nombre"] ?><i class="fas fa-user-tie fa-2x ml-2"></i></a>
                 </div>
                 <div class="logout d-inline ml-2">
                     <a href="index.php"><i class="fas fa-sign-out-alt fa-2x"></i></a>
@@ -140,6 +142,12 @@ function busqueda($busquedaSelected)
             <a href="https://twitter.com/IbaiLlanos"> <i class="fab fa-twitter"></i></a>
         </div>
     </footer>
+    <?php else : ?>
+    <h1>NO SE PUEDE ACCEDER</h1><br>
+    <a href="index.php">VOLVER</a>
+
+
+    <?php endif;?>
 </body>
 <script src='https://code.jquery.com/jquery-3.2.1.slim.min.js' integrity='sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN' crossorigin='anonymous'></script>
 <script src='https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js' integrity='sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q' crossorigin='anonymous'></script>

@@ -3,6 +3,7 @@
 <div class='col-12 mt-3 alert alert-danger text-center' role='alert'>CLASE DE FALLO</div> -->
 <?php
 require_once "sql/queries.php";
+session_start();
 
 $mensajeError = "";
 if (isset($_POST["updateStock"])) {

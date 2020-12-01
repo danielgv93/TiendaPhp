@@ -1,5 +1,5 @@
 <?php
-
+session_start();
 ?>
 <!DOCTYPE html>
 <html lang='en'>
@@ -46,10 +46,13 @@
     </nav>
     <div class="container">
         <div class="row justify-content-center mt-5">
-            <div class="col-4">
-                <legend>Configurar trastienda</legend>
-                <a href="borrar_insertar.php"><i class="fas fa-box-open fa-10x"></i></a>
-            </div>
+            <?php if ($_SESSION["visitante"]["admin"] == 1): ?>
+                <div class="col-4">
+                    <legend>Configurar trastienda</legend>
+                    <a href="borrar_insertar.php"><i class="fas fa-box-open fa-10x"></i></a>
+                </div>
+            <?php endif ?>
+            <!--TODO: CAMBIAR DATOS DEL USUARIO POR INPUTS-->
             <div class="col-4">
                 <legend>Cambiar el usuario</legend>
                 <a href="perfil.php"><i class="fas fa-user-edit fa-10x"></i></a>

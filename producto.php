@@ -1,5 +1,7 @@
 <?php
 require_once "sql/queries.php";
+session_start();
+
 if (isset($_GET["ficha"])) {
     $idSelected = $_GET["id"];
     list($ficha, $tipo) = getFicha($idSelected);

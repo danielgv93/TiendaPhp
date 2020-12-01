@@ -29,6 +29,29 @@ function addUsuario($nombre, $apellidos, $email, $usuario, $password)
 
 }
 
+function getUsuario($id)
+{
+    $conexion = getConexionPDO();
+    $sql = "SELECT * from usuarios where id = ? ";
+    $consulta = $conexion->prepare($sql);
+    $consulta->bindParam(1, $id);
+    if ($consulta->execute()) {
+        $consulta->bindColumn(1, $id);
+        $consulta->bindColumn(2, $usuario);
+        $consulta->bindColumn(3, $pass);
+        $consulta->bindColumn(4, $nombre);
+        $consulta->bindColumn(5, $apellidos);
+        $consulta->bindColumn(6, $email);
+        $consulta->bindColumn(7, $foto_perfil);
+        $consulta->bindColumn(8, $admin);
+        if ($consulta->fetch()) {
+            return array("id"=>$id, "usuario"=>$usuario, "nombre"=>$nombre, "apellidos"=>$apellidos, "email"=>$email,
+                "foto_perfil"=>$foto_perfil, "admin"=>$admin);
+        }
+    }
+    return 0;
+}
+
 /*function isAdmin($usuario, $password)
 {
     $conexion = getConexionPDO();
@@ -59,13 +82,14 @@ function checkUsuario($usuario)
 function checkUsuarioPass($usuario, $password)
 {
     $conexion = getConexionPDO();
-    $sql = "SELECT usuario, pass from usuarios where usuario = ? AND pass = MD5(?)";
+    $sql = "SELECT id, usuario, pass from usuarios where usuario = ? AND pass = MD5(?)";
     $consulta = $conexion->prepare($sql);
     $consulta->bindParam(1, $usuario);
     $consulta->bindParam(2, $password);
     if ($consulta->execute()) {
+        $consulta->bindColumn(1, $id);
         if ($consulta->fetch()) {
-            return 1;
+            return $id;
         }
     }
     return 0;
