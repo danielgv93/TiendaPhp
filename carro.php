@@ -2,12 +2,6 @@
 require_once "funciones.php";
 
 session_start();
-if (!isset($_SESSION["carrito"])) {
-    $_SESSION["carrito"][] = array(
-        "id" => 2, "modelo" => "One Plus 3", "imagen" => "img/dispositivos/OnePlus Nord.jpg",
-        "precio" => 30
-    );
-}
 
 ?>
 <!DOCTYPE html>

@@ -2,6 +2,7 @@
 require_once "sql/queries.php";
 session_start();
 
+$carrito = "";
 
 if (isset($_POST["buscar"])) {
     $arrayDispositivos = busqueda($_POST["busquedaInput"]);
@@ -11,6 +12,11 @@ if (isset($_POST["telefonos"])) {
 }
 if (isset($_POST["relojes"])) {
     $arrayDispositivos = getRelojes();
+}
+
+if (isset($_POST["cart"])) {
+    $_SESSION["carrito"][] = getProducto($_POST["id"]);
+    $carrito = "Se añadio 1 ". $_SESSION["carrito"][count($_SESSION["carrito"])-1]["modelo"] . " a la cesta.";
 }
 
 function busqueda($busquedaSelected)
@@ -46,7 +52,16 @@ function busqueda($busquedaSelected)
     <link rel="stylesheet" href="/font-awesome-4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
     <link rel="stylesheet" href="css/main.css">
-
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <?php if(isset($_POST["cart"])) : ?>
+        <script>
+            Swal.fire(
+                'Good job!',
+                'You clicked the button!',
+                'success'
+            )
+        </script>
+    <?php endif?>
 
 </head>
 
@@ -122,9 +137,12 @@ function busqueda($busquedaSelected)
                                         <button type="submit" class="btn ml-2 btn btn-info" name="ficha" id="ficha"> <i class="fas fa-align-left"></i></button>
                                     </div>
                                 </form>
-                                <div class="d-inline">
-                                    <button type="submit" class="btn btn-warning ml-2" name="cart" id="cart"> <i class="fas fa-shopping-cart"></i>
-                                </div>
+                                <form action="<?= htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="post">
+                                    <input type="hidden" name="id" value="<?= $id ?>">
+                                    <div class="d-inline">
+                                        <button type="submit" class="btn btn-warning ml-2" name="cart" id="cart"> <i class="fas fa-shopping-cart"></i>
+                                    </div>
+                                </form>
                             </div>
                         </div>
                         <?php if ($elementoActual === $limite - 1) echo "</div>";
