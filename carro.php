@@ -86,18 +86,21 @@ if (!isset($_SESSION["carrito"])) {
                                                 <!-- Esto lo metes en uno de esos bucles tuyos rechingones bien vergosos
                                             y sacas todos los productos que haya añadidos asin en esa tablita -->
                                                 <tbody>
+                                                <!--TODO: COMPLETAR EL FORMULARIO-->
                                                 <?php foreach($_SESSION["carrito"] as $producto) : ?>
                                                     <tr>
                                                         <th scope="row" class="border-0">
                                                             <div class="p-2">
-                                                                <img src="<?= $producto["imagen"] ?>" alt="" width="70" class="img-fluid rounded shadow-sm">
+                                                                <img src="<?= $producto["imagen"] ?>" alt="Imagen de <?= $producto["imagen"] ?>" width="70" class="img-fluid rounded shadow-sm">
                                                                 <div class="ml-3 d-inline-block align-middle">
-                                                                    <h5 class="mb-0"> <a href="#" class="text-dark d-inline-block align-middle">Poco Phone mi abuelo</a></h5><span class="text-muted font-weight-normal font-italic d-block">Categoría: Smartwaches</span>
+                                                                    <h5 class="mb-0"> <a href="#" class="text-dark d-inline-block align-middle"><?= $producto["modelo"] ?></a></h5><span class="text-muted font-weight-normal font-italic d-block">Categoría: Smartwaches</span>
                                                                 </div>
                                                             </div>
                                                         </th>
-                                                        <td class="border-0 align-middle"><strong>tu vaina php</strong></td>
-                                                        <td class="border-0 align-middle"><strong>tu vaina php</strong></td>
+                                                        <td class="border-0 align-middle"><strong><?= $producto["precio"] ?></strong></td>
+                                                        <td class="border-0 align-middle"><strong><input type="number"
+                                                                                                         name="cantidad[]"<!--Con corchetes???-->
+                                                                                                         id="" value="1"></strong></td>
                                                         <td class="align-middle"><button class="btn"><i class="fas fa-trash"></i></button>
                                                     </tr>
                                                 <?php endforeach; ?>
@@ -123,7 +126,7 @@ if (!isset($_SESSION["carrito"])) {
                                         <div class="bg-light px-4 py-3 text-uppercase font-weight-bold">Comentarios para el vendedor</div>
                                         <div class="p-4">
                                             <p class="font-italic mb-4">Si tiene algún comentario o sugerencia para el vendedor, por favor escríbela debajo</p>
-                                            <textarea name="" cols="30" rows="2" class="form-control"></textarea>
+                                            <textarea name="comentario" cols="30" rows="2" class="form-control"></textarea>
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
@@ -139,7 +142,7 @@ if (!isset($_SESSION["carrito"])) {
                                                         <!-- tu vaina php --></strong></li>
                                                 <li class="d-flex justify-content-between py-3 border-bottom"><strong class="text-muted">Total</strong>
                                                     <h5 class="font-weight-bold">
-                                                        <!-- tu vaina php -->
+                                                        <label id=""></label>
                                                     </h5>
                                                 </li>
                                             </ul><a href="#" class="btn btn-dark py-2 btn-block">Continuar al pago</a>
