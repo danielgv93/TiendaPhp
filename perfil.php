@@ -37,7 +37,7 @@ require_once "funciones.php";
 
                 <form method="post" class="perfil form-inline my-2 my-lg-0" action="<?= htmlspecialchars($_SERVER["PHP_SELF"]) ?>">
                     <div class="usuario d-inline ml-1">
-                        <a href="perfil.php"><?= $_SESSION["visitante"]["nombre"] . " " . $_SESSION["visitante"]["apellidos"] ?><i class="fas fa-user-tie fa-2x ml-2"></i></a>
+                        <a href="perfil.php" title="perfil"><?= $_SESSION["visitante"]["nombre"] . " " . $_SESSION["visitante"]["apellidos"] ?><i class="fas fa-user-tie fa-2x ml-2"></i></a>
                     </div>
                     <div class="logout d-inline ml-2">
                         <a href="logout.php"><i class="fas fa-sign-out-alt fa-2x"></i></a>

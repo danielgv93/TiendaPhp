@@ -3,8 +3,10 @@ require_once "funciones.php";
 
 session_start();
 if (!isset($_SESSION["carrito"])) {
-    $_SESSION["carrito"][] = array("id" => 2, "modelo" => "One Plus 3", "imagen" => "img/dispositivos/OnePlus Nord.jpg",
-        "precio" => 30);
+    $_SESSION["carrito"][] = array(
+        "id" => 2, "modelo" => "One Plus 3", "imagen" => "img/dispositivos/OnePlus Nord.jpg",
+        "precio" => 30
+    );
 }
 
 ?>
@@ -54,40 +56,40 @@ if (!isset($_SESSION["carrito"])) {
         </nav>
         <div class="container">
             <div class="row justify-content-center mt-5">
-                    <div class="px-4 px-lg-0">
+                <div class="px-4 px-lg-0">
 
-                        <div class="pb-5">
-                            <div class="container">
-                                <div class="py-5 text-center">
-                                    <h1 class="display-4">Cesta de la compra</h1>
-                                    <p class="lead mb-0">Suscríbete a nuestro catálogo y disfruta de nuestros descuentos para socios!</p>
-                                </div>
-                                <div class="row">
-                                    <div class="col-lg-12 p-5 bg-white rounded shadow-sm mb-5">
-                                        <div class="table-responsive">
-                                            <table class="table">
-                                                <!-- Esto asi a machete, no toques na -->
-                                                <thead>
-                                                    <tr>
-                                                        <th scope="col" class="border-0 bg-light">
-                                                            <div class="p-2 px-3 text-uppercase">Producto</div>
-                                                        </th>
-                                                        <th scope="col" class="border-0 bg-light">
-                                                            <div class="py-2 text-uppercase">Precio</div>
-                                                        </th>
-                                                        <th scope="col" class="border-0 bg-light">
-                                                            <div class="py-2 text-uppercase">Cantidad</div>
-                                                        </th>
-                                                        <th scope="col" class="border-0 bg-light">
-                                                            <div class="py-2 text-uppercase">Eliminar</div>
-                                                        </th>
-                                                    </tr>
-                                                </thead>
-                                                <!-- Esto lo metes en uno de esos bucles tuyos rechingones bien vergosos
+                    <div class="pb-5">
+                        <div class="container">
+                            <div class="py-5 text-center">
+                                <h1 class="display-4">Cesta de la compra</h1>
+                                <p class="lead mb-0">Suscríbete a nuestro catálogo y disfruta de nuestros descuentos para socios!</p>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-12 p-5 bg-white rounded shadow-sm mb-5">
+                                    <div class="table-responsive">
+                                        <table class="table">
+                                            <!-- Esto asi a machete, no toques na -->
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col" class="border-0 bg-light">
+                                                        <div class="p-2 px-3 text-uppercase">Producto</div>
+                                                    </th>
+                                                    <th scope="col" class="border-0 bg-light">
+                                                        <div class="py-2 text-uppercase">Precio</div>
+                                                    </th>
+                                                    <th scope="col" class="border-0 bg-light">
+                                                        <div class="py-2 text-uppercase">Cantidad</div>
+                                                    </th>
+                                                    <th scope="col" class="border-0 bg-light">
+                                                        <div class="py-2 text-uppercase">Eliminar</div>
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <!-- Esto lo metes en uno de esos bucles tuyos rechingones bien vergosos
                                             y sacas todos los productos que haya añadidos asin en esa tablita -->
-                                                <tbody>
+                                            <tbody>
                                                 <!--TODO: COMPLETAR EL FORMULARIO-->
-                                                <?php foreach($_SESSION["carrito"] as $producto) : ?>
+                                                <?php foreach ($_SESSION["carrito"] as $producto) : ?>
                                                     <tr>
                                                         <th scope="row" class="border-0">
                                                             <div class="p-2">
@@ -98,61 +100,60 @@ if (!isset($_SESSION["carrito"])) {
                                                             </div>
                                                         </th>
                                                         <td class="border-0 align-middle"><strong><?= $producto["precio"] ?></strong></td>
-                                                        <td class="border-0 align-middle"><strong><input type="number"
-                                                                                                         name="cantidad[]"<!--Con corchetes???-->
-                                                                                                         id="" value="1"></strong></td>
+                                                        <td class="border-0 align-middle"><strong><input type="number" name="cantidad[]" <!--Con corchetes???-->
+                                                                id="" value="1"></strong></td>
                                                         <td class="align-middle"><button class="btn"><i class="fas fa-trash"></i></button>
                                                     </tr>
                                                 <?php endforeach; ?>
-                                                </tbody>
-                                            </table>
-                                        </div>
-
+                                            </tbody>
+                                        </table>
                                     </div>
-                                </div>
 
-                                <div class="row py-5 p-4 bg-white rounded shadow-sm">
-                                    <div class="col-lg-6">
-                                        <div class="bg-light px-4 py-3 text-uppercase font-weight-bold">Codigo de descuento</div>
-                                        <div class="p-4">
-                                            <p class="font-italic mb-4">Si tiene codigo de descuento, introducelo debajo</p>
-                                            <div class="input-group mb-4 border p-2">
-                                                <input type="text" placeholder="Cupón descuento" aria-describedby="button-addon3" class="form-control border-0">
-                                                <div class="input-group-append border-0">
-                                                    <button id="button-addon3" type="button" class="btn btn-dark px-4"><i class="fa fa-gift mr-2"></i>Aplicar cupón</button>
-                                                </div>
+                                </div>
+                            </div>
+
+                            <div class="row py-5 p-4 bg-white rounded shadow-sm">
+                                <div class="col-lg-6">
+                                    <div class="bg-light px-4 py-3 text-uppercase font-weight-bold">Codigo de descuento</div>
+                                    <div class="p-4">
+                                        <p class="font-italic mb-4">Si tiene codigo de descuento, introducelo debajo</p>
+                                        <div class="input-group mb-4 border p-2">
+                                            <input type="text" placeholder="Cupón descuento" aria-describedby="button-addon3" class="form-control border-0">
+                                            <div class="input-group-append border-0">
+                                                <button id="button-addon3" type="button" class="btn btn-dark px-4"><i class="fa fa-gift mr-2"></i>Aplicar cupón</button>
                                             </div>
                                         </div>
-                                        <div class="bg-light px-4 py-3 text-uppercase font-weight-bold">Comentarios para el vendedor</div>
-                                        <div class="p-4">
-                                            <p class="font-italic mb-4">Si tiene algún comentario o sugerencia para el vendedor, por favor escríbela debajo</p>
-                                            <textarea name="comentario" cols="30" rows="2" class="form-control"></textarea>
-                                        </div>
                                     </div>
-                                    <div class="col-lg-6">
-                                        <div class="bg-light px-4 py-3 text-uppercase font-weight-bold">Resumen del pedido</div>
-                                        <div class="p-4">
-                                            <p class="font-italic mb-4">Gastos de envío y descuentos calculados a continuación</p>
-                                            <ul class="list-unstyled mb-4">
-                                                <li class="d-flex justify-content-between py-3 border-bottom"><strong class="text-muted">Total pedido </strong><strong>
-                                                        <!-- tu vaina php --></strong></li>
-                                                <li class="d-flex justify-content-between py-3 border-bottom"><strong class="text-muted">Envío y procesamiento</strong><strong>
-                                                        <!-- tu vaina php --></strong></li>
-                                                <li class="d-flex justify-content-between py-3 border-bottom"><strong class="text-muted">IVA</strong><strong>
-                                                        <!-- tu vaina php --></strong></li>
-                                                <li class="d-flex justify-content-between py-3 border-bottom"><strong class="text-muted">Total</strong>
-                                                    <h5 class="font-weight-bold">
-                                                        <label id=""></label>
-                                                    </h5>
-                                                </li>
-                                            </ul><a href="#" class="btn btn-dark py-2 btn-block">Continuar al pago</a>
-                                        </div>
+                                    <div class="bg-light px-4 py-3 text-uppercase font-weight-bold">Comentarios para el vendedor</div>
+                                    <div class="p-4">
+                                        <p class="font-italic mb-4">Si tiene algún comentario o sugerencia para el vendedor, por favor escríbela debajo</p>
+                                        <textarea name="comentario" cols="30" rows="2" class="form-control"></textarea>
                                     </div>
                                 </div>
-
+                                <div class="col-lg-6">
+                                    <div class="bg-light px-4 py-3 text-uppercase font-weight-bold">Resumen del pedido</div>
+                                    <div class="p-4">
+                                        <p class="font-italic mb-4">Gastos de envío y descuentos calculados a continuación</p>
+                                        <ul class="list-unstyled mb-4">
+                                            <li class="d-flex justify-content-between py-3 border-bottom"><strong class="text-muted">Total pedido </strong><strong>
+                                                    <!-- tu vaina php --></strong></li>
+                                            <li class="d-flex justify-content-between py-3 border-bottom"><strong class="text-muted">Envío y procesamiento</strong><strong>
+                                                    <!-- tu vaina php --></strong></li>
+                                            <li class="d-flex justify-content-between py-3 border-bottom"><strong class="text-muted">IVA</strong><strong>
+                                                    <!-- tu vaina php --></strong></li>
+                                            <li class="d-flex justify-content-between py-3 border-bottom"><strong class="text-muted">Total</strong>
+                                                <h5 class="font-weight-bold">
+                                                    <label id=""></label>
+                                                </h5>
+                                            </li>
+                                        </ul><a href="#" class="btn btn-dark py-2 btn-block">Continuar al pago</a>
+                                    </div>
+                                </div>
                             </div>
+
                         </div>
                     </div>
+                </div>
             </div>
         </div>
         <footer class="page-footer font-small blue">

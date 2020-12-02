@@ -88,13 +88,13 @@ function busqueda($busquedaSelected)
                 </div>
                 <form method="post" class="perfil form-inline my-2 my-lg-0" action="<?= htmlspecialchars($_SERVER["PHP_SELF"]) ?>">
                     <div class="usuario d-inline ml-1">
-                        <a href="perfil.php">Bienvenido <?= $_SESSION["visitante"]["nombre"] ?><i class="fas fa-user-tie fa-2x ml-2"></i></a>
+                        <a href="perfil.php" title="perfil">Bienvenido <?= $_SESSION["visitante"]["nombre"] ?><i class="fas fa-user-tie fa-2x ml-2"></i></a>
                     </div>
                     <div class="logout d-inline ml-2">
                         <a href="logout.php"><i class="fas fa-sign-out-alt fa-2x"></i></a>
                     </div>
                     <div class="logout d-inline ml-2">
-                        <a href="carro.php"><i class="fas fa-shopping-cart fa-2x"></i></a>
+                        <a href="carro.php" title="cesta"><i class="fas fa-shopping-cart fa-2x"></i></a>
                     </div>
                 </form>
             </div>
