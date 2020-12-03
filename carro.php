@@ -1,4 +1,5 @@
 <?php
+require_once "sql/queries.php";
 require_once "funciones.php";
 
 session_start();
@@ -42,7 +43,7 @@ session_start();
                         <a href="perfil.php"><?= $_SESSION["visitante"]["nombre"] . " " . $_SESSION["visitante"]["apellidos"] ?><i class="fas fa-user-tie fa-2x ml-2"></i></a>
                     </div>
                     <div class="logout d-inline ml-2">
-                        <a href="index.php"><i class="fas fa-sign-out-alt fa-2x"></i></a>
+                        <a href="logout.php"><i class="fas fa-sign-out-alt fa-2x"></i></a>
                     </div>
                 </form>
             </div>
@@ -58,12 +59,13 @@ session_start();
                                 <h1 class="display-4">Cesta de la compra</h1>
                                 <p class="lead mb-0">Suscríbete a nuestro catálogo y disfruta de nuestros descuentos para socios!</p>
                             </div>
-                            <div class="row">
-                                <div class="col-lg-12 p-5 bg-white rounded shadow-sm mb-5">
-                                    <div class="table-responsive">
-                                        <table class="table">
-                                            <!-- Esto asi a machete, no toques na -->
-                                            <thead>
+                            <form action="compra.php" method="post">
+                                <div class="row">
+                                    <div class="col-lg-12 p-5 bg-white rounded shadow-sm mb-5">
+                                        <div class="table-responsive">
+                                            <table class="table">
+                                                <!-- Esto asi a machete, no toques na -->
+                                                <thead>
                                                 <tr>
                                                     <th scope="col" class="border-0 bg-light">
                                                         <div class="p-2 px-3 text-uppercase">Producto</div>
@@ -78,73 +80,106 @@ session_start();
                                                         <div class="py-2 text-uppercase">Eliminar</div>
                                                     </th>
                                                 </tr>
-                                            </thead>
-                                            <!-- Esto lo metes en uno de esos bucles tuyos rechingones bien vergosos
-                                            y sacas todos los productos que haya añadidos asin en esa tablita -->
-                                            <tbody>
+                                                </thead>
+                                                <!-- Esto lo metes en uno de esos bucles tuyos rechingones bien vergosos
+                                                y sacas todos los productos que haya añadidos asin en esa tablita -->
+                                                <tbody>
                                                 <!--TODO: COMPLETAR EL FORMULARIO-->
-                                                <?php foreach ($_SESSION["carrito"] as $producto) : ?>
+
+                                                <?php if (isset($_SESSION["carrito"])) foreach ($_SESSION["carrito"] as $id => $producto) : ?>
                                                     <tr>
                                                         <th scope="row" class="border-0">
                                                             <div class="p-2">
-                                                                <img src="<?= $producto["imagen"] ?>" alt="Imagen de <?= $producto["imagen"] ?>" width="70" class="img-fluid rounded shadow-sm">
+                                                                <img src="<?= $producto["imagen"] ?>"
+                                                                     alt="Imagen de <?= $producto["imagen"] ?>"
+                                                                     width="70" class="img-fluid rounded shadow-sm">
                                                                 <div class="ml-3 d-inline-block align-middle">
-                                                                    <h5 class="mb-0"> <a href="#" class="text-dark d-inline-block align-middle"><?= $producto["modelo"] ?></a></h5><span class="text-muted font-weight-normal font-italic d-block">Categoría: Smartwaches</span>
+                                                                    <h5 class="mb-0 text-dark d-inline-block align-middle">
+                                                                        <?= $producto["modelo"] ?>
+                                                                    </h5>
+                                                                    <span class="text-muted font-weight-normal font-italic d-block">
+                                                                        Categoría: <?php if(getTipoDispositivo($id) === "movil") echo "movil"; else echo "smartwatch" ?></span>
                                                                 </div>
                                                             </div>
                                                         </th>
-                                                        <td class="border-0 align-middle"><strong><?= $producto["precio"] ?></strong></td>
-                                                        <td class="border-0 align-middle"><strong><input type="number" name="cantidad[]" <!--Con corchetes???-->
-                                                                id="" value="1"></strong></td>
-                                                        <td class="align-middle"><button class="btn"><i class="fas fa-trash"></i></button>
+                                                        <input type="hidden" name="id[]" value="<?= $id ?>">
+                                                        <td class="border-0 align-middle"><strong><?= $producto["precio"] ?>€</strong><input
+                                                                     type="hidden"
+                                                                    name="precio[]" value="<?= $producto["precio"] ?>"
+                                                                    readonly></td>
+                                                        <td class="border-0 align-middle"><input type="number"
+                                                                                                         name="cantidad[]"
+                                                                                                         value="1" oninput="calculo()" min="0"><!--METER AQUI LOS BOTONES-->
+                                                        </td>
+                                                        <td class="align-middle">
+                                                            <button type="button" class="btn"><i class="fas fa-trash"></i></button>
                                                     </tr>
                                                 <?php endforeach; ?>
-                                            </tbody>
-                                        </table>
+                                                </tbody>
+                                            </table>
+                                        </div>
+
                                     </div>
-
                                 </div>
-                            </div>
 
-                            <div class="row py-5 p-4 bg-white rounded shadow-sm">
-                                <div class="col-lg-6">
-                                    <div class="bg-light px-4 py-3 text-uppercase font-weight-bold">Codigo de descuento</div>
-                                    <div class="p-4">
-                                        <p class="font-italic mb-4">Si tiene codigo de descuento, introducelo debajo</p>
-                                        <div class="input-group mb-4 border p-2">
-                                            <input type="text" placeholder="Cupón descuento" aria-describedby="button-addon3" class="form-control border-0">
-                                            <div class="input-group-append border-0">
-                                                <button id="button-addon3" type="button" class="btn btn-dark px-4"><i class="fa fa-gift mr-2"></i>Aplicar cupón</button>
+                                <div class="row py-5 p-4 bg-white rounded shadow-sm">
+                                    <div class="col-lg-6">
+                                        <div class="bg-light px-4 py-3 text-uppercase font-weight-bold">Codigo de
+                                            descuento
+                                        </div>
+                                        <div class="p-4">
+                                            <p class="font-italic mb-4">Si tiene codigo de descuento, introducelo
+                                                debajo</p>
+                                            <div class="input-group mb-4 border p-2">
+                                                <input type="text" placeholder="Cupón descuento"
+                                                       aria-describedby="button-addon3" class="form-control border-0">
+                                                <div class="input-group-append border-0">
+                                                    <button id="button-addon3" type="button" class="btn btn-dark px-4">
+                                                        <i class="fa fa-gift mr-2"></i>Aplicar cupón
+                                                    </button>
+                                                </div>
                                             </div>
                                         </div>
+                                        <div class="bg-light px-4 py-3 text-uppercase font-weight-bold">Comentarios para
+                                            el vendedor
+                                        </div>
+                                        <div class="p-4">
+                                            <p class="font-italic mb-4">Si tiene algún comentario o sugerencia para el
+                                                vendedor, por favor escríbela debajo</p>
+                                            <textarea name="comentario" cols="30" rows="2"
+                                                      class="form-control"></textarea>
+                                        </div>
                                     </div>
-                                    <div class="bg-light px-4 py-3 text-uppercase font-weight-bold">Comentarios para el vendedor</div>
-                                    <div class="p-4">
-                                        <p class="font-italic mb-4">Si tiene algún comentario o sugerencia para el vendedor, por favor escríbela debajo</p>
-                                        <textarea name="comentario" cols="30" rows="2" class="form-control"></textarea>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6">
-                                    <div class="bg-light px-4 py-3 text-uppercase font-weight-bold">Resumen del pedido</div>
-                                    <div class="p-4">
-                                        <p class="font-italic mb-4">Gastos de envío y descuentos calculados a continuación</p>
-                                        <ul class="list-unstyled mb-4">
-                                            <li class="d-flex justify-content-between py-3 border-bottom"><strong class="text-muted">Total pedido </strong><strong>
-                                                    <!-- tu vaina php --></strong></li>
-                                            <li class="d-flex justify-content-between py-3 border-bottom"><strong class="text-muted">Envío y procesamiento</strong><strong>
-                                                    <!-- tu vaina php --></strong></li>
-                                            <li class="d-flex justify-content-between py-3 border-bottom"><strong class="text-muted">IVA</strong><strong>
-                                                    <!-- tu vaina php --></strong></li>
-                                            <li class="d-flex justify-content-between py-3 border-bottom"><strong class="text-muted">Total</strong>
-                                                <h5 class="font-weight-bold">
-                                                    <label id=""></label>
-                                                </h5>
-                                            </li>
-                                        </ul><a href="#" class="btn btn-dark py-2 btn-block">Continuar al pago</a>
-                                    </div>
-                                </div>
-                            </div>
+                                    <div class="col-lg-6">
+                                        <div class="bg-light px-4 py-3 text-uppercase font-weight-bold">Resumen del
+                                            pedido
+                                        </div>
+                                        <div class="p-4">
+                                            <p class="font-italic mb-4">Gastos de envío y descuentos calculados a
+                                                continuación</p>
+                                            <ul class="list-unstyled mb-4">
+                                                <li class="d-flex justify-content-between py-3 border-bottom"><strong
+                                                            class="text-muted">Total pedido </strong><strong>
+                                                        <label id="subtotal-input"></label></strong></li>
+                                                <li class="d-flex justify-content-between py-3 border-bottom"><strong
+                                                            class="text-muted">Envío y procesamiento</strong><strong>
+                                                        <label id="envio-input">0</label></strong></li>
+                                                <!--<li class="d-flex justify-content-between py-3 border-bottom"><strong
+                                                            class="text-muted">IVA</strong><strong>
+                                                        </strong></li>-->
+                                                <li class="d-flex justify-content-between py-3 border-bottom"><strong
+                                                            class="text-muted">Total</strong>
+                                                    <h5 class="font-weight-bold">
+                                                        <label id="total-input"></label>
+                                                    </h5>
+                                                </li>
+                                            </ul>
+                                            <button type="submit" class="btn btn-dark py-2 btn-block">Continuar al pago</button>
 
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -172,5 +207,42 @@ session_start();
 <script src='https://code.jquery.com/jquery-3.2.1.slim.min.js' integrity='sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN' crossorigin='anonymous'></script>
 <script src='https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js' integrity='sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q' crossorigin='anonymous'></script>
 <script src='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js' integrity='sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl' crossorigin='anonymous'></script>
+<script>
+    let subtotal = document.getElementById("subtotal-input");
+    let envio = document.getElementById("envio-input");
+    let total = document.getElementById("total-input");
+    let precios = document.getElementsByName("precio[]");
+    let cantidades = document.getElementsByName("cantidad[]");
+    calculo();
 
+    function getArray(coleccion) {
+        let array = Array();
+        for (let i = 0; i < coleccion.length; i++) {
+            array.push(coleccion[i].value);
+        }
+        return array;
+    }
+
+    function calculo() {
+        let facturaTotal = 0;
+        let arrayPrecios = getArray(precios);
+        let arrayCtd = getArray(cantidades);
+        for (let i = 0; i < getArray(precios).length; i++) {
+            facturaTotal += arrayPrecios[i] * arrayCtd[i];
+        }
+        subtotal.innerHTML = facturaTotal.toFixed(2) + " €";
+        getPrecioEnvio();
+        total.innerHTML = (parseInt(subtotal.innerText) + parseInt(envio.innerText)).toFixed(2);
+    }
+
+    function getPrecioEnvio() {
+        let precioEnvio1 = 35;
+        let precioEnvio2 = 0;
+        if (parseInt(subtotal.innerText) < 1500) {
+            envio.innerHTML = precioEnvio1.toFixed(2) + " €";
+        } else {
+            envio.innerHTML = precioEnvio2.toFixed(2) + " €";
+        }
+    }
+</script>
 </html>

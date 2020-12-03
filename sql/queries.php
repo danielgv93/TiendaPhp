@@ -295,9 +295,11 @@ function getMovil($idSelected)
     $resultado->bindColumn(14, $camara);
     $resultado->bindColumn(15, $notch);
     $resultado->fetch(PDO::FETCH_BOUND);
-    return array("id" => $id, "modelo" => $modelo, "precio" => $precio, "gama" => $gama, "anio" => $anio,
+     $datos[$id] = array("modelo" => $modelo, "precio" => $precio, "gama" => $gama, "anio" => $anio,
         "ram" => $ram, "almacenamiento" => $almacenamiento, "procesador" => $procesador, "bateria" => $bateria,
         "pulgadas" => $pulgadas, "imagen" => $imagen, "stock" => $stock, "camara" => $camara, "notch" => $notch);
+    unset($conexion);
+    return $datos;
 }
 
 function getRelojes()
@@ -324,6 +326,7 @@ function getRelojes()
             "ram" => $ram, "almacenamiento" => $almacenamiento, "procesador" => $procesador, "bateria" => $bateria,
             "pulgadas" => $pulgadas, "imagen" => $imagen, "stock" => $stock, "sim" => $sim);
     }
+    unset($conexion);
     return $datos;
 }
 
@@ -349,9 +352,11 @@ function getReloj($idSelected)
     $resultado->bindColumn(13, $idReloj);
     $resultado->bindColumn(14, $sim);
     $resultado->fetch(PDO::FETCH_BOUND);
-    return array("id"=>$id, "modelo" => $modelo, "precio" => $precio, "gama" => $gama, "anio" => $anio,
+    $datos[$id] = array("modelo" => $modelo, "precio" => $precio, "gama" => $gama, "anio" => $anio,
         "ram" => $ram, "almacenamiento" => $almacenamiento, "procesador" => $procesador, "bateria" => $bateria,
         "pulgadas" => $pulgadas, "imagen" => $imagen, "stock" => $stock, "sim" => $sim);
+    unset($conexion);
+    return $datos;
 }
 
 function getFicha($id)

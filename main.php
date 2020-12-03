@@ -15,8 +15,10 @@ if (isset($_POST["relojes"])) {
 }
 
 if (isset($_POST["cart"])) {
-    $_SESSION["carrito"][] = getProducto($_POST["id"]);
-    $carrito = "Se añadio 1 ". $_SESSION["carrito"][count($_SESSION["carrito"])-1]["modelo"] . " a la cesta.";
+    $productoAñadido = getProducto($_POST["id"]);
+    $_SESSION["carrito"][array_keys($productoAñadido)[0]] = array_values($productoAñadido)[0];
+    $carrito = "Se añadió 1 ". $_SESSION["carrito"][$_POST["id"]]["modelo"] . " a la cesta.";
+    $url = $_SESSION["carrito"][$_POST["id"]]["imagen"];
 }
 
 function busqueda($busquedaSelected)
@@ -52,16 +54,7 @@ function busqueda($busquedaSelected)
     <link rel="stylesheet" href="/font-awesome-4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
     <link rel="stylesheet" href="css/main.css">
-    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-    <?php if(isset($_POST["cart"])) : ?>
-        <script>
-            Swal.fire(
-                'Good job!',
-                'You clicked the button!',
-                'success'
-            )
-        </script>
-    <?php endif?>
+
 
 </head>
 
@@ -175,5 +168,22 @@ function busqueda($busquedaSelected)
 <script src='https://code.jquery.com/jquery-3.2.1.slim.min.js' integrity='sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN' crossorigin='anonymous'></script>
 <script src='https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js' integrity='sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q' crossorigin='anonymous'></script>
 <script src='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js' integrity='sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl' crossorigin='anonymous'></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+<?php if(isset($_POST["cart"])) : ?>
+    <script>
+        Swal.fire({
+            icon: 'success',
+            title: '<?= $carrito ?>',
+            backdrop: `rgba(0,0,123,0.4)`,
+            imageUrl: '<?=$url?>',
+            width: 400,
+            imageClass: 'sa2-image',
+            showConfirmButton: false,
+            timer: 2000
+        })
 
+
+
+    </script>
+<?php endif?>
 </html>
