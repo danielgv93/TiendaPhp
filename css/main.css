@@ -1,104 +1,132 @@
 html,
 body {
-    background: #fbf3ff;
+  background: #fbf3ff;
 }
 
 body {
-    min-height: calc(100vh - 50px);
+  min-height: calc(100vh - 50px);
 }
 
 .navegador {
-    background: linear-gradient(45deg, #636fa3, #4b5890);
-    color: white;
-    font-size: 20px;
+  background: linear-gradient(45deg, #636fa3, #4b5890);
+  color: white;
+  font-size: 20px;
 }
 
 legend {
-    background: linear-gradient(45deg, #444d75, #34417e);
-    color: white;
+  background: linear-gradient(45deg, #444d75, #34417e);
+  color: white;
 }
 
 a {
-    color: white;
+  color: white;
+  
 }
 
 img {
-    width: 100%;
-    max-width: 100%;
-    height: auto;
+  width: 100%;
+  max-width: 100%;
+  height: auto;
 }
 
 .imagen {
-    width: 80px;
+  width: 80px;
 }
 
 .container {
-    min-height: calc(100vh - 195px);
+  min-height: calc(100vh - 195px);
 }
 
 footer {
-    bottom: 0;
-    width: 100%;
-    padding: 2px;
-    background: rgb(179, 143, 202);
-    margin-top: 50px;
+  bottom: 0;
+  width: 100%;
+  padding: 2px;
+  background: rgb(179, 143, 202);
+  margin-top: 50px;
 }
 
 .fas {
-    color: black;
-    position: relative;
+  color: black;
+  position: relative;
 }
 
 .fas:hover {
-    color: rgb(255, 255, 255);
+  color: rgb(255, 255, 255);
 }
 
 .fa-trash:hover {
-    color: red;
-    transform: scale(1.05);
+  color: red;
+  transform: scale(1.05);
 }
 
 .dropdown-menu input:hover {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 .buscar {
-    width: 20px;
-    border-top-color: red;
+  width: 20px;
+  border-top-color: red;
 }
 
 .perfil a:hover {
-    color: rgb(241, 234, 234);
-    text-decoration: none;
+  color: rgb(241, 234, 234);
+  text-decoration: none;
 }
 
 .navbar-toggler {
-    background: white;
+  background: white;
 }
 
 .carta {
-    background: linear-gradient(45deg, #636fa3, #4b5890);
+  background: linear-gradient(45deg, #636fa3, #4b5890);
 }
 
-.card {
-    max-width: 300px;
-    transition: all .2s ease-in-out;
+.carta {
+  max-width: 300px;
+  transition: all 0.2s ease-in-out;
 }
 
-.card:hover {
-    transform: scale(1.05);
+.carta:hover {
+  transform: scale(1.05);
 }
 
 .aviso {
-    font-size: 29px;
-    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-    width: 100%;
-    top: 150px;
-    border: solid 10px rgb(204, 157, 30);
-    border-radius: 20px;
+  font-size: 29px;
+  font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
+    "Lucida Sans", Arial, sans-serif;
+  width: 100%;
+  top: 150px;
+  border: solid 10px rgb(204, 157, 30);
+  border-radius: 20px;
 }
 
 .carro {
-    color: black;
-    min-height: 100vh;
+  color: black;
+  min-height: 100vh;
+}
+
+img{
+    cursor: pointer;
+}
+
+.ficha{
+    border: none;
+    border: 0;
+}
+
+.cesta:hover{
+    color: white;
+}
+
+.producto{
+background:linear-gradient(45deg, #626fa8, #586290);
+}
+.divImagen{
+    width: 100%;
+    height: 87%;
+    background:#fff;
+}
+
+.imagenP{
+    max-width: 100%;
 }
