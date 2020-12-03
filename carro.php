@@ -66,55 +66,53 @@ session_start();
                                             <table class="table">
                                                 <!-- Esto asi a machete, no toques na -->
                                                 <thead>
-                                                <tr>
-                                                    <th scope="col" class="border-0 bg-light">
-                                                        <div class="p-2 px-3 text-uppercase">Producto</div>
-                                                    </th>
-                                                    <th scope="col" class="border-0 bg-light">
-                                                        <div class="py-2 text-uppercase">Precio</div>
-                                                    </th>
-                                                    <th scope="col" class="border-0 bg-light">
-                                                        <div class="py-2 text-uppercase">Cantidad</div>
-                                                    </th>
-                                                    <th scope="col" class="border-0 bg-light">
-                                                        <div class="py-2 text-uppercase">Eliminar</div>
-                                                    </th>
-                                                </tr>
+                                                    <tr>
+                                                        <th scope="col" class="border-0 bg-light">
+                                                            <div class="p-2 px-3 text-uppercase">Producto</div>
+                                                        </th>
+                                                        <th scope="col" class="border-0 bg-light">
+                                                            <div class="py-2 text-uppercase">Precio</div>
+                                                        </th>
+                                                        <th scope="col" class="border-0 bg-light">
+                                                            <div class="py-2 px-5 text-uppercase">Cantidad</div>
+                                                        </th>
+                                                        <th scope="col" class="border-0 bg-light">
+                                                            <div class="py-2 text-uppercase">Modificar</div>
+                                                        </th>
+                                                        <th scope="col" class="border-0 bg-light">
+                                                            <div class="py-2 text-uppercase">Eliminar</div>
+                                                        </th>
+                                                    </tr>
                                                 </thead>
                                                 <!-- Esto lo metes en uno de esos bucles tuyos rechingones bien vergosos
                                                 y sacas todos los productos que haya añadidos asin en esa tablita -->
                                                 <tbody>
-                                                <!--TODO: COMPLETAR EL FORMULARIO-->
+                                                    <!--TODO: COMPLETAR EL FORMULARIO-->
 
-                                                <?php if (isset($_SESSION["carrito"])) foreach ($_SESSION["carrito"] as $id => $producto) : ?>
-                                                    <tr>
-                                                        <th scope="row" class="border-0">
-                                                            <div class="p-2">
-                                                                <img src="<?= $producto["imagen"] ?>"
-                                                                     alt="Imagen de <?= $producto["imagen"] ?>"
-                                                                     width="70" class="img-fluid rounded shadow-sm">
-                                                                <div class="ml-3 d-inline-block align-middle">
-                                                                    <h5 class="mb-0 text-dark d-inline-block align-middle">
-                                                                        <?= $producto["modelo"] ?>
-                                                                    </h5>
-                                                                    <span class="text-muted font-weight-normal font-italic d-block">
-                                                                        Categoría: <?php if(getTipoDispositivo($id) === "movil") echo "movil"; else echo "smartwatch" ?></span>
+                                                    <?php if (isset($_SESSION["carrito"])) foreach ($_SESSION["carrito"] as $id => $producto) : ?>
+                                                        <tr>
+                                                            <th scope="row" class="border-0">
+                                                                <div class="p-2">
+                                                                    <img src="<?= $producto["imagen"] ?>" alt="Imagen de <?= $producto["imagen"] ?>" width="70" class="img-fluid imagenCesta rounded shadow-sm">
+                                                                    <div class="ml-3 d-inline-block align-middle">
+                                                                        <h5 class="mb-0 text-dark d-inline-block align-middle">
+                                                                            <?= $producto["modelo"] ?>
+                                                                        </h5>
+                                                                        <span class="text-muted font-weight-normal font-italic d-block">
+                                                                            Categoría: <?php if (getTipoDispositivo($id) === "movil") echo "movil";
+                                                                                        else echo "smartwatch" ?></span>
+                                                                    </div>
                                                                 </div>
-                                                            </div>
-                                                        </th>
-                                                        <input type="hidden" name="id[]" value="<?= $id ?>">
-                                                        <td class="border-0 align-middle"><strong><?= $producto["precio"] ?>€</strong><input
-                                                                     type="hidden"
-                                                                    name="precio[]" value="<?= $producto["precio"] ?>"
-                                                                    readonly></td>
-                                                        <td class="border-0 align-middle"><input type="number"
-                                                                                                         name="cantidad[]"
-                                                                                                         value="1" oninput="calculo()" min="0"><!--METER AQUI LOS BOTONES-->
-                                                        </td>
-                                                        <td class="align-middle">
-                                                            <button type="button" class="btn"><i class="fas fa-trash"></i></button>
-                                                    </tr>
-                                                <?php endforeach; ?>
+                                                            </th>
+                                                            <input type="hidden" name="id[]" value="<?= $id ?>">
+                                                            <td class="border-0 align-middle"><strong><?= $producto["precio"] ?>€</strong><input type="hidden" name="precio[]" value="<?= $producto["precio"] ?>" readonly></td>
+                                                            <td class="border-0 align-middle text-center"><input type="number" name="cantidad[]" value="1" oninput="calculo()" min="0" readonly></td>
+                                                            <!-- BOTONES BIEN CHINGONES, FALTA QUE HAGAN ALGO -->
+                                                            <td class="border-0 align-middle"><button type="button" class="btn mr-2"><i class="fas fa-minus"></i></button><button type="button" class="btn"><i class="fas fa-plus"></i></button></td>
+                                                            <td class="align-middle">
+                                                                <button type="button" class="btn"><i class="fas fa-trash"></i></button></td>
+                                                        </tr>
+                                                    <?php endforeach; ?>
                                                 </tbody>
                                             </table>
                                         </div>
@@ -131,8 +129,7 @@ session_start();
                                             <p class="font-italic mb-4">Si tiene codigo de descuento, introducelo
                                                 debajo</p>
                                             <div class="input-group mb-4 border p-2">
-                                                <input type="text" placeholder="Cupón descuento"
-                                                       aria-describedby="button-addon3" class="form-control border-0">
+                                                <input type="text" placeholder="Cupón descuento" aria-describedby="button-addon3" class="form-control border-0">
                                                 <div class="input-group-append border-0">
                                                     <button id="button-addon3" type="button" class="btn btn-dark px-4">
                                                         <i class="fa fa-gift mr-2"></i>Aplicar cupón
@@ -146,8 +143,7 @@ session_start();
                                         <div class="p-4">
                                             <p class="font-italic mb-4">Si tiene algún comentario o sugerencia para el
                                                 vendedor, por favor escríbela debajo</p>
-                                            <textarea name="comentario" cols="30" rows="2"
-                                                      class="form-control"></textarea>
+                                            <textarea name="comentario" cols="30" rows="2" class="form-control"></textarea>
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
@@ -158,14 +154,11 @@ session_start();
                                             <p class="font-italic mb-4">Gastos de envío y descuentos calculados a
                                                 continuación</p>
                                             <ul class="list-unstyled mb-4">
-                                                <li class="d-flex justify-content-between py-3 border-bottom"><strong
-                                                            class="text-muted">Total pedido </strong><strong>
+                                                <li class="d-flex justify-content-between py-3 border-bottom"><strong class="text-muted">Total pedido </strong><strong>
                                                         <label id="subtotal-input"></label></strong></li>
-                                                <li class="d-flex justify-content-between py-3 border-bottom"><strong
-                                                            class="text-muted">Envío y procesamiento</strong><strong>
+                                                <li class="d-flex justify-content-between py-3 border-bottom"><strong class="text-muted">Envío y procesamiento</strong><strong>
                                                         <label id="envio-input">0</label></strong></li>
-                                                <li class="d-flex justify-content-between py-3 border-bottom"><strong
-                                                            class="text-muted">Total</strong>
+                                                <li class="d-flex justify-content-between py-3 border-bottom"><strong class="text-muted">Total</strong>
                                                     <h5 class="font-weight-bold">
                                                         <label id="total-input"></label>
                                                     </h5>
@@ -242,4 +235,5 @@ session_start();
         }
     }
 </script>
+
 </html>

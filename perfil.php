@@ -33,28 +33,7 @@ require_once "funciones.php";
                     <li class="nav-item active">
                         <a class="nav-link" href="main.php">Inicio <span class="sr-only"></span></a>
                     </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Categorías
-                        </a>
-                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <form action="<?= htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="post">
-                                <input type="hidden" name="telefonos">
-                                <input type="submit" class="dropdown-item" value="Teléfonos">
-                            </form>
-                            <form action="<?= htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="post">
-                                <input type="hidden" name="relojes">
-                                <input type="submit" class="dropdown-item" value="Smartwaches">
-                            </form>
-                        </div>
-                    </li>
                 </ul>
-                <div class="col-6">
-                    <form method="post" action="<?= htmlspecialchars($_SERVER["PHP_SELF"]) ?>" class="form-inline my-2 my-lg-0 ml-5">
-                        <input class="form-control buscador" name="busquedaInput" type="text" placeholder="Buscar" aria-label="Search" value="<?php if (isset($_POST["buscar"])) echo $_POST["busquedaInput"] ?>">
-                        <button type="submit" class="btn btn-warning ml-1" name="buscar" id="buscar"> <i class="fas fa-search"></i></button>
-                    </form>
-                </div>
                 <div class="dropdown">
                     <button class="btn bg-light dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         Bienvenido <?= $_SESSION["visitante"]["nombre"] ?>
@@ -77,20 +56,22 @@ require_once "funciones.php";
                 <div class="col-md-3">
                     <div class="profile-sidebar">
                         <div class="profile-userpic">
-                            <img src="img/fotoPerfil.png" class="img-responsive ml-5" alt="Foto perfil">
+                            <img src="img/fotoPerfil.png" class="img-responsive ml-5 imagenPerfil" alt="Foto perfil">
+                            <!-- Si puedes poner que aqui cambie la foto de perfil... pues bien -->
+                            <button type="button" class="btn btn-info fas-foto"> <i class="fas fa-pencil-alt fa-2x"></i></button>
                         </div>
                         <div class="profile-usertitle">
-                            <div class="profile-usertitle-name">
+                            <div class="profile-usertitle-name mr-4">
                                 <!-- Aqui el nombre por php -->
                                 Daniel García
                             </div>
-                            <div class="profile-usertitle-job">
+                            <div class="profile-usertitle-job mr-4 mb-5">
                                 <!-- Aqui pondrás tu mediante un boolean administrador o comprador -->
                                 Administrador
                             </div>
                         </div>
-                        <div class="profile-userpic mt-5">
-                            <img src="img/modificarTienda.svg" class="img-responsive ml-5" alt="Foto perfil">
+                        <div class="profile-userpic">
+                            <img src="img/modificarTienda.svg" class="img-responsive ml-5 mt-5 imagenPerfil" alt="Foto perfil">
                         </div>
                         <div class="profile-usertitle">
                             <a href="borrar_insertar.php" class="modificar btn btn-info">Modificar tienda</a>
@@ -98,8 +79,48 @@ require_once "funciones.php";
                     </div>
                 </div>
                 <div class="col-md-9">
-                    <div class="profile-content">
-                        Datos del usuario, que podrá modificar
+                    <div class="row py-5 p-4 bg-white rounded shadow-sm">
+                        <div class="col-lg-12">
+                            <div class="bg-light px-4 py-3 datos mb-5">
+                                Datos personales
+                            </div>
+                            <form class="formulario" id="modificar-perfil" action="<?= htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="post" role="form">
+                                <label for="nombre">Nombre:</label>
+                                <div class="form-group">
+                                    <!-- NO SE QUE VALUES HAY QUE DARLE PARA QUE SALGAN TUS DATOS, TE LO DEJO ASI -->
+                                    <i class="fas fa-signature d-inline"></i>
+                                    <input class="form-control d-inline" type="text" name="nombre" id="nombre" readonly value="<?php if (isset($_POST["registro"]) && isset($_POST["nombre"])) echo htmlEntities($_POST["nombre"], ENT_QUOTES); ?>">
+                                    <button type="button" class="btn btn-info"> <i class="far fa-edit  d-inline"></i></button><!-- CADA VEZ QUE SE LE DE AL LAPIS SE PONE EL INPUT EN READONLY FALSE -->
+                                </div>
+                                <label for="apellidos">Apellidos:</label>
+                                <div class="form-group">
+                                    <i class="fas fa-signature d-inline"></i>
+                                    <input class="form-control d-inline" type="text" name="apellidos" id="apellidos" readonly value="<?php if (isset($_POST["registro"]) && isset($_POST["apellidos"])) echo htmlEntities($_POST["apellidos"], ENT_QUOTES); ?>">
+                                    <button type="button" class="btn btn-info"> <i class="far fa-edit  d-inline"></i></button><!-- CADA VEZ QUE SE LE DE AL LAPIS SE PONE EL INPUT EN READONLY FALSE -->
+                                </div>
+                                <label for="usuario">Usuario:</label>
+                                <div class="form-group">
+                                    <i class="fas fa-user d-inline"></i>
+                                    <input class="form-control d-inline" type="text" name="usuario" id="usuario" readonly value="<?php if ((isset($_POST["registro"]) || isset($_POST["login"])) && isset($_POST["usuario"])) echo htmlEntities($_POST["usuario"], ENT_QUOTES); ?>">
+                                    <button type="button" class="btn btn-info"> <i class="far fa-edit  d-inline"></i></button><!-- CADA VEZ QUE SE LE DE AL LAPIS SE PONE EL INPUT EN READONLY FALSE -->
+                                </div>
+                                <label for="email">Email:</label>
+                                <div class="form-group">
+                                    <i class="fas fa-envelope d-inline"></i>
+                                    <input class="form-control d-inline" type="text" name="email" id="email" readonly value="<?php if (isset($_POST["registro"]) && isset($_POST["email"])) echo htmlEntities($_POST["email"], ENT_QUOTES); ?>">
+                                    <button type="button" class="btn btn-info"> <i class="far fa-edit  d-inline"></i></button><!-- CADA VEZ QUE SE LE DE AL LAPIS SE PONE EL INPUT EN READONLY FALSE -->
+                                </div>
+                                <label for="contraseña">Contraseña:</label>
+                                <div class="form-group">
+                                    <i class="fas fa-lock d-inline"></i>
+                                    <input class="form-control d-inline" type="password" name="contraseña" id="contraseña" readonly>
+                                    <button type="button" class="btn btn-info"> <i class="far fa-edit  d-inline"></i></button><!-- CADA VEZ QUE SE LE DE AL LAPIS SE PONE EL INPUT EN READONLY FALSE -->
+                                </div>
+                                <input type="submit" name="modificarPerfil" class="btn btn-primary" value="Modificar datos">
+
+                            </form>
+                        </div>
+
                     </div>
                 </div>
             </div>
