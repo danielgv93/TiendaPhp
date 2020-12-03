@@ -164,9 +164,6 @@ session_start();
                                                 <li class="d-flex justify-content-between py-3 border-bottom"><strong
                                                             class="text-muted">Envío y procesamiento</strong><strong>
                                                         <label id="envio-input">0</label></strong></li>
-                                                <!--<li class="d-flex justify-content-between py-3 border-bottom"><strong
-                                                            class="text-muted">IVA</strong><strong>
-                                                        </strong></li>-->
                                                 <li class="d-flex justify-content-between py-3 border-bottom"><strong
                                                             class="text-muted">Total</strong>
                                                     <h5 class="font-weight-bold">

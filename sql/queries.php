@@ -393,7 +393,33 @@ function borrarModelo($id)
     return true;
 }
 
-function getOfertas()
+function registrarCompra_RetirarStock($idUsuario, $idProducto, $cantidad)
 {
+    $conexion = getConexionPDO();
+    try {
+        $conexion->beginTransaction();
+        $sql = "INSERT INTO compras (id_usuario, id_dispositivo, unidades) VALUES (?,?,?)";
+        $consulta = $conexion->prepare($sql);
+        $consulta->bindParam(1, $idUsuario);
+        $consulta->bindParam(2, $idProducto);
+        $consulta->bindParam(3, $cantidad);
+        if ($consulta->execute() != true) {
+            throw new Exception("Error al registrar la compra");
+        }
+        $sql = "UPDATE dispositivos SET stock = (stock - ?) WHERE id_dispositivo = ?;";
+        $consulta = $conexion->prepare($sql);
+        $consulta->bindParam(1, $cantidad);
+        $consulta->bindParam(2, $idProducto);
+        if ($consulta->execute() != true) {
+            throw new Exception("Error al actualizar el stock");
+        }
+        $conexion->commit();
+        unset($conexion);
+        return true;
+    } catch (Exception $e) {
+        $conexion->rollBack();
+        unset($conexion);
+        return false;
+    }
 
 }

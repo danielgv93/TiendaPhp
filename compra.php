@@ -1,5 +1,17 @@
 <?php
+require_once "sql/queries.php";
+session_start();
 
+$texto = "Compra realizada con éxito";
+// INSERTAR COMPRA EN BBDD Y QUITAR STOCK DEL DISPOSITIVO
+try {
+    for ($i = 0; $i < count($_POST["id"]); $i++) {
+        registrarCompra_RetirarStock($_SESSION["visitante"]["id"], $_POST["id"][$i], $_POST["cantidad"][$i]);
+    }
+} catch (Exception $e) {
+    $texto = $e->getMessage();
+}
+unset($_SESSION["carrito"]);
 ?>
 
 <!doctype html>
@@ -38,7 +50,7 @@
         })
         await sleep(2000);
         Swal.fire({
-            title: 'Compra realizada con éxito',
+            title: '<?= $texto ?>',
             timer: 2000,
             icon: 'success',
             backdrop: `rgba(0,0,123,0.4)`,
