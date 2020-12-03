@@ -2,6 +2,7 @@
 require_once "sql/queries.php";
 session_start();
 
+$carrito = "";
 
 if (isset($_POST["buscar"])) {
     $arrayDispositivos = busqueda($_POST["busquedaInput"]);
@@ -11,6 +12,13 @@ if (isset($_POST["telefonos"])) {
 }
 if (isset($_POST["relojes"])) {
     $arrayDispositivos = getRelojes();
+}
+
+if (isset($_POST["cart"])) {
+    $productoAñadido = getProducto($_POST["id"]);
+    $_SESSION["carrito"][array_keys($productoAñadido)[0]] = array_values($productoAñadido)[0];
+    $carrito = "Se añadió 1 ". $_SESSION["carrito"][$_POST["id"]]["modelo"] . " a la cesta.";
+    $url = $_SESSION["carrito"][$_POST["id"]]["imagen"];
 }
 
 function busqueda($busquedaSelected)
@@ -88,10 +96,13 @@ function busqueda($busquedaSelected)
                 </div>
                 <form method="post" class="perfil form-inline my-2 my-lg-0" action="<?= htmlspecialchars($_SERVER["PHP_SELF"]) ?>">
                     <div class="usuario d-inline ml-1">
-                        <a href="perfil.php">Bienvenido <?= $_SESSION["visitante"]["nombre"] ?><i class="fas fa-user-tie fa-2x ml-2"></i></a>
+                        <a href="perfil.php" title="perfil">Bienvenido <?= $_SESSION["visitante"]["nombre"] ?><i class="fas fa-user-tie fa-2x ml-2"></i></a>
                     </div>
                     <div class="logout d-inline ml-2">
-                        <a href="index.php"><i class="fas fa-sign-out-alt fa-2x"></i></a>
+                        <a href="logout.php"><i class="fas fa-sign-out-alt fa-2x"></i></a>
+                    </div>
+                    <div class="logout d-inline ml-2">
+                        <a href="carro.php" title="cesta"><i class="fas fa-shopping-cart fa-2x"></i></a>
                     </div>
                 </form>
             </div>
@@ -107,7 +118,6 @@ function busqueda($busquedaSelected)
                         <!--AQUI VA CADA TARJETA DE LA BUSQUEDA-->
                         <?php if ($elementoActual === 1) echo "<div class='row'>" ?>
                         <div class="card text-white mt-4 carta">
-
                             <div class="imagenCarta">
                                 <img class="card-img-top" src="<?= $producto["imagen"] ?>" alt="<?= $producto["modelo"] ?>">
                             </div>
@@ -120,11 +130,13 @@ function busqueda($busquedaSelected)
                                         <button type="submit" class="btn ml-2 btn btn-info" name="ficha" id="ficha"> <i class="fas fa-align-left"></i></button>
                                     </div>
                                 </form>
-                                <div class="d-inline">
-                                    <button type="submit" class="btn btn-warning ml-2" name="cart" id="cart"> <i class="fas fa-shopping-cart"></i>
-                                </div>
+                                <form action="<?= htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="post">
+                                    <input type="hidden" name="id" value="<?= $id ?>">
+                                    <div class="d-inline">
+                                        <button type="submit" class="btn btn-warning ml-2" name="cart" id="cart"> <i class="fas fa-shopping-cart"></i>
+                                    </div>
+                                </form>
                             </div>
-
                         </div>
                         <?php if ($elementoActual === $limite - 1) echo "</div>";
                         $elementoActual++;
@@ -156,5 +168,22 @@ function busqueda($busquedaSelected)
 <script src='https://code.jquery.com/jquery-3.2.1.slim.min.js' integrity='sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN' crossorigin='anonymous'></script>
 <script src='https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js' integrity='sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q' crossorigin='anonymous'></script>
 <script src='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js' integrity='sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl' crossorigin='anonymous'></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+<?php if(isset($_POST["cart"])) : ?>
+    <script>
+        Swal.fire({
+            icon: 'success',
+            title: '<?= $carrito ?>',
+            backdrop: `rgba(0,0,123,0.4)`,
+            imageUrl: '<?=$url?>',
+            width: 400,
+            imageClass: 'sa2-image',
+            showConfirmButton: false,
+            timer: 2000
+        })
 
+
+
+    </script>
+<?php endif?>
 </html>

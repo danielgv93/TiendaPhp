@@ -1,5 +1,6 @@
 <?php
 require_once "sql/queries.php";
+
 session_start();
 $errorLogin = "";
 if (isset($_POST["login"])) {
