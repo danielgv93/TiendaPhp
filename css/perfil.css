@@ -111,3 +111,8 @@ body {
     background: #fff;
     min-height: 460px;
   }
+
+  .modificar{
+      text-decoration: none;
+      color: black;
+  }

@@ -81,6 +81,7 @@ require_once "funciones.php";
                         </div>
                         <div class="profile-usertitle">
                             <div class="profile-usertitle-name">
+                                <!-- Aqui el nombre por php -->
                                 Daniel García
                             </div>
                             <div class="profile-usertitle-job">
@@ -88,10 +89,11 @@ require_once "funciones.php";
                                 Administrador
                             </div>
                         </div>
-                        <div class="dropdown-menu">
-                            <h6 class="dropdown-header">Dropdown header</h6>
-                            <a class="dropdown-item" href="#">Action</a>
-                            <a class="dropdown-item" href="#">Another action</a>
+                        <div class="profile-userpic mt-5">
+                            <img src="img/modificarTienda.svg" class="img-responsive ml-5" alt="Foto perfil">
+                        </div>
+                        <div class="profile-usertitle">
+                            <a href="borrar_insertar.php" class="modificar">Modificar tienda</a>
                         </div>
                     </div>
                 </div>
