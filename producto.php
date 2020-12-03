@@ -57,16 +57,22 @@ if (isset($_GET["ficha"])) {
                 </ul>
                 <div class="col-6">
                     <form method="post" action="<?= htmlspecialchars($_SERVER["PHP_SELF"]) ?>" class="form-inline my-2 my-lg-0 ml-5">
-                        <input class="form-control buscador ml-5" name="busquedaInput" type="text" placeholder="Buscar" aria-label="Search" value="<?php if (isset($_POST["buscar"])) echo $_POST["busquedaInput"] ?>">
+                        <input class="form-control buscador" name="busquedaInput" type="text" placeholder="Buscar" aria-label="Search" value="<?php if (isset($_POST["buscar"])) echo $_POST["busquedaInput"] ?>">
                         <button type="submit" class="btn btn-warning ml-1" name="buscar" id="buscar"> <i class="fas fa-search"></i></button>
                     </form>
                 </div>
+                <div class="dropdown">
+                    <button class="btn bg-light dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Bienvenido <?= $_SESSION["visitante"]["nombre"] ?>
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <a class="dropdown-item" href="perfil.php" title="perfil"><i class="fas fa-user mr-2"></i>Perfil</a>
+                        <a class="dropdown-item" href="logout.php"><i class="fas fa-sign-out-alt mr-2"></i>Logout</a>
+                    </div>
+                </div>
                 <form method="post" class="perfil form-inline my-2 my-lg-0" action="<?= htmlspecialchars($_SERVER["PHP_SELF"]) ?>">
                     <div class="usuario d-inline ml-1">
-                        <a href="perfil.php" title="perfil">Bienvenido <?= $_SESSION["visitante"]["nombre"] ?><i class="fas fa-user-tie fa-2x ml-2"></i></a>
-                    </div>
-                    <div class="logout d-inline ml-2">
-                        <a href="logout.php"><i class="fas fa-sign-out-alt fa-2x"></i></a>
+                        <a 
                     </div>
                     <div class="logout d-inline ml-2">
                         <a href="carro.php" title="cesta"><i class="fas fa-shopping-cart fa-2x"></i></a>
@@ -129,7 +135,7 @@ if (isset($_GET["ficha"])) {
             <div class="footer-copyright text-center py-3">&copy; 2020 Copyright:
                 <a href="http://web2.iesmiguelherrero.com/"> IES Miguel Herrero</a>
                 &reg; <a href="index.php">P3</a>
-                <a href="https://www.instagram.com/?hl=es"> <i class="fab fa-instagram ml-3"></i></a>
+                <a href="https://www.instagram.com/josebaa11/" target="blank"> <i class="fab fa-instagram ml-3"></i></a>
                 <a href="https://twitter.com/IbaiLlanos"> <i class="fab fa-twitter"></i></a>
             </div>
         </footer>

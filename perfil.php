@@ -9,11 +9,12 @@ require_once "funciones.php";
     <meta charset='UTF-8'>
     <meta name='viewport' content='width=device-width, initial-scale=1, shrink-to-fit=no'>
     <meta http-equiv='X-UA-Compatible' content='ie=edge'>
-    <title>Encuentra tu dispositivo</title>
+    <title>Perfil</title>
     <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css' integrity='sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm' crossorigin='anonymous'>
     <link rel="shorcut icon" href="img/iconTitle.png">
     <link rel="stylesheet" href="/font-awesome-4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/perfil.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
 
 </head>
@@ -27,37 +28,77 @@ require_once "funciones.php";
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <i class="fas fa-align-justify"></i>
             </button>
-
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item active">
                         <a class="nav-link" href="main.php">Inicio <span class="sr-only"></span></a>
                     </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Categorías
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <form action="<?= htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="post">
+                                <input type="hidden" name="telefonos">
+                                <input type="submit" class="dropdown-item" value="Teléfonos">
+                            </form>
+                            <form action="<?= htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="post">
+                                <input type="hidden" name="relojes">
+                                <input type="submit" class="dropdown-item" value="Smartwaches">
+                            </form>
+                        </div>
+                    </li>
                 </ul>
-
+                <div class="col-6">
+                    <form method="post" action="<?= htmlspecialchars($_SERVER["PHP_SELF"]) ?>" class="form-inline my-2 my-lg-0 ml-5">
+                        <input class="form-control buscador" name="busquedaInput" type="text" placeholder="Buscar" aria-label="Search" value="<?php if (isset($_POST["buscar"])) echo $_POST["busquedaInput"] ?>">
+                        <button type="submit" class="btn btn-warning ml-1" name="buscar" id="buscar"> <i class="fas fa-search"></i></button>
+                    </form>
+                </div>
+                <div class="dropdown">
+                    <button class="btn bg-light dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Bienvenido <?= $_SESSION["visitante"]["nombre"] ?>
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <a class="dropdown-item" href="perfil.php" title="perfil"><i class="fas fa-user mr-2"></i>Perfil</a>
+                        <a class="dropdown-item" href="logout.php"><i class="fas fa-sign-out-alt mr-2"></i>Logout</a>
+                    </div>
+                </div>
                 <form method="post" class="perfil form-inline my-2 my-lg-0" action="<?= htmlspecialchars($_SERVER["PHP_SELF"]) ?>">
                     <div class="usuario d-inline ml-1">
-                        <a href="perfil.php" title="perfil"><?= $_SESSION["visitante"]["nombre"] . " " . $_SESSION["visitante"]["apellidos"] ?><i class="fas fa-user-tie fa-2x ml-2"></i></a>
-                    </div>
-                    <div class="logout d-inline ml-2">
-                        <a href="logout.php"><i class="fas fa-sign-out-alt fa-2x"></i></a>
+                        <a </div> <div class="logout d-inline ml-2">
+                            <a href="carro.php" title="cesta"><i class="fas fa-shopping-cart fa-2x"></i></a>
                     </div>
                 </form>
             </div>
-
         </nav>
         <div class="container">
-            <div class="row justify-content-center mt-5">
-                <?php if ($_SESSION["visitante"]["admin"] == 1) : ?>
-                    <div class="col-4">
-                        <legend>Configurar trastienda</legend>
-                        <a href="borrar_insertar.php"><i class="fas fa-box-open fa-10x"></i></a>
+            <div class="row profile">
+                <div class="col-md-3">
+                    <div class="profile-sidebar">
+                        <div class="profile-userpic">
+                            <img src="img/fotoPerfil.png" class="img-responsive ml-5" alt="Foto perfil">
+                        </div>
+                        <div class="profile-usertitle">
+                            <div class="profile-usertitle-name">
+                                Daniel García
+                            </div>
+                            <div class="profile-usertitle-job">
+                                <!-- Aqui pondrás tu mediante un boolean administrador o comprador -->
+                                Administrador
+                            </div>
+                        </div>
+                        <div class="dropdown-menu">
+                            <h6 class="dropdown-header">Dropdown header</h6>
+                            <a class="dropdown-item" href="#">Action</a>
+                            <a class="dropdown-item" href="#">Another action</a>
+                        </div>
                     </div>
-                <?php endif ?>
-                <!--TODO: CAMBIAR DATOS DEL USUARIO POR INPUTS-->
-                <div class="col-4">
-                    <legend>Cambiar el usuario</legend>
-                    <a href="perfil.php"><i class="fas fa-user-edit fa-10x"></i></a>
+                </div>
+                <div class="col-md-9">
+                    <div class="profile-content">
+                        Datos del usuario, que podrá modificar
+                    </div>
                 </div>
             </div>
         </div>
@@ -65,7 +106,7 @@ require_once "funciones.php";
             <div class="footer-copyright text-center py-3">&copy; 2020 Copyright:
                 <a href="http://web2.iesmiguelherrero.com/"> IES Miguel Herrero</a>
                 &reg; <a href="index.php">P3</a>
-                <a href="https://www.instagram.com/?hl=es"> <i class="fab fa-instagram ml-3"></i></a>
+                <a href="https://www.instagram.com/josebaa11/" target="blank"> <i class="fab fa-instagram ml-3"></i></a>
                 <a href="https://twitter.com/IbaiLlanos"> <i class="fab fa-twitter"></i></a>
             </div>
         </footer>

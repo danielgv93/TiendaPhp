@@ -186,7 +186,7 @@ session_start();
             <div class="footer-copyright text-center py-3">&copy; 2020 Copyright:
                 <a href="http://web2.iesmiguelherrero.com/"> IES Miguel Herrero</a>
                 &reg; <a href="index.php">P3</a>
-                <a href="https://www.instagram.com/?hl=es"> <i class="fab fa-instagram ml-3"></i></a>
+                <a href="https://www.instagram.com/josebaa11/" target="blank"> <i class="fab fa-instagram ml-3"></i></a>
                 <a href="https://twitter.com/IbaiLlanos"> <i class="fab fa-twitter"></i></a>
             </div>
         </footer>
