@@ -93,7 +93,7 @@ require_once "funciones.php";
                             <img src="img/modificarTienda.svg" class="img-responsive ml-5" alt="Foto perfil">
                         </div>
                         <div class="profile-usertitle">
-                            <a href="borrar_insertar.php" class="modificar">Modificar tienda</a>
+                            <a href="borrar_insertar.php" class="modificar btn btn-info">Modificar tienda</a>
                         </div>
                     </div>
                 </div>
