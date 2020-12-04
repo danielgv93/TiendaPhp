@@ -75,8 +75,7 @@ function busqueda($busquedaSelected)
             <a class="navbar" href="main.php">
                 <img src="img/logo.png" class="d-inline-block align-top imagen">
             </a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-                    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <i class="fas fa-align-justify"></i>
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -85,8 +84,7 @@ function busqueda($busquedaSelected)
                         <a class="nav-link" href="main.php">Inicio <span class="sr-only"></span></a>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             Categorías
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -102,18 +100,13 @@ function busqueda($busquedaSelected)
                     </li>
                 </ul>
                 <div class="col-6">
-                    <form method="post" action="<?= htmlspecialchars($_SERVER["PHP_SELF"]) ?>"
-                          class="form-inline my-2 my-lg-0 ml-5">
-                        <input class="form-control buscador" name="busquedaInput" type="text" placeholder="Buscar"
-                               aria-label="Search"
-                               value="<?php if (isset($_POST["buscar"])) echo $_POST["busquedaInput"] ?>">
-                        <button type="submit" class="btn btn-warning ml-1" name="buscar" id="buscar"><i
-                                    class="fas fa-search"></i></button>
+                    <form method="post" action="<?= htmlspecialchars($_SERVER["PHP_SELF"]) ?>" class="form-inline my-2 my-lg-0 ml-5">
+                        <input class="form-control buscador" name="busquedaInput" type="text" placeholder="Buscar" aria-label="Search" value="<?php if (isset($_POST["buscar"])) echo $_POST["busquedaInput"] ?>">
+                        <button type="submit" class="btn btn-warning ml-1" name="buscar" id="buscar"><i class="fas fa-search"></i></button>
                     </form>
                 </div>
                 <div class="dropdown">
-                    <button class="btn bg-light dropdown-toggle" type="button" id="dropdownMenuButton"
-                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <button class="btn bg-light dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         Bienvenido <?= $_SESSION["visitante"]["nombre"] ?>
                     </button>
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
@@ -121,13 +114,11 @@ function busqueda($busquedaSelected)
                         <a class="dropdown-item" href="logout.php"><i class="fas fa-sign-out-alt mr-2"></i>Logout</a>
                     </div>
                 </div>
-                <form method="post" class="perfil form-inline my-2 my-lg-0"
-                      action="<?= htmlspecialchars($_SERVER["PHP_SELF"]) ?>">
+                <form method="post" class="perfil form-inline my-2 my-lg-0" action="<?= htmlspecialchars($_SERVER["PHP_SELF"]) ?>">
                     <div class="usuario d-inline ml-1">
-                        <a
-                    </div>
-                    <div class="logout d-inline ml-2">
-                        <a href="carro.php" title="cesta"><i class="fas fa-shopping-cart fa-2x"></i></a>
+                        <div class="logout d-inline ml-2">
+                            <a href="carro.php" title="cesta"><i class="fas fa-shopping-cart fa-2x"></i></a>
+                        </div>
                     </div>
                 </form>
             </div>
@@ -140,35 +131,32 @@ function busqueda($busquedaSelected)
                 $limite = 5;
                 if ($arrayDispositivos !== false) foreach ($arrayDispositivos
 
-                as $id => $producto) : ?>
-                <!--AQUI VA CADA TARJETA DE LA BUSQUEDA-->
-                <?php if ($elementoActual === 1) echo "<div class='row'>" ?>
-                <div class="card text-white mt-4 carta">
-                    <form action="producto.php" method="post" class="d-inline">
-                        <div class="imagenCarta">
-                            <button type="submit" name="ficha" id="ficha"><img class="card-img-top"
-                                                                               src="<?= $producto["imagen"] ?>"
-                                                                               alt="<?= $producto["modelo"] ?>"></button>
-                        </div>
-                        <div class="card-body">
-                            <h5 class="card-title"><?= $producto["modelo"] ?></h5>
-                            <p class="card-text"><?= $producto["precio"] ?> €</p>
+                    as $id => $producto) : ?>
+                    <!--AQUI VA CADA TARJETA DE LA BUSQUEDA-->
+                    <?php if ($elementoActual === 1) echo "<div class='row'>" ?>
+                    <div class="card text-white mt-4 carta">
+                        <form action="producto.php" method="post" class="d-inline">
+                            <div class="imagenCarta">
+                                <button type="submit" name="ficha" id="ficha"><img class="card-img-top" src="<?= $producto["imagen"] ?>" alt="<?= $producto["modelo"] ?>"></button>
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title"><?= $producto["modelo"] ?></h5>
+                                <p class="card-text"><?= $producto["precio"] ?> €</p>
+                                <input type="hidden" name="id" value="<?= $id ?>">
+                        </form>
+                        <form action="<?= htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="post">
                             <input type="hidden" name="id" value="<?= $id ?>">
-                    </form>
-                    <form action="<?= htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="post">
-                        <input type="hidden" name="id" value="<?= $id ?>">
-                        <button type="submit" class="btn btn-warning ml-4 d-inline cesta" name="cart" id="cart"><i
-                                    class="fas fa-shopping-cart mr-3"></i> Añadir a la cesta
-                        </button>
-                    </form>
-                </div>
+                            <button type="submit" class="btn btn-warning ml-4 d-inline cesta" name="cart" id="cart"><i class="fas fa-shopping-cart mr-3"></i> Añadir a la cesta
+                            </button>
+                        </form>
+                    </div>
 
             </div>
             <?php if ($elementoActual === $limite - 1) echo "</div>";
-            $elementoActual++;
-            if ($elementoActual === $limite) $elementoActual = 1; ?>
-            <?php endforeach; ?>
-            <?php if ($elementoActual !== 1) echo "</div>"; ?>
+                    $elementoActual++;
+                    if ($elementoActual === $limite) $elementoActual = 1; ?>
+        <?php endforeach; ?>
+        <?php if ($elementoActual !== 1) echo "</div>"; ?>
 
         </div>
         <footer class="page-footer font-small blue">

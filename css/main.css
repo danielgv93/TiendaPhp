@@ -147,3 +147,7 @@ img {
 .imagenCesta:hover {
     cursor: auto;
 }
+
+.cantidad{
+    border: 0;
+}

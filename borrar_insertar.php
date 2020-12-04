@@ -139,7 +139,7 @@ if (isset($_POST["borrar"])) {
             <div class="row justify-content-center mt-5">
                 <div class="col-6">
                     <!-- ELEGIR MODELO PARA CAMBIAR EL STOCK -->
-                    <form action="<?= htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="post" class="border border-primary p-2 mb-3 rounded" name="formulario">
+                    <form action="<?= htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="post" class="p-2 mb-3" name="formulario">
                         <legend class="text-center header">Modificar stock</legend>
                         <div class="form-group">
                             <select name="modelo" class="form-control">
@@ -155,7 +155,7 @@ if (isset($_POST["borrar"])) {
 
                     <!-- CAMBIAR STOCK -->
                     <?php if (isset($_POST["elegirModelo"])) : ?>
-                        <form action="<?= htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="post" class="border border-primary p-2 mb-3 rounded" name="formulario">
+                        <form action="<?= htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="post" class="p-2 mb-3" name="formulario">
                             <legend class="text-center header">Modelo elegido<?= " " . $dispositivos[$_POST["modelo"]]["modelo"] ?></legend>
                             <div class="form-group">
                                 <input type="hidden" class="form-control" name="idModelo" value="<?= $_POST["modelo"] ?>">
@@ -168,7 +168,7 @@ if (isset($_POST["borrar"])) {
 
                     <!-- ELEGIR DISPOSITIVO PARA INSERTAR -->
                     <!-- HABRÁ 2 FORMS EN FUNCIÓN DE LA ELECCIÓN -->
-                    <form action="<?= htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="post" class="border border-primary p-2 mb- rounded" name="formulario">
+                    <form action="<?= htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="post" class="p-2 mb-3" name="formulario">
                         <legend class="text-center header">Insertar dispositivo</legend>
                         <div class="form-group">
                             <select name="tipoDispositivo" class="form-control">
@@ -186,7 +186,7 @@ if (isset($_POST["borrar"])) {
 
                     <!-- INSERTAR MOVIL A LA BASE DE DATOS -->
                     <?php if (isset($_POST["submitTipoDisp"]) && $_POST["tipoDispositivo"] == "movil") : ?>
-                        <form action="<?= htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="post" enctype="multipart/form-data" class="border border-primary p-2 mb-3 rounded">
+                        <form action="<?= htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="post" enctype="multipart/form-data" class=" -primary p-2 mb-3 rounded">
                             <legend class="text-center header">Insertar caracterísiticas del teléfono</legend>
                             <div class="form-group">
                                 <label for="modelo">Modelo:</label>
@@ -231,7 +231,7 @@ if (isset($_POST["borrar"])) {
                     <?php endif; ?>
                     <!-- INSERTAR RELOJ A LA BASE DE DATOS -->
                     <?php if (isset($_POST["submitTipoDisp"]) && $_POST["tipoDispositivo"] == "reloj") : ?>
-                        <form action="<?= htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="post" enctype="multipart/form-data" class="border border-primary p-2 mb-3 rounded">
+                        <form action="<?= htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="post" enctype="multipart/form-data" class=" -primary p-2 mb-3 rounded">
                             <legend class="text-center header">Insertar caracterísiticas del reloj</legend>
                             <div class="form-group">
                                 <label for="modelo">Modelo:</label>
@@ -273,7 +273,7 @@ if (isset($_POST["borrar"])) {
                             <input type="submit" name="insertarReloj" value="Insertar Reloj" class="btn btn-success">
                         </form>
                     <?php endif; ?>
-                    <form action="<?= htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="post" class="border border-primary p-2 mt-3 rounded">
+                    <form action="<?= htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="post" class=" -primary p-2 mt-3 rounded">
                         <legend class="text-center header">Borrar dispositivo</legend>
                         <select name="modelo" class="form-control">
                             <?php

@@ -30,24 +30,28 @@ session_start();
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <i class="fas fa-align-justify"></i>
             </button>
-
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item active">
                         <a class="nav-link" href="main.php">Inicio <span class="sr-only"></span></a>
                     </li>
                 </ul>
-
+                <div class="dropdown">
+                    <button class="btn bg-light dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Bienvenido <?= $_SESSION["visitante"]["nombre"] ?>
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <a class="dropdown-item" href="perfil.php" title="perfil"><i class="fas fa-user mr-2"></i>Perfil</a>
+                        <a class="dropdown-item" href="logout.php"><i class="fas fa-sign-out-alt mr-2"></i>Logout</a>
+                    </div>
+                </div>
                 <form method="post" class="perfil form-inline my-2 my-lg-0" action="<?= htmlspecialchars($_SERVER["PHP_SELF"]) ?>">
                     <div class="usuario d-inline ml-1">
-                        <a href="perfil.php"><?= $_SESSION["visitante"]["nombre"] . " " . $_SESSION["visitante"]["apellidos"] ?><i class="fas fa-user-tie fa-2x ml-2"></i></a>
-                    </div>
-                    <div class="logout d-inline ml-2">
-                        <a href="logout.php"><i class="fas fa-sign-out-alt fa-2x"></i></a>
+                        <a </div> <div class="logout d-inline ml-2">
+                            <a href="carro.php" title="cesta"><i class="fas fa-shopping-cart fa-2x"></i></a>
                     </div>
                 </form>
             </div>
-
         </nav>
         <div class="container">
             <div class="row justify-content-center mt-5">
@@ -105,16 +109,16 @@ session_start();
                                                             </th>
                                                             <input type="hidden" name="id[]" value="<?= $id ?>">
                                                             <td class="border-0 align-middle"><strong><?= $producto["precio"] ?>€</strong><input type="hidden" name="precio[]" value="<?= $producto["precio"] ?>" readonly></td>
-                                                            <td class="border-0 align-middle text-center"><input type="number" id="<?= $id ?>_cantidad" name="cantidad[]" value="1" oninput="calculo()" min="0" readonly></td>
+                                                            <td class="border-0 align-middle"><input type="number" class="text-center cantidad" id="<?= $id ?>_cantidad" name="cantidad[]" value="1" oninput="calculo()" min="0" readonly></td>
                                                             <!-- BOTONES BIEN CHINGONES, FALTA QUE HAGAN ALGO -->
                                                             <td class="border-0 align-middle">
-                                                                <button type="button" onclick="(()=>{
+                                                                <button type="button" class="d-inline btn" onclick="(()=>{
                                                                     let cantidad = document.getElementById('<?= $id ?>_cantidad');
                                                                         if (cantidad.value > 0){
                                                                             cantidad.value--;
                                                                         }
                                                                 })();calculo()" class="btn mr-2"><i class="fas fa-minus"></i></button>
-                                                                <button type="button" onclick="(()=>{
+                                                                <button type="button" class="d-inline btn" onclick="(()=>{
                                                                     let cantidad = document.getElementById('<?= $id ?>_cantidad');
                                                                         if (cantidad.value < <?= $producto["stock"] ?>){
                                                                             cantidad.value++;
