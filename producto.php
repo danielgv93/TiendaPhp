@@ -2,8 +2,8 @@
 require_once "sql/queries.php";
 session_start();
 
-if (isset($_GET["ficha"])) {
-    $idSelected = $_GET["id"];
+if (isset($_POST["ficha"])) {
+    $idSelected = $_POST["id"];
     list($ficha, $tipo) = getFicha($idSelected);
     $ficha = $ficha[$idSelected];
 }
@@ -44,11 +44,11 @@ if (isset($_GET["ficha"])) {
                             Categorías
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <form action="<?= htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="post">
+                            <form action="main.php" method="post">
                                 <input type="hidden" name="telefonos">
                                 <input type="submit" class="dropdown-item" value="Teléfonos">
                             </form>
-                            <form action="<?= htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="post">
+                            <form action="main.php" method="post">
                                 <input type="hidden" name="relojes">
                                 <input type="submit" class="dropdown-item" value="Smartwaches">
                             </form>
@@ -56,7 +56,7 @@ if (isset($_GET["ficha"])) {
                     </li>
                 </ul>
                 <div class="col-6">
-                    <form method="post" action="<?= htmlspecialchars($_SERVER["PHP_SELF"]) ?>" class="form-inline my-2 my-lg-0 ml-5">
+                    <form method="post" action="main.php" class="form-inline my-2 my-lg-0 ml-5">
                         <input class="form-control buscador" name="busquedaInput" type="text" placeholder="Buscar" aria-label="Search" value="<?php if (isset($_POST["buscar"])) echo $_POST["busquedaInput"] ?>">
                         <button type="submit" class="btn btn-warning ml-1" name="buscar" id="buscar"> <i class="fas fa-search"></i></button>
                     </form>
@@ -70,14 +70,9 @@ if (isset($_GET["ficha"])) {
                         <a class="dropdown-item" href="logout.php"><i class="fas fa-sign-out-alt mr-2"></i>Logout</a>
                     </div>
                 </div>
-                <form method="post" class="perfil form-inline my-2 my-lg-0" action="<?= htmlspecialchars($_SERVER["PHP_SELF"]) ?>">
-                    <div class="usuario d-inline ml-1">
-                        <a 
-                    </div>
-                    <div class="logout d-inline ml-2">
-                        <a href="carro.php" title="cesta"><i class="fas fa-shopping-cart fa-2x"></i></a>
-                    </div>
-                </form>
+                <div class="logout d-inline ml-2">
+                    <a href="carro.php" title="cesta"><i class="fas fa-shopping-cart fa-2x"></i></a>
+                </div>
             </div>
         </nav>
         <div class="container">
@@ -121,8 +116,9 @@ if (isset($_GET["ficha"])) {
                                                                         echo "No";
                                                                     } ?></p>
                             <?php endif; ?>
-                            <form action="main.php" method="get">
+                            <form action="main.php" method="post">
                                 <div class="col-2">
+                                    <input type="hidden" name="id" value="<?= $_POST["id"] ?>">
                                     <button type="submit" class="btn btn-warning ml-4 d-inline cesta" name="cart" id="cart"><i class="fas fa-shopping-cart mr-3"></i> Añadir a la cesta </button>
                                 </div>
                             </form>

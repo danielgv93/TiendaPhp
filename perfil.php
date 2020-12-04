@@ -1,6 +1,10 @@
 <?php
 session_start();
 require_once "funciones.php";
+
+if (isset($_POST["modificarPerfil"])) {
+    // FUNCION MODIFICAR USUARIO
+}
 ?>
 <!DOCTYPE html>
 <html lang='en'>
@@ -56,26 +60,33 @@ require_once "funciones.php";
                 <div class="col-md-3">
                     <div class="profile-sidebar">
                         <div class="profile-userpic">
-                            <img src="img/fotoPerfil.png" class="img-responsive ml-5 imagenPerfil" alt="Foto perfil">
-                            <!-- Si puedes poner que aqui cambie la foto de perfil... pues bien -->
+                            <img src="<?= $_SESSION["visitante"]["foto_perfil"] ?>" class="img-responsive ml-5 imagenPerfil" alt="Foto perfil">
+                            <!-- TODO: CAMBIAR FOTO PERFIL -->
                             <button type="button" class="btn btn-info fas-foto"> <i class="fas fa-pencil-alt fa-2x"></i></button>
                         </div>
                         <div class="profile-usertitle">
                             <div class="profile-usertitle-name mr-4">
-                                <!-- Aqui el nombre por php -->
-                                Daniel García
+                                <?= $_SESSION["visitante"]["nombre"] . " " . $_SESSION["visitante"]["apellidos"] ?>
                             </div>
                             <div class="profile-usertitle-job mr-4 mb-5">
-                                <!-- Aqui pondrás tu mediante un boolean administrador o comprador -->
-                                Administrador
+                                <?php
+                                if ($_SESSION["visitante"]["admin"] == 1) {
+                                    echo "Administrador";
+                                } else {
+                                    echo "Usuario";
+                                }
+                                ?>
                             </div>
                         </div>
-                        <div class="profile-userpic">
-                            <img src="img/modificarTienda.svg" class="img-responsive ml-5 mt-5 imagenPerfil" alt="Foto perfil">
-                        </div>
-                        <div class="profile-usertitle">
-                            <a href="borrar_insertar.php" class="modificar btn btn-info">Modificar tienda</a>
-                        </div>
+                        <?php if ($_SESSION["visitante"]["admin"] == 1): ?>
+                            <div class="profile-userpic">
+                                <img src="img/modificarTienda.svg" class="img-responsive ml-5 mt-5 imagenPerfil"
+                                     alt="Foto perfil">
+                            </div>
+                            <div class="profile-usertitle">
+                                <a href="borrar_insertar.php" class="modificar btn btn-info">Modificar tienda</a>
+                            </div>
+                        <?php endif ?>
                     </div>
                 </div>
                 <div class="col-md-9">
@@ -87,34 +98,53 @@ require_once "funciones.php";
                             <form class="formulario" id="modificar-perfil" action="<?= htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="post" role="form">
                                 <label for="nombre">Nombre:</label>
                                 <div class="form-group">
-                                    <!-- NO SE QUE VALUES HAY QUE DARLE PARA QUE SALGAN TUS DATOS, TE LO DEJO ASI -->
                                     <i class="fas fa-signature d-inline"></i>
-                                    <input class="form-control d-inline" type="text" name="nombre" id="nombre" readonly value="<?php if (isset($_POST["registro"]) && isset($_POST["nombre"])) echo htmlEntities($_POST["nombre"], ENT_QUOTES); ?>">
-                                    <button type="button" class="btn btn-info"> <i class="far fa-edit  d-inline"></i></button><!-- CADA VEZ QUE SE LE DE AL LAPIS SE PONE EL INPUT EN READONLY FALSE -->
+                                    <input class="form-control d-inline" type="text" name="nombre" id="nombre" readonly value="<?= $_SESSION["visitante"]["nombre"] ?>">
+                                    <button type="button" onclick="function habilitar() {
+                                        let nombre = document.getElementById('nombre');
+                                        nombre.readOnly=!nombre.readOnly;
+                                    }
+                                    habilitar()" class="btn btn-info"> <i class="far fa-edit  d-inline"></i></button>
                                 </div>
                                 <label for="apellidos">Apellidos:</label>
                                 <div class="form-group">
                                     <i class="fas fa-signature d-inline"></i>
-                                    <input class="form-control d-inline" type="text" name="apellidos" id="apellidos" readonly value="<?php if (isset($_POST["registro"]) && isset($_POST["apellidos"])) echo htmlEntities($_POST["apellidos"], ENT_QUOTES); ?>">
-                                    <button type="button" class="btn btn-info"> <i class="far fa-edit  d-inline"></i></button><!-- CADA VEZ QUE SE LE DE AL LAPIS SE PONE EL INPUT EN READONLY FALSE -->
+                                    <input class="form-control d-inline" type="text" name="apellidos" id="apellidos" readonly value="<?= $_SESSION["visitante"]["apellidos"] ?>">
+                                    <button type="button" onclick="function habilitar() {
+                                        let apellidos = document.getElementById('apellidos');
+                                        apellidos.readOnly=!apellidos.readOnly;
+                                    }
+                                    habilitar()" class="btn btn-info"> <i class="far fa-edit  d-inline"></i></button>
                                 </div>
                                 <label for="usuario">Usuario:</label>
                                 <div class="form-group">
                                     <i class="fas fa-user d-inline"></i>
-                                    <input class="form-control d-inline" type="text" name="usuario" id="usuario" readonly value="<?php if ((isset($_POST["registro"]) || isset($_POST["login"])) && isset($_POST["usuario"])) echo htmlEntities($_POST["usuario"], ENT_QUOTES); ?>">
-                                    <button type="button" class="btn btn-info"> <i class="far fa-edit  d-inline"></i></button><!-- CADA VEZ QUE SE LE DE AL LAPIS SE PONE EL INPUT EN READONLY FALSE -->
+                                    <input class="form-control d-inline" type="text" name="usuario" id="usuario" readonly value="<?= $_SESSION["visitante"]["usuario"] ?>">
+                                    <button type="button" onclick="function habilitar() {
+                                        let usuario = document.getElementById('usuario');
+                                        usuario.readOnly=!usuario.readOnly;
+                                    }
+                                    habilitar()" class="btn btn-info"> <i class="far fa-edit  d-inline"></i></button>
                                 </div>
                                 <label for="email">Email:</label>
                                 <div class="form-group">
                                     <i class="fas fa-envelope d-inline"></i>
-                                    <input class="form-control d-inline" type="text" name="email" id="email" readonly value="<?php if (isset($_POST["registro"]) && isset($_POST["email"])) echo htmlEntities($_POST["email"], ENT_QUOTES); ?>">
-                                    <button type="button" class="btn btn-info"> <i class="far fa-edit  d-inline"></i></button><!-- CADA VEZ QUE SE LE DE AL LAPIS SE PONE EL INPUT EN READONLY FALSE -->
+                                    <input class="form-control d-inline" type="text" name="email" id="email" readonly value="<?= $_SESSION["visitante"]["email"] ?>">
+                                    <button type="button" onclick="function habilitar() {
+                                        let apellidos = document.getElementById('email');
+                                        email.readOnly=!email.readOnly;
+                                    }
+                                    habilitar()" class="btn btn-info"> <i class="far fa-edit  d-inline"></i></button>
                                 </div>
                                 <label for="contraseña">Contraseña:</label>
                                 <div class="form-group">
                                     <i class="fas fa-lock d-inline"></i>
                                     <input class="form-control d-inline" type="password" name="contraseña" id="contraseña" readonly>
-                                    <button type="button" class="btn btn-info"> <i class="far fa-edit  d-inline"></i></button><!-- CADA VEZ QUE SE LE DE AL LAPIS SE PONE EL INPUT EN READONLY FALSE -->
+                                    <button type="button" onclick="function habilitar() {
+                                        let contraseña = document.getElementById('contraseña');
+                                        contraseña.readOnly=!contraseña.readOnly;
+                                    }
+                                    habilitar()" class="btn btn-info"> <i class="far fa-edit  d-inline"></i></button>
                                 </div>
                                 <input type="submit" name="modificarPerfil" class="btn btn-primary" value="Modificar datos">
 
@@ -147,5 +177,12 @@ require_once "funciones.php";
 <script src='https://code.jquery.com/jquery-3.2.1.slim.min.js' integrity='sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN' crossorigin='anonymous'></script>
 <script src='https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js' integrity='sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q' crossorigin='anonymous'></script>
 <script src='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js' integrity='sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl' crossorigin='anonymous'></script>
+<script>
 
+    let apellidos = document.getElementById("apellidos");
+    let usuario = document.getElementById("usuario");
+    let email = document.getElementById("email");
+    let contraseña = document.getElementById("contraseña");
+
+</script>
 </html>

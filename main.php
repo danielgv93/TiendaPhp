@@ -2,7 +2,6 @@
 require_once "sql/queries.php";
 session_start();
 
-$carrito = "";
 
 if (isset($_POST["buscar"])) {
     $arrayDispositivos = busqueda($_POST["busquedaInput"]);
@@ -14,10 +13,23 @@ if (isset($_POST["relojes"])) {
     $arrayDispositivos = getRelojes();
 }
 
+if (!isset($_POST["buscar"]) && !isset($_POST["telefonos"]) && !isset($_POST["relojes"])) {
+    $arrayDispositivos = getDispositivos();
+}
+
+// Hacer click en el carrito
 if (isset($_POST["cart"])) {
-    $productoAñadido = getProducto($_POST["id"]);
-    $_SESSION["carrito"][array_keys($productoAñadido)[0]] = array_values($productoAñadido)[0];
-    $carrito = "Se añadió 1 " . $_SESSION["carrito"][$_POST["id"]]["modelo"] . " a la cesta.";
+    // Si ya esta en el carrito
+    if (isset($_SESSION["carrito"][$_POST["id"]])) {
+        $carrito = "El " . $_SESSION["carrito"][$_POST["id"]]["modelo"] . " ya estaba dentro de la cesta.";
+        $icono = "error";
+    } else {
+        // Si no esta en el carrito
+        $productoAñadido = getProducto($_POST["id"]);
+        $_SESSION["carrito"][array_keys($productoAñadido)[0]] = array_values($productoAñadido)[0];
+        $carrito = "Se añadió " . $_SESSION["carrito"][$_POST["id"]]["modelo"] . " a la cesta.";
+        $icono = "success";
+    }
     $url = $_SESSION["carrito"][$_POST["id"]]["imagen"];
 }
 
@@ -55,7 +67,6 @@ function busqueda($busquedaSelected)
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
     <link rel="stylesheet" href="css/main.css">
 
-
 </head>
 
 <body>
@@ -64,7 +75,8 @@ function busqueda($busquedaSelected)
             <a class="navbar" href="main.php">
                 <img src="img/logo.png" class="d-inline-block align-top imagen">
             </a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <i class="fas fa-align-justify"></i>
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -73,7 +85,8 @@ function busqueda($busquedaSelected)
                         <a class="nav-link" href="main.php">Inicio <span class="sr-only"></span></a>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             Categorías
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -89,23 +102,29 @@ function busqueda($busquedaSelected)
                     </li>
                 </ul>
                 <div class="col-6">
-                    <form method="post" action="<?= htmlspecialchars($_SERVER["PHP_SELF"]) ?>" class="form-inline my-2 my-lg-0 ml-5">
-                        <input class="form-control buscador" name="busquedaInput" type="text" placeholder="Buscar" aria-label="Search" value="<?php if (isset($_POST["buscar"])) echo $_POST["busquedaInput"] ?>">
-                        <button type="submit" class="btn btn-warning ml-1" name="buscar" id="buscar"> <i class="fas fa-search"></i></button>
+                    <form method="post" action="<?= htmlspecialchars($_SERVER["PHP_SELF"]) ?>"
+                          class="form-inline my-2 my-lg-0 ml-5">
+                        <input class="form-control buscador" name="busquedaInput" type="text" placeholder="Buscar"
+                               aria-label="Search"
+                               value="<?php if (isset($_POST["buscar"])) echo $_POST["busquedaInput"] ?>">
+                        <button type="submit" class="btn btn-warning ml-1" name="buscar" id="buscar"><i
+                                    class="fas fa-search"></i></button>
                     </form>
                 </div>
                 <div class="dropdown">
-                    <button class="btn bg-light dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Bienvenido <?= $_SESSION["visitante"]["nombre"] ?>
+                    <button class="btn bg-light dropdown-toggle" type="button" id="dropdownMenuButton"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Bienvenido <?= $_SESSION["visitante"]["nombre"] ?>
                     </button>
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                         <a class="dropdown-item" href="perfil.php" title="perfil"><i class="fas fa-user mr-2"></i>Perfil</a>
                         <a class="dropdown-item" href="logout.php"><i class="fas fa-sign-out-alt mr-2"></i>Logout</a>
                     </div>
                 </div>
-                <form method="post" class="perfil form-inline my-2 my-lg-0" action="<?= htmlspecialchars($_SERVER["PHP_SELF"]) ?>">
+                <form method="post" class="perfil form-inline my-2 my-lg-0"
+                      action="<?= htmlspecialchars($_SERVER["PHP_SELF"]) ?>">
                     <div class="usuario d-inline ml-1">
-                        <a 
+                        <a
                     </div>
                     <div class="logout d-inline ml-2">
                         <a href="carro.php" title="cesta"><i class="fas fa-shopping-cart fa-2x"></i></a>
@@ -119,34 +138,38 @@ function busqueda($busquedaSelected)
                 <?php
                 $elementoActual = 1;
                 $limite = 5;
-                if (isset($_POST["buscar"]) || isset($_POST["telefonos"]) || isset($_POST["relojes"])) : ?>
-                    <?php if ($arrayDispositivos !== false) foreach ($arrayDispositivos as $id => $producto) : ?>
-                        <!--AQUI VA CADA TARJETA DE LA BUSQUEDA-->
-                        <?php if ($elementoActual === 1) echo "<div class='row'>" ?>
-                        <div class="card text-white mt-4 carta">
-                            <form action="producto.php" method="get" class="d-inline">
-                                <div class="imagenCarta">
-                                    <button type="submit" name="ficha" id="ficha"> <img class="card-img-top" src="<?= $producto["imagen"] ?>" alt="<?= $producto["modelo"] ?>"> </button>
-                                </div>
-                                <div class="card-body">
-                                    <h5 class="card-title"><?= $producto["modelo"] ?></h5>
-                                    <p class="card-text"><?= $producto["precio"] ?> €</p>
-                                    <input type="hidden" name="id" value="<?= $id ?>">
-                            </form>
-                            <form action="<?= htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="post">
-                                <input type="hidden" name="id" value="<?= $id ?>">
-                                <button type="submit" class="btn btn-warning ml-4 d-inline cesta" name="cart" id="cart"><i class="fas fa-shopping-cart mr-3"></i> Añadir a la cesta </button>
-                            </form>
+                if ($arrayDispositivos !== false) foreach ($arrayDispositivos
+
+                as $id => $producto) : ?>
+                <!--AQUI VA CADA TARJETA DE LA BUSQUEDA-->
+                <?php if ($elementoActual === 1) echo "<div class='row'>" ?>
+                <div class="card text-white mt-4 carta">
+                    <form action="producto.php" method="post" class="d-inline">
+                        <div class="imagenCarta">
+                            <button type="submit" name="ficha" id="ficha"><img class="card-img-top"
+                                                                               src="<?= $producto["imagen"] ?>"
+                                                                               alt="<?= $producto["modelo"] ?>"></button>
                         </div>
+                        <div class="card-body">
+                            <h5 class="card-title"><?= $producto["modelo"] ?></h5>
+                            <p class="card-text"><?= $producto["precio"] ?> €</p>
+                            <input type="hidden" name="id" value="<?= $id ?>">
+                    </form>
+                    <form action="<?= htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="post">
+                        <input type="hidden" name="id" value="<?= $id ?>">
+                        <button type="submit" class="btn btn-warning ml-4 d-inline cesta" name="cart" id="cart"><i
+                                    class="fas fa-shopping-cart mr-3"></i> Añadir a la cesta
+                        </button>
+                    </form>
+                </div>
 
             </div>
             <?php if ($elementoActual === $limite - 1) echo "</div>";
-                        $elementoActual++;
-                        if ($elementoActual === $limite) $elementoActual = 1; ?>
-        <?php endforeach; ?>
-        <?php if ($elementoActual !==  1) echo "</div>"; ?>
-    <?php endif; ?>
-        </div>
+            $elementoActual++;
+            if ($elementoActual === $limite) $elementoActual = 1; ?>
+            <?php endforeach; ?>
+            <?php if ($elementoActual !== 1) echo "</div>"; ?>
+
         </div>
         <footer class="page-footer font-small blue">
             <div class="footer-copyright text-center py-3">&copy; 2020 Copyright:
@@ -174,7 +197,7 @@ function busqueda($busquedaSelected)
 <?php if (isset($_POST["cart"])) : ?>
     <script>
         Swal.fire({
-            icon: 'success',
+            icon: '<?= $icono ?>',
             title: '<?= $carrito ?>',
             backdrop: `rgba(0,0,123,0.4)`,
             imageUrl: '<?= $url ?>',

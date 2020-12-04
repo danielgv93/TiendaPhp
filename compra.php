@@ -3,14 +3,16 @@ require_once "sql/queries.php";
 session_start();
 
 $texto = "Compra realizada con éxito";
+$icono = "success";
 // INSERTAR COMPRA EN BBDD Y QUITAR STOCK DEL DISPOSITIVO
-try {
+
     for ($i = 0; $i < count($_POST["id"]); $i++) {
-        registrarCompra_RetirarStock($_SESSION["visitante"]["id"], $_POST["id"][$i], $_POST["cantidad"][$i]);
+        if (($error = registrarCompra_RetirarStock($_SESSION["visitante"]["id"], $_POST["id"][$i], $_POST["cantidad"][$i])) !== true) {
+            $texto = $error;
+            $icono = "error";
+            break;
+        }
     }
-} catch (Exception $e) {
-    $texto = $e->getMessage();
-}
 unset($_SESSION["carrito"]);
 ?>
 
@@ -52,7 +54,7 @@ unset($_SESSION["carrito"]);
         Swal.fire({
             title: '<?= $texto ?>',
             timer: 2000,
-            icon: 'success',
+            icon: '<?= $icono ?>',
             backdrop: `rgba(0,0,123,0.4)`,
         });
         await sleep(2000);

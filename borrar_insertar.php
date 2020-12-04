@@ -89,7 +89,7 @@ if (isset($_POST["borrar"])) {
 </head>
 
 <body>
-    <?php if (isset($_SESSION["visitante"])) : ?>
+    <?php if ($_SESSION["visitante"]["admin"] == 1) : ?>
         <nav class="navbar navbar-expand-lg navegador text-light">
             <a class="navbar" href="main.php">
                 <img src="img/logo.png" class="d-inline-block align-top imagen">
@@ -305,7 +305,7 @@ if (isset($_POST["borrar"])) {
         <div class="container">
             <div>
                 <div class="alert alert-warning aviso" role="alert">
-                    Parece que aún no has <a href="index.php" class="alert-link">iniciado sesión</a>. No dudes en hacerlo!
+                    <strong>Ups! Parece que no tienes permiso para ver esto.</strong>
                     <i class="far fa-comment-dots fa-8x"></i>
                 </div>
             </div>

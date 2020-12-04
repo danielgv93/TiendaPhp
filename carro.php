@@ -87,9 +87,8 @@ session_start();
                                                 <!-- Esto lo metes en uno de esos bucles tuyos rechingones bien vergosos
                                                 y sacas todos los productos que haya añadidos asin en esa tablita -->
                                                 <tbody>
-                                                    <!--TODO: COMPLETAR EL FORMULARIO-->
 
-                                                    <?php if (isset($_SESSION["carrito"])) foreach ($_SESSION["carrito"] as $id => $producto) : ?>
+                                                    <?php if (isset($_SESSION["carrito"]))  foreach ($_SESSION["carrito"] as $id => $producto) : ?>
                                                         <tr>
                                                             <th scope="row" class="border-0">
                                                                 <div class="p-2">
@@ -106,7 +105,7 @@ session_start();
                                                             </th>
                                                             <input type="hidden" name="id[]" value="<?= $id ?>">
                                                             <td class="border-0 align-middle"><strong><?= $producto["precio"] ?>€</strong><input type="hidden" name="precio[]" value="<?= $producto["precio"] ?>" readonly></td>
-                                                            <td class="border-0 align-middle text-center"><input type="number" name="cantidad[]" value="1" oninput="calculo()" min="0" readonly></td>
+                                                            <td class="border-0 align-middle text-center"><input type="number" name="cantidad[]" value="1" oninput="calculo()" min="0"></td>
                                                             <!-- BOTONES BIEN CHINGONES, FALTA QUE HAGAN ALGO -->
                                                             <td class="border-0 align-middle"><button type="button" class="btn mr-2"><i class="fas fa-minus"></i></button><button type="button" class="btn"><i class="fas fa-plus"></i></button></td>
                                                             <td class="align-middle">

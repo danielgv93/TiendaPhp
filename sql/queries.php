@@ -406,6 +406,15 @@ function registrarCompra_RetirarStock($idUsuario, $idProducto, $cantidad)
         if ($consulta->execute() != true) {
             throw new Exception("Error al registrar la compra");
         }
+        $sql = "SELECT stock FROM dispositivos WHERE id_dispositivo = ?;";
+        $consulta = $conexion->prepare($sql);
+        $consulta->bindParam(1, $idProducto);
+        $consulta->execute();
+        $consulta->bindColumn(1, $stockTienda);
+        $consulta->fetch(PDO::FETCH_BOUND);
+        if ($stockTienda < $cantidad) {
+            throw new Exception("No se ha realizado la compra. Stock menor al elegido");
+        }
         $sql = "UPDATE dispositivos SET stock = (stock - ?) WHERE id_dispositivo = ?;";
         $consulta = $conexion->prepare($sql);
         $consulta->bindParam(1, $cantidad);
@@ -419,7 +428,17 @@ function registrarCompra_RetirarStock($idUsuario, $idProducto, $cantidad)
     } catch (Exception $e) {
         $conexion->rollBack();
         unset($conexion);
-        return false;
+        return $e->getMessage();
     }
+
+}
+
+function updateUsuario($nombre, $apellidos, $usuario, $email, $contraseña)
+{
+    // TODO: IMPLEMENTAR CONSULTA
+}
+
+function updateFotoUsuario($id, $imagen)
+{
 
 }
