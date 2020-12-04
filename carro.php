@@ -105,9 +105,22 @@ session_start();
                                                             </th>
                                                             <input type="hidden" name="id[]" value="<?= $id ?>">
                                                             <td class="border-0 align-middle"><strong><?= $producto["precio"] ?>€</strong><input type="hidden" name="precio[]" value="<?= $producto["precio"] ?>" readonly></td>
-                                                            <td class="border-0 align-middle text-center"><input type="number" name="cantidad[]" value="1" oninput="calculo()" min="0"></td>
+                                                            <td class="border-0 align-middle text-center"><input type="number" id="<?= $id ?>_cantidad" name="cantidad[]" value="1" oninput="calculo()" min="0" readonly></td>
                                                             <!-- BOTONES BIEN CHINGONES, FALTA QUE HAGAN ALGO -->
-                                                            <td class="border-0 align-middle"><button type="button" class="btn mr-2"><i class="fas fa-minus"></i></button><button type="button" class="btn"><i class="fas fa-plus"></i></button></td>
+                                                            <td class="border-0 align-middle">
+                                                                <button type="button" onclick="(()=>{
+                                                                    let cantidad = document.getElementById('<?= $id ?>_cantidad');
+                                                                        if (cantidad.value > 0){
+                                                                            cantidad.value--;
+                                                                        }
+                                                                })();calculo()" class="btn mr-2"><i class="fas fa-minus"></i></button>
+                                                                <button type="button" onclick="(()=>{
+                                                                    let cantidad = document.getElementById('<?= $id ?>_cantidad');
+                                                                        if (cantidad.value < <?= $producto["stock"] ?>){
+                                                                            cantidad.value++;
+                                                                        }
+                                                                })();calculo()" class="btn"><i class="fas fa-plus"></i></button>
+                                                            </td>
                                                             <td class="align-middle">
                                                                 <button type="button" class="btn"><i class="fas fa-trash"></i></button></td>
                                                         </tr>
