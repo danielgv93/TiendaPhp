@@ -71,6 +71,9 @@ $historiales=getHistorial($_SESSION["visitante"]["id"]);
                                                 <thead>
                                                     <tr>
                                                         <th scope="col" class="border-0 bg-light">
+                                                            <div class="p-2 px-3 text-uppercase">ID Compra</div>
+                                                        </th>
+                                                        <th scope="col" class="border-0 bg-light">
                                                             <div class="p-2 px-3 text-uppercase">Producto</div>
                                                         </th>
                                                         <th scope="col" class="border-0 bg-light">
@@ -88,8 +91,9 @@ $historiales=getHistorial($_SESSION["visitante"]["id"]);
                                                 y sacas todos los productos que haya añadidos asin en esa tablita -->
                                                 <tbody>
 
-                                                    <?php foreach ($historiales as $id => $producto) : ?>
+                                                    <?php if(isset($historiales)) foreach ($historiales as $producto) : ?>
                                                         <tr>
+                                                            <td class="border-0 align-middle text-center"><strong><?= $producto["id_compra"] ?></strong></td>
                                                             <th scope="row" class="border-0">
                                                                 <div class="p-2">
                                                                     <img src="<?= $producto["imagen"] ?>" alt="Imagen de <?= $producto["imagen"] ?>" width="70" class="img-fluid imagenCesta rounded shadow-sm">
@@ -100,7 +104,6 @@ $historiales=getHistorial($_SESSION["visitante"]["id"]);
                                                                     </div>
                                                                 </div>
                                                             </th>
-                                                            <input type="hidden" name="id[]" value="<?= $id ?>">
                                                             <td class="border-0 align-middle text-center"><strong><?= $producto["precio"] ?>€</strong><input type="hidden" name="precio[]" value="<?= $producto["precio"] ?>" readonly></td>
                                                             <td class="border-0 align-middle text-center"><strong><?= $producto["cantidad"] ?></strong></td>
                                                             <td class="border-0 align-middle text-center">

@@ -93,6 +93,7 @@ session_start();
 
                                                     <?php if (isset($_SESSION["carrito"]))  foreach ($_SESSION["carrito"] as $id => $producto) : ?>
                                                         <tr>
+                                                            <input type="hidden" name="id[]" value="<?= $id ?>">
                                                             <th scope="row" class="border-0">
                                                                 <div class="p-2">
                                                                     <img src="<?= $producto["imagen"] ?>" alt="Imagen de <?= $producto["imagen"] ?>" width="70" class="img-fluid imagenCesta rounded shadow-sm">

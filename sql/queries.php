@@ -491,19 +491,21 @@ function getHistorial($idUsuario)
 {
 
     $conexion = getConexionPDO();
-    $sql = "SELECT c.id_dispositivo, imagen, modelo, precio, unidades, fecha from dispositivos d right join compras c on d.id_dispositivo = c.id_dispositivo where c.id_usuario = ?;";
+    $datos = null;
+    $sql = "SELECT id_compra, c.id_dispositivo, imagen, modelo, precio, unidades, fecha from dispositivos d left join compras c on d.id_dispositivo = c.id_dispositivo where c.id_usuario = ?;";
     $resultado = $conexion->prepare($sql);
     $resultado->bindParam(1, $idUsuario);
     $resultado->execute();
-    $resultado->bindColumn(1, $id);
-    $resultado->bindColumn(2, $imagen);
-    $resultado->bindColumn(3, $modelo);
-    $resultado->bindColumn(4, $precio);
-    $resultado->bindColumn(5, $cantidad);
-    $resultado->bindColumn(6, $fecha);
+    $resultado->bindColumn(1, $idCompra);
+    $resultado->bindColumn(2, $id);
+    $resultado->bindColumn(3, $imagen);
+    $resultado->bindColumn(4, $modelo);
+    $resultado->bindColumn(5, $precio);
+    $resultado->bindColumn(6, $cantidad);
+    $resultado->bindColumn(7, $fecha);
     while ($resultado->fetch(PDO::FETCH_BOUND)) {
-        $datos[$id] = array(
-            "imagen" => $imagen,"modelo" => $modelo, "precio" => $precio, "cantidad"=>$cantidad, "fecha"=>$fecha
+        $datos[] = array(
+            "id_compra" => $idCompra, "id"=> $id, "imagen" => $imagen,"modelo" => $modelo, "precio" => $precio, "cantidad"=>$cantidad, "fecha"=>$fecha
         );
     }
     unset($conexion);
