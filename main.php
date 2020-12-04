@@ -142,6 +142,7 @@ function busqueda($busquedaSelected)
                             <div class="card-body">
                                 <h5 class="card-title"><?= $producto["modelo"] ?></h5>
                                 <p class="card-text"><?= $producto["precio"] ?> €</p>
+                                <p class="card-text">Quedan <?= $producto["stock"] ?> uds</p>
                                 <input type="hidden" name="id" value="<?= $id ?>">
                         </form>
                         <form action="<?= htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="post">

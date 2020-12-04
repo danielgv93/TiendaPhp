@@ -1,9 +1,21 @@
 <?php
 session_start();
+require_once "sql/queries.php";
 require_once "funciones.php";
 
+$texto = "";
+
 if (isset($_POST["modificarPerfil"])) {
-    // FUNCION MODIFICAR USUARIO
+    if (!empty($_POST["contraseña"])) {
+        if (updateUsuario($_SESSION["visitante"]["id"], $_POST["nombre"], $_POST["apellidos"], $_POST["usuario"], $_POST["email"], $_POST["contraseña"])) {
+            $_SESSION["visitante"] = getUsuario($_SESSION["visitante"]["id"]);
+            $texto = "Datos actualizados con exito";
+        } else {
+            $texto = "Error al actualizar usuario";
+        }
+    } else {
+        $texto = "Falta de escribir la pass";
+    }
 }
 ?>
 <!DOCTYPE html>
@@ -155,6 +167,7 @@ if (isset($_POST["modificarPerfil"])) {
                         </div>
 
                     </div>
+                    <?= $texto ?>
                 </div>
             </div>
         </div>

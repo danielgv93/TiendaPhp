@@ -246,18 +246,15 @@ session_start();
             envio.innerHTML = precioEnvio2.toFixed(2) + " €";
         }
     }
-    <?php if (isset($_POST["borrar"])) : ?>
+    <?php /*if (isset($_POST["borrar"])) : */?>/*
         Swal.fire({
-            icon: '<?= $icono ?>',
-            title: '<?= $carrito ?>',
+            icon: 'warning',
+            title: '¿Quieres borrar el elemento?',
             backdrop: `rgba(0,0,123,0.4)`,
-            imageUrl: '<?= $url ?>',
             width: 400,
-            imageClass: 'sa2-image',
-            showConfirmButton: false,
-            timer: 2000
+            showConfirmButton: false
         })
-<?php endif ?>
+*/<?php /*endif */?>
 </script>
 
 </html>

@@ -122,7 +122,7 @@ function updateStock($id, $stock)
     return true;
 }
 
-function getStock($id)
+/*function getStock($id)
 {
     $conexion = getConexionPDO();
     $sql = "SELECT stock from dispositivos where id_dispositivo = ?;";
@@ -132,7 +132,7 @@ function getStock($id)
     $resultado->bindColumn(1, $stock);
     $resultado->fetch(PDO::FETCH_BOUND);
     return $stock;
-}
+}*/
 
 function addMovil(
     $modelo,
@@ -463,9 +463,24 @@ function registrarCompra_RetirarStock($idUsuario, $idProducto, $cantidad)
     }
 }
 
-function updateUsuario($nombre, $apellidos, $usuario, $email, $contraseña)
+function updateUsuario($id, $nombre, $apellidos, $usuario, $email, $contraseña)
 {
     // TODO: IMPLEMENTAR CONSULTA
+    $conexion = getConexionPDO();
+    $sql = "UPDATE usuarios SET nombre = ?, apellidos = ?, usuario = ?, email = ?, pass = MD5(?)  WHERE id = ?;";
+    $consulta = $conexion->prepare($sql);
+    $consulta->bindParam(1, $nombre);
+    $consulta->bindParam(2, $apellidos);
+    $consulta->bindParam(3, $usuario);
+    $consulta->bindParam(4, $email);
+    $consulta->bindParam(5, $contraseña);
+    $consulta->bindParam(6, $id);
+    if ($consulta->execute()){
+        unset($conexion);
+        return true;
+    }
+    unset($conexion);
+    return false;
 }
 
 function updateFotoUsuario($id, $imagen)
