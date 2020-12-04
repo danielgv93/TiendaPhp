@@ -66,8 +66,8 @@ session_start();
                             <form action="compra.php" method="post">
                                 <div class="row">
                                     <div class="col-lg-12 p-5 bg-white rounded shadow-sm mb-5">
-                                        <button type="submit" name="borrar" class="btn"><i
-                                                    class="fas fa-trash"></i></button>
+                                        <button type="submit" name="borrar" class="btn mb-2 borrar"><i
+                                                    class="fas fa-trash fa-2x"></i> BORRAR CESTA</button>
                                         <div class="table-responsive">
                                             <table class="table">
                                                 <!-- Esto asi a machete, no toques na -->
@@ -106,7 +106,7 @@ session_start();
                                                                     </div>
                                                                 </div>
                                                             </th>
-                                                            <td class="border-0 align-middle"><strong><?= $producto["precio"] ?>€</strong><input type="hidden" name="precio[]" value="<?= $producto["precio"] ?>" readonly></td>
+                                                            <td class="border-0 align-middle text-center"><strong><?= $producto["precio"] ?>€</strong><input type="hidden" name="precio[]" value="<?= $producto["precio"] ?>" readonly></td>
                                                             <td class="border-0 align-middle"><input type="number" class="text-center cantidad" id="<?= $id ?>_cantidad" name="cantidad[]" value="1" oninput="calculo()" min="0" readonly></td>
                                                             <!-- BOTONES BIEN CHINGONES, FALTA QUE HAGAN ALGO -->
                                                             <td class="border-0 align-middle">
@@ -246,6 +246,18 @@ session_start();
             envio.innerHTML = precioEnvio2.toFixed(2) + " €";
         }
     }
+    <?php if (isset($_POST["borrar"])) : ?>
+        Swal.fire({
+            icon: '<?= $icono ?>',
+            title: '<?= $carrito ?>',
+            backdrop: `rgba(0,0,123,0.4)`,
+            imageUrl: '<?= $url ?>',
+            width: 400,
+            imageClass: 'sa2-image',
+            showConfirmButton: false,
+            timer: 2000
+        })
+<?php endif ?>
 </script>
 
 </html>
