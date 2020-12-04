@@ -26,7 +26,6 @@ function addUsuario($nombre, $apellidos, $email, $usuario, $password)
         unset($conexion);
         return false;
     }
-
 }
 
 function getUsuario($id)
@@ -45,8 +44,10 @@ function getUsuario($id)
         $consulta->bindColumn(7, $foto_perfil);
         $consulta->bindColumn(8, $admin);
         if ($consulta->fetch()) {
-            return array("id" => $id, "usuario" => $usuario, "nombre" => $nombre, "apellidos" => $apellidos, "email" => $email,
-                "foto_perfil" => $foto_perfil, "admin" => $admin);
+            return array(
+                "id" => $id, "usuario" => $usuario, "nombre" => $nombre, "apellidos" => $apellidos, "email" => $email,
+                "foto_perfil" => $foto_perfil, "admin" => $admin
+            );
         }
     }
     return 0;
@@ -100,9 +101,11 @@ function getDispositivos()
     $resultado->bindColumn(11, $stock);
     $resultado->bindColumn(12, $imagen);
     while ($resultado->fetch(PDO::FETCH_BOUND)) {
-        $datos[$id] = array("modelo" => $modelo, "precio" => $precio, "gama" => $gama, "anio" => $anio,
+        $datos[$id] = array(
+            "modelo" => $modelo, "precio" => $precio, "gama" => $gama, "anio" => $anio,
             "ram" => $ram, "almacenamiento" => $almacenamiento, "procesador" => $procesador, "bateria" => $bateria,
-            "pulgadas" => $pulgadas, "stock" => $stock, "imagen" => $imagen);
+            "pulgadas" => $pulgadas, "stock" => $stock, "imagen" => $imagen
+        );
     }
     return $datos;
 }
@@ -129,12 +132,22 @@ function getStock($id)
     $resultado->bindColumn(1, $stock);
     $resultado->fetch(PDO::FETCH_BOUND);
     return $stock;
-
 }
 
-function addMovil($modelo, $precio, $gama, $anio, $ram, $almacenamiento, $procesador, $bateria, $pulgadas, $imagen,
-                  $camara, $notch)
-{
+function addMovil(
+    $modelo,
+    $precio,
+    $gama,
+    $anio,
+    $ram,
+    $almacenamiento,
+    $procesador,
+    $bateria,
+    $pulgadas,
+    $imagen,
+    $camara,
+    $notch
+) {
     $conexion = getConexionPDO();
     /* SE COMPRUEBA QUE NO HAY UN MISMO MODELO EN LA BASE DE DATOS */
     $sql = "SELECT COUNT(*) as iguales from dispositivos where modelo = ?;";
@@ -182,9 +195,19 @@ function addMovil($modelo, $precio, $gama, $anio, $ram, $almacenamiento, $proces
     }
 }
 
-function addReloj($modelo, $precio, $gama, $anio, $ram, $almacenamiento, $procesador, $bateria, $pulgadas, $imagen,
-                  $sim)
-{
+function addReloj(
+    $modelo,
+    $precio,
+    $gama,
+    $anio,
+    $ram,
+    $almacenamiento,
+    $procesador,
+    $bateria,
+    $pulgadas,
+    $imagen,
+    $sim
+) {
     $conexion = getConexionPDO();
     /* SE COMPRUEBA QUE NO HAY UN MISMO MODELO EN LA BASE DE DATOS */
     $sql = "SELECT COUNT(*) as iguales from dispositivos where modelo = ?;";
@@ -252,9 +275,11 @@ function getMoviles()
     $resultado->bindColumn(14, $camara);
     $resultado->bindColumn(15, $notch);
     while ($resultado->fetch(PDO::FETCH_BOUND)) {
-        $datos[$id] = array("modelo" => $modelo, "precio" => $precio, "gama" => $gama, "anio" => $anio,
+        $datos[$id] = array(
+            "modelo" => $modelo, "precio" => $precio, "gama" => $gama, "anio" => $anio,
             "ram" => $ram, "almacenamiento" => $almacenamiento, "procesador" => $procesador, "bateria" => $bateria,
-            "pulgadas" => $pulgadas, "imagen" => $imagen, "stock" => $stock, "camara" => $camara, "notch" => $notch);
+            "pulgadas" => $pulgadas, "imagen" => $imagen, "stock" => $stock, "camara" => $camara, "notch" => $notch
+        );
     }
     return $datos;
 }
@@ -282,9 +307,11 @@ function getMovil($idSelected)
     $resultado->bindColumn(14, $camara);
     $resultado->bindColumn(15, $notch);
     $resultado->fetch(PDO::FETCH_BOUND);
-     $datos[$id] = array("modelo" => $modelo, "precio" => $precio, "gama" => $gama, "anio" => $anio,
+    $datos[$id] = array(
+        "modelo" => $modelo, "precio" => $precio, "gama" => $gama, "anio" => $anio,
         "ram" => $ram, "almacenamiento" => $almacenamiento, "procesador" => $procesador, "bateria" => $bateria,
-        "pulgadas" => $pulgadas, "imagen" => $imagen, "stock" => $stock, "camara" => $camara, "notch" => $notch);
+        "pulgadas" => $pulgadas, "imagen" => $imagen, "stock" => $stock, "camara" => $camara, "notch" => $notch
+    );
     unset($conexion);
     return $datos;
 }
@@ -309,9 +336,11 @@ function getRelojes()
     $resultado->bindColumn(13, $idReloj);
     $resultado->bindColumn(14, $sim);
     while ($resultado->fetch(PDO::FETCH_BOUND)) {
-        $datos[$id] = array("modelo" => $modelo, "precio" => $precio, "gama" => $gama, "anio" => $anio,
+        $datos[$id] = array(
+            "modelo" => $modelo, "precio" => $precio, "gama" => $gama, "anio" => $anio,
             "ram" => $ram, "almacenamiento" => $almacenamiento, "procesador" => $procesador, "bateria" => $bateria,
-            "pulgadas" => $pulgadas, "imagen" => $imagen, "stock" => $stock, "sim" => $sim);
+            "pulgadas" => $pulgadas, "imagen" => $imagen, "stock" => $stock, "sim" => $sim
+        );
     }
     unset($conexion);
     return $datos;
@@ -339,9 +368,11 @@ function getReloj($idSelected)
     $resultado->bindColumn(13, $idReloj);
     $resultado->bindColumn(14, $sim);
     $resultado->fetch(PDO::FETCH_BOUND);
-    $datos[$id] = array("modelo" => $modelo, "precio" => $precio, "gama" => $gama, "anio" => $anio,
+    $datos[$id] = array(
+        "modelo" => $modelo, "precio" => $precio, "gama" => $gama, "anio" => $anio,
         "ram" => $ram, "almacenamiento" => $almacenamiento, "procesador" => $procesador, "bateria" => $bateria,
-        "pulgadas" => $pulgadas, "imagen" => $imagen, "stock" => $stock, "sim" => $sim);
+        "pulgadas" => $pulgadas, "imagen" => $imagen, "stock" => $stock, "sim" => $sim
+    );
     unset($conexion);
     return $datos;
 }
@@ -430,7 +461,6 @@ function registrarCompra_RetirarStock($idUsuario, $idProducto, $cantidad)
         unset($conexion);
         return $e->getMessage();
     }
-
 }
 
 function updateUsuario($nombre, $apellidos, $usuario, $email, $contraseña)
@@ -440,5 +470,27 @@ function updateUsuario($nombre, $apellidos, $usuario, $email, $contraseña)
 
 function updateFotoUsuario($id, $imagen)
 {
+}
 
+function getHistorial($idUsuario)
+{
+
+    $conexion = getConexionPDO();
+    $sql = "SELECT c.id_dispositivo, imagen, modelo, precio, unidades, fecha from dispositivos d right join compras c on d.id_dispositivo = c.id_dispositivo where c.id_usuario = ?;";
+    $resultado = $conexion->prepare($sql);
+    $resultado->bindParam(1, $idUsuario);
+    $resultado->execute();
+    $resultado->bindColumn(1, $id);
+    $resultado->bindColumn(2, $imagen);
+    $resultado->bindColumn(3, $modelo);
+    $resultado->bindColumn(4, $precio);
+    $resultado->bindColumn(5, $cantidad);
+    $resultado->bindColumn(6, $fecha);
+    while ($resultado->fetch(PDO::FETCH_BOUND)) {
+        $datos[$id] = array(
+            "imagen" => $imagen,"modelo" => $modelo, "precio" => $precio, "cantidad"=>$cantidad, "fecha"=>$fecha
+        );
+    }
+    unset($conexion);
+    return $datos;
 }

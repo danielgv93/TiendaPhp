@@ -77,6 +77,9 @@ if (isset($_POST["modificarPerfil"])) {
                                 }
                                 ?>
                             </div>
+                            <div class="profile-usertitle-name mr-4">
+                            <a href="historial.php" class="historial ml-3 btn btn-warning">Historial de compras</a>
+                            </div>
                         </div>
                         <?php if ($_SESSION["visitante"]["admin"] == 1): ?>
                             <div class="profile-userpic">
