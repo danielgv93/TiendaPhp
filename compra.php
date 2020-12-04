@@ -4,8 +4,12 @@ session_start();
 
 $texto = "Compra realizada con éxito";
 $icono = "success";
-// INSERTAR COMPRA EN BBDD Y QUITAR STOCK DEL DISPOSITIVO
 
+if (isset($_POST["borrar"])) {
+    $_SESSION["carrito"][$_POST["id"]] = null;
+    header("Location: carro.php");
+}
+if ($_POST["pago"]) {
     for ($i = 0; $i < count($_POST["id"]); $i++) {
         if (($error = registrarCompra_RetirarStock($_SESSION["visitante"]["id"], $_POST["id"][$i], $_POST["cantidad"][$i])) !== true) {
             $texto = $error;
@@ -13,6 +17,7 @@ $icono = "success";
             break;
         }
     }
+}
 unset($_SESSION["carrito"]);
 ?>
 

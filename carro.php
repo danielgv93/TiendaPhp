@@ -66,6 +66,8 @@ session_start();
                             <form action="compra.php" method="post">
                                 <div class="row">
                                     <div class="col-lg-12 p-5 bg-white rounded shadow-sm mb-5">
+                                        <button type="submit" name="borrar" class="btn"><i
+                                                    class="fas fa-trash"></i></button>
                                         <div class="table-responsive">
                                             <table class="table">
                                                 <!-- Esto asi a machete, no toques na -->
@@ -82,9 +84,6 @@ session_start();
                                                         </th>
                                                         <th scope="col" class="border-0 bg-light">
                                                             <div class="py-2 text-uppercase">Modificar</div>
-                                                        </th>
-                                                        <th scope="col" class="border-0 bg-light">
-                                                            <div class="py-2 text-uppercase">Eliminar</div>
                                                         </th>
                                                     </tr>
                                                 </thead>
@@ -107,7 +106,6 @@ session_start();
                                                                     </div>
                                                                 </div>
                                                             </th>
-                                                            <input type="hidden" name="id[]" value="<?= $id ?>">
                                                             <td class="border-0 align-middle"><strong><?= $producto["precio"] ?>€</strong><input type="hidden" name="precio[]" value="<?= $producto["precio"] ?>" readonly></td>
                                                             <td class="border-0 align-middle"><input type="number" class="text-center cantidad" id="<?= $id ?>_cantidad" name="cantidad[]" value="1" oninput="calculo()" min="0" readonly></td>
                                                             <!-- BOTONES BIEN CHINGONES, FALTA QUE HAGAN ALGO -->
@@ -125,8 +123,6 @@ session_start();
                                                                         }
                                                                 })();calculo()" class="btn"><i class="fas fa-plus"></i></button>
                                                             </td>
-                                                            <td class="align-middle">
-                                                                <button type="button" class="btn"><i class="fas fa-trash"></i></button></td>
                                                         </tr>
                                                     <?php endforeach; ?>
                                                 </tbody>
@@ -180,7 +176,7 @@ session_start();
                                                     </h5>
                                                 </li>
                                             </ul>
-                                            <button type="submit" class="btn btn-dark py-2 btn-block">Continuar al pago</button>
+                                            <button type="submit" name="pago" class="btn btn-dark py-2 btn-block">Continuar al pago</button>
 
                                         </div>
                                     </div>
