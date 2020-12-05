@@ -83,7 +83,7 @@ if (isset($_POST["modificarPerfil"])) {
         <div class="container">
             <div class="row profile">
                 <div class="col-md-3">
-                    <div class="profile-sidebar">
+                    <div class="profile-sidebar <?php if($_SESSION["visitante"]["admin"]==1)echo "gold"; ?>">
                         <div class="profile-userpic">
                             <img src="<?= $_SESSION["visitante"]["foto_perfil"] ?>" class="img-responsive ml-5 imagenPerfil" alt="Foto perfil">
                             <!-- TODO: CAMBIAR FOTO PERFIL -->
@@ -97,10 +97,10 @@ if (isset($_POST["modificarPerfil"])) {
                             </form>
                         </div>
                         <div class="profile-usertitle">
-                            <div class="profile-usertitle-name mr-4">
+                            <div class="profile-usertitle-name mr-4 <?php if($_SESSION["visitante"]["admin"]==1)echo "gold-user"; ?>">
                                 <?= $_SESSION["visitante"]["nombre"] . " " . $_SESSION["visitante"]["apellidos"] ?>
                             </div>
-                            <div class="profile-usertitle-job mr-4 mb-4">
+                            <div class="profile-usertitle-job mr-4 mb-4 <?php if($_SESSION["visitante"]["admin"]==1)echo "gold-user"; ?>">
                                 <?php
                                 if ($_SESSION["visitante"]["admin"] == 1) {
                                     echo "Administrador";
