@@ -60,7 +60,7 @@ function busqueda($busquedaSelected)
     <meta charset='UTF-8'>
     <meta name='viewport' content='width=device-width, initial-scale=1, shrink-to-fit=no'>
     <meta http-equiv='X-UA-Compatible' content='ie=edge'>
-    <title>Encuentra tu dispositivo</title>
+    <title>P3 - Busqueda</title>
     <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css' integrity='sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm' crossorigin='anonymous'>
     <link rel="shorcut icon" href="img/iconTitle.png">
     <link rel="stylesheet" href="/font-awesome-4.7.0/css/font-awesome.min.css">
@@ -129,20 +129,20 @@ function busqueda($busquedaSelected)
                 <?php
                 $elementoActual = 1;
                 $limite = 5;
-                if ($arrayDispositivos !== false) foreach ($arrayDispositivos
-
-                    as $id => $producto) : ?>
+                if ($arrayDispositivos !== false) foreach ($arrayDispositivos as $id => $producto) :
+                ?>
                     <!--AQUI VA CADA TARJETA DE LA BUSQUEDA-->
                     <?php if ($elementoActual === 1) echo "<div class='row'>" ?>
                     <div class="card text-white mt-4 carta">
                         <form action="producto.php" method="post" class="d-inline">
                             <div class="imagenCarta">
-                                <button type="submit" name="ficha" id="ficha"><img class="card-img-top" src="<?= $producto["imagen"] ?>" alt="<?= $producto["modelo"] ?>"></button>
+                                <button type="submit" class="boton-imagen" name="ficha" id="ficha"><img class="card-img-top imagen-visible" src="<?= $producto["imagen"] ?>" alt="<?= $producto["modelo"] ?>"></button>
                             </div>
                             <div class="card-body">
                                 <h5 class="card-title"><?= $producto["modelo"] ?></h5>
-                                <p class="card-text"><?= $producto["precio"] ?> €</p>
-                                <p class="card-text">Quedan <?= $producto["stock"] ?> uds</p>
+                                <p class="card-text"><?= $producto["precio"] ?>€</p>
+                                <hr>
+                                <p class="card-text"> Quedan <?= $producto["stock"] ?> unidades </p>
                                 <input type="hidden" name="id" value="<?= $id ?>">
                         </form>
                         <form action="<?= htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="post">
@@ -158,8 +158,9 @@ function busqueda($busquedaSelected)
                     if ($elementoActual === $limite) $elementoActual = 1; ?>
         <?php endforeach; ?>
         <?php if ($elementoActual !== 1) echo "</div>"; ?>
-
         </div>
+        </div>
+
         <footer class="page-footer font-small blue">
             <div class="footer-copyright text-center py-3">&copy; 2020 Copyright:
                 <a href="http://web2.iesmiguelherrero.com/"> IES Miguel Herrero</a>

@@ -12,7 +12,7 @@ session_start();
     <meta charset='UTF-8'>
     <meta name='viewport' content='width=device-width, initial-scale=1, shrink-to-fit=no'>
     <meta http-equiv='X-UA-Compatible' content='ie=edge'>
-    <title>Cesta</title>
+    <title>P3 - Cesta</title>
     <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css' integrity='sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm' crossorigin='anonymous'>
     <link rel="shorcut icon" href="img/iconTitle.png">
     <link rel="stylesheet" href="/font-awesome-4.7.0/css/font-awesome.min.css">
@@ -142,7 +142,7 @@ session_start();
                                             <p class="font-italic mb-4">Si tiene codigo de descuento, introducelo
                                                 debajo</p>
                                             <div class="input-group mb-4 border p-2">
-                                                <input type="text" placeholder="Cupón descuento" aria-describedby="button-addon3" class="form-control border-0">
+                                                <input type="text" placeholder="Cupón descuento" aria-describedby="button-addon3" class="form-control">
                                                 <div class="input-group-append border-0">
                                                     <button id="button-addon3" type="button" class="btn btn-dark px-4">
                                                         <i class="fa fa-gift mr-2"></i>Aplicar cupón

@@ -9,7 +9,8 @@ if (isset($_POST["updateFoto"])) {
     try {
         if (($targetFile = guardarImagenUsuario($_SESSION["visitante"]["usuario"], $_FILES["imagen"])) !== false) {
             if (!updateFotoUsuario($_SESSION["visitante"]["id"], $targetFile)) {
-                $texto = "Error al actualizar la foto";
+                $_SESSION["visitante"] = getUsuario($_SESSION["visitante"]["id"]);
+                $texto = "Error al actualizar la foto!";
             }
         }
     } catch (Exception $e) {
@@ -21,23 +22,23 @@ if (isset($_POST["modificarPerfil"])) {
     if (!empty($_POST["contraseña"])) {
         if (updateUsuario($_SESSION["visitante"]["id"], $_POST["nombre"], $_POST["apellidos"], $_POST["usuario"], $_POST["email"], $_POST["contraseña"])) {
             $_SESSION["visitante"] = getUsuario($_SESSION["visitante"]["id"]);
-            $texto = "Datos actualizados con exito";
+            $texto = "Datos actualizados con exito!";
         } else {
-            $texto = "Error al actualizar usuario";
+            $texto = "Error al actualizar usuario!";
         }
     } else {
-        $texto = "Falta de escribir la pass";
+        $texto = "Falta de escribir la contraseña!";
     }
 }
 ?>
 <!DOCTYPE html>
-<html lang='en'>
+<html lang='es'>
 
 <head>
     <meta charset='UTF-8'>
     <meta name='viewport' content='width=device-width, initial-scale=1, shrink-to-fit=no'>
     <meta http-equiv='X-UA-Compatible' content='ie=edge'>
-    <title>Perfil</title>
+    <title>P3 - Perfil</title>
     <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css' integrity='sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm' crossorigin='anonymous'>
     <link rel="shorcut icon" href="img/iconTitle.png">
     <link rel="stylesheet" href="/font-awesome-4.7.0/css/font-awesome.min.css">
@@ -88,15 +89,18 @@ if (isset($_POST["modificarPerfil"])) {
                             <!-- TODO: CAMBIAR FOTO PERFIL -->
                             <form action="<?= htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="post" enctype="multipart/form-data">
                                 <input type="hidden" name="id" value="<?= $_SESSION["visitante"]["id"] ?>">
-                                <input type="file" name="imagen">
-                                <button type="submit" name="updateFoto" class="btn btn-info fas-foto"><i class="fas fa-pencil-alt fa-2x"></i></button>
+                                <div class="custom-file">
+                                    <input type="file" class="custom-file-input" name="imagen" id="customFileLang" lang="es">
+                                    <label class="custom-file-label" for="customFileLang">Seleccionar Foto</label>
+                                </div>
+                                <button type="submit" name="updateFoto" class="btn btn-info mt-2 ml-5">Actualizar foto</button>
                             </form>
                         </div>
                         <div class="profile-usertitle">
                             <div class="profile-usertitle-name mr-4">
                                 <?= $_SESSION["visitante"]["nombre"] . " " . $_SESSION["visitante"]["apellidos"] ?>
                             </div>
-                            <div class="profile-usertitle-job mr-4 mb-5">
+                            <div class="profile-usertitle-job mr-4 mb-4">
                                 <?php
                                 if ($_SESSION["visitante"]["admin"] == 1) {
                                     echo "Administrador";
@@ -106,13 +110,12 @@ if (isset($_POST["modificarPerfil"])) {
                                 ?>
                             </div>
                             <div class="profile-usertitle-name mr-4">
-                            <a href="historial.php" class="historial ml-3 btn btn-warning">Historial de compras</a>
+                                <a href="historial.php" class="historial ml-3 btn btn-warning">Historial de compras</a>
                             </div>
                         </div>
-                        <?php if ($_SESSION["visitante"]["admin"] == 1): ?>
+                        <?php if ($_SESSION["visitante"]["admin"] == 1) : ?>
                             <div class="profile-userpic">
-                                <img src="img/modificarTienda.svg" class="img-responsive ml-5 mt-5 imagenPerfil"
-                                     alt="Foto perfil">
+                                <img src="img/modificarTienda.svg" class="img-responsive ml-5 imagenPerfil" alt="Foto perfil">
                             </div>
                             <div class="profile-usertitle">
                                 <a href="borrar_insertar.php" class="modificar btn btn-info">Modificar tienda</a>
@@ -183,7 +186,9 @@ if (isset($_POST["modificarPerfil"])) {
                         </div>
 
                     </div>
-                    <?= $texto ?>
+                    <?php if (!empty($texto)) :  ?>
+                        <div class='col-12 mt-3 alert alert-warning text-center' role='alert'><?= $texto ?></div>
+                    <?php endif ?>
                 </div>
             </div>
         </div>
@@ -210,11 +215,10 @@ if (isset($_POST["modificarPerfil"])) {
 <script src='https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js' integrity='sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q' crossorigin='anonymous'></script>
 <script src='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js' integrity='sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl' crossorigin='anonymous'></script>
 <script>
-
     let apellidos = document.getElementById("apellidos");
     let usuario = document.getElementById("usuario");
     let email = document.getElementById("email");
     let contraseña = document.getElementById("contraseña");
-
 </script>
+
 </html>

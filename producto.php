@@ -16,7 +16,7 @@ if (isset($_POST["ficha"])) {
     <meta charset='UTF-8'>
     <meta name='viewport' content='width=device-width, initial-scale=1, shrink-to-fit=no'>
     <meta http-equiv='X-UA-Compatible' content='ie=edge'>
-    <title><?= $ficha["modelo"] ?></title>
+    <title>P3 - <?= $ficha["modelo"] ?></title>
     <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css' integrity='sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm' crossorigin='anonymous'>
     <link rel="shorcut icon" href="img/iconTitle.png">
     <link rel="stylesheet" href="/font-awesome-4.7.0/css/font-awesome.min.css">
@@ -80,7 +80,7 @@ if (isset($_POST["ficha"])) {
                 <div class="col-md-4 offset-1">
                     <div class="mt-5 divImagen">
                         <div class="card-body">
-                            <img class="card-img-top img-fluid imagenP" src="<?= $ficha["imagen"] ?>" alt="<?= $ficha["modelo"] ?>">
+                            <img class="card-img-top img-fluid imagenP imagen-cursor" src="<?= $ficha["imagen"] ?>" alt="<?= $ficha["modelo"] ?>">
                         </div>
                     </div>
                 </div>

@@ -148,12 +148,34 @@ img {
     cursor: auto;
 }
 
-.cantidad{
+.cantidad {
     border: 0;
 }
 
-.borrar:hover{
+.borrar:hover {
     color: red;
     font-weight: bold;
     transform: scale(1.05);
+}
+
+.boton-imagen {
+    color: white;
+    border: 0;
+    background-color: white;
+}
+
+.imagen-visible {
+    visibility: visible;
+}
+
+.card {
+    border: 0;
+}
+
+.imagen-cursor {
+    cursor: auto;
+}
+
+input[type=number] {
+    -moz-appearance: textfield;
 }
