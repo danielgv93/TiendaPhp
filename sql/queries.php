@@ -465,7 +465,6 @@ function registrarCompra_RetirarStock($idUsuario, $idProducto, $cantidad)
 
 function updateUsuario($id, $nombre, $apellidos, $usuario, $email, $contraseña)
 {
-    // TODO: IMPLEMENTAR CONSULTA
     $conexion = getConexionPDO();
     $sql = "UPDATE usuarios SET nombre = ?, apellidos = ?, usuario = ?, email = ?, pass = MD5(?)  WHERE id = ?;";
     $consulta = $conexion->prepare($sql);
@@ -485,6 +484,17 @@ function updateUsuario($id, $nombre, $apellidos, $usuario, $email, $contraseña)
 
 function updateFotoUsuario($id, $imagen)
 {
+    $conexion = getConexionPDO();
+    $sql = "UPDATE usuarios SET foto_perfil = ?  WHERE id = ?;";
+    $consulta = $conexion->prepare($sql);
+    $consulta->bindParam(1, $imagen);
+    $consulta->bindParam(2, $id);
+    if ($consulta->execute()){
+        unset($conexion);
+        return true;
+    }
+    unset($conexion);
+    return false;
 }
 
 function getHistorial($idUsuario)

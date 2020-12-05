@@ -5,6 +5,18 @@ require_once "funciones.php";
 
 $texto = "";
 
+if (isset($_POST["updateFoto"])) {
+    try {
+        if (($targetFile = guardarImagenUsuario($_SESSION["visitante"]["usuario"], $_FILES["imagen"])) !== false) {
+            if (!updateFotoUsuario($_SESSION["visitante"]["id"], $targetFile)) {
+                $texto = "Error al actualizar la foto";
+            }
+        }
+    } catch (Exception $e) {
+        $texto = $e->getMessage();
+    }
+}
+
 if (isset($_POST["modificarPerfil"])) {
     if (!empty($_POST["contraseña"])) {
         if (updateUsuario($_SESSION["visitante"]["id"], $_POST["nombre"], $_POST["apellidos"], $_POST["usuario"], $_POST["email"], $_POST["contraseña"])) {
@@ -74,7 +86,11 @@ if (isset($_POST["modificarPerfil"])) {
                         <div class="profile-userpic">
                             <img src="<?= $_SESSION["visitante"]["foto_perfil"] ?>" class="img-responsive ml-5 imagenPerfil" alt="Foto perfil">
                             <!-- TODO: CAMBIAR FOTO PERFIL -->
-                            <button type="button" class="btn btn-info fas-foto"> <i class="fas fa-pencil-alt fa-2x"></i></button>
+                            <form action="<?= htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="post" enctype="multipart/form-data">
+                                <input type="hidden" name="id" value="<?= $_SESSION["visitante"]["id"] ?>">
+                                <input type="file" name="imagen">
+                                <button type="submit" name="updateFoto" class="btn btn-info fas-foto"><i class="fas fa-pencil-alt fa-2x"></i></button>
+                            </form>
                         </div>
                         <div class="profile-usertitle">
                             <div class="profile-usertitle-name mr-4">
