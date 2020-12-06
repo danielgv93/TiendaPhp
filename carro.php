@@ -48,7 +48,12 @@ session_start();
                 <form method="post" class="perfil form-inline my-2 my-lg-0" action="<?= htmlspecialchars($_SERVER["PHP_SELF"]) ?>">
                     <div class="usuario d-inline ml-1">
                         <a </div> <div class="logout d-inline ml-2">
-                            <a href="carro.php" title="cesta"><i class="fas fa-shopping-cart fa-2x"></i></a>
+                            <a href="carro.php" title="cesta"><i class="fab fa-opencart fa-2x"></i></a>
+                            <div class="contador d-inline">
+                                <?php if(!isset ($_SESSION["carrito"])) {
+                                echo 0;
+                            }else echo count($_SESSION["carrito"]);?>
+                            </div>
                     </div>
                 </form>
             </div>
@@ -66,8 +71,7 @@ session_start();
                             <form action="compra.php" method="post">
                                 <div class="row">
                                     <div class="col-lg-12 p-5 bg-white rounded shadow-sm mb-5">
-                                        <button type="submit" name="borrar" class="btn mb-2 borrar"><i
-                                                    class="fas fa-trash fa-2x"></i> BORRAR CESTA</button>
+                                        <button type="submit" name="borrar" class="btn mb-2 borrar"><i class="fas fa-trash fa-2x"></i> BORRAR CESTA</button>
                                         <div class="table-responsive">
                                             <table class="table">
                                                 <!-- Esto asi a machete, no toques na -->
@@ -247,15 +251,17 @@ session_start();
             envio.innerHTML = precioEnvio2.toFixed(2) + " €";
         }
     }
-    <?php /*if (isset($_POST["borrar"])) : */?>/*
-        Swal.fire({
-            icon: 'warning',
-            title: '¿Quieres borrar el elemento?',
-            backdrop: `rgba(0,0,123,0.4)`,
-            width: 400,
-            showConfirmButton: false
-        })
-*/<?php /*endif */?>
+    <?php /*if (isset($_POST["borrar"])) : */ ?>
+    /*
+            Swal.fire({
+                icon: 'warning',
+                title: '¿Quieres borrar el elemento?',
+                backdrop: `rgba(0,0,123,0.4)`,
+                width: 400,
+                showConfirmButton: false
+            })
+    */
+    <?php /*endif */ ?>
 </script>
 
 </html>

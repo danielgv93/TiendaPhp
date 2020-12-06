@@ -75,7 +75,12 @@ if (isset($_POST["modificarPerfil"])) {
                 <form method="post" class="perfil form-inline my-2 my-lg-0" action="<?= htmlspecialchars($_SERVER["PHP_SELF"]) ?>">
                     <div class="usuario d-inline ml-1">
                         <a </div> <div class="logout d-inline ml-2">
-                            <a href="carro.php" title="cesta"><i class="fas fa-shopping-cart fa-2x"></i></a>
+                            <a href="carro.php" title="cesta"><i class="fab fa-opencart fa-2x"></i></a>
+                            <div class="contador d-inline">
+                                <?php if (!isset($_SESSION["carrito"])) {
+                                    echo 0;
+                                } else echo count($_SESSION["carrito"]); ?>
+                            </div>
                     </div>
                 </form>
             </div>
@@ -83,7 +88,7 @@ if (isset($_POST["modificarPerfil"])) {
         <div class="container">
             <div class="row profile">
                 <div class="col-md-3">
-                    <div class="profile-sidebar <?php if($_SESSION["visitante"]["admin"]==1)echo "gold"; ?>">
+                    <div class="profile-sidebar <?php if ($_SESSION["visitante"]["admin"] == 1) echo "gold"; ?>">
                         <div class="profile-userpic">
                             <img src="<?= $_SESSION["visitante"]["foto_perfil"] ?>" class="img-responsive ml-5 imagenPerfil" alt="Foto perfil">
                             <!-- TODO: CAMBIAR FOTO PERFIL -->
@@ -97,10 +102,10 @@ if (isset($_POST["modificarPerfil"])) {
                             </form>
                         </div>
                         <div class="profile-usertitle">
-                            <div class="profile-usertitle-name mr-4 <?php if($_SESSION["visitante"]["admin"]==1)echo "gold-user"; ?>">
+                            <div class="profile-usertitle-name mr-4 <?php if ($_SESSION["visitante"]["admin"] == 1) echo "gold-user"; ?>">
                                 <?= $_SESSION["visitante"]["nombre"] . " " . $_SESSION["visitante"]["apellidos"] ?>
                             </div>
-                            <div class="profile-usertitle-job mr-4 mb-4 <?php if($_SESSION["visitante"]["admin"]==1)echo "gold-user"; ?>">
+                            <div class="profile-usertitle-job mr-4 mb-4 <?php if ($_SESSION["visitante"]["admin"] == 1) echo "gold-user"; ?>">
                                 <?php
                                 if ($_SESSION["visitante"]["admin"] == 1) {
                                     echo "Administrador";

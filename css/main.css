@@ -44,9 +44,14 @@ footer {
     margin-top: 50px;
 }
 
-.fas {
+.fas,
+.fab {
     color: black;
     position: relative;
+}
+
+.fab:hover {
+    color: #fff;
 }
 
 .fa-shopping-cart:hover {
@@ -178,4 +183,21 @@ img {
 
 input[type=number] {
     -moz-appearance: textfield;
+}
+
+.contador {
+    background: #ffffff;
+    max-width: 25px;
+    min-width: 20px;
+    height: 20px;
+    color: rgb(0, 0, 0);
+    border-radius: 10px;
+    position: absolute;
+    top: 2;
+    left: 98.5%;
+    font-size: 15px;
+    line-height: 20px;
+    text-align: center;
+    padding: 0 2px;
+    font-weight: bold;
 }
