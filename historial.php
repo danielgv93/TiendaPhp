@@ -107,7 +107,7 @@ $historiales=getHistorial($_SESSION["visitante"]["id"]);
                                                             <td class="border-0 align-middle text-center"><strong><?= $producto["precio"] ?>€</strong><input type="hidden" name="precio[]" value="<?= $producto["precio"] ?>" readonly></td>
                                                             <td class="border-0 align-middle text-center"><strong><?= $producto["cantidad"] ?></strong></td>
                                                             <td class="border-0 align-middle text-center">
-                                                                <p class="mb-0 text-dark d-inline-block align-middle"><?= $producto["fecha"] ?></p>
+                                                                <p class="mb-0 text-dark d-inline-block align-middle fecha"><?= $producto["fecha"] ?></p>
                                                             </td>
                                                         </tr>
                                                     <?php endforeach; ?>
