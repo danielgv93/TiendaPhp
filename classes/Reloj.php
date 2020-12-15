@@ -10,7 +10,7 @@ class Reloj extends Dispositivo
     {
         parent::__construct($id_dispositivo, $modelo, $precio, $gama, $anio, $ram, $almacenamiento, $procesador, $bateria, $pulgadas, $stock, $imagen);
         $this->id_reloj = $id_reloj;
-        $this->$sim = $sim;
+        $this->sim = $sim;
     }
 
     /**
