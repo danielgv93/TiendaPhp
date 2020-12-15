@@ -20,22 +20,6 @@ class Movil extends Dispositivo
     /**
      * @return mixed
      */
-    public function getIdDispositivo()
-    {
-        return $this->id_dispositivo;
-    }
-
-    /**
-     * @param mixed $id_dispositivo
-     */
-    public function setIdDispositivo($id_dispositivo)
-    {
-        $this->id_dispositivo = $id_dispositivo;
-    }
-
-    /**
-     * @return mixed
-     */
     public function getIdMovil()
     {
         return $this->id_movil;
