@@ -1,5 +1,5 @@
 <?php
-require_once "sql/queries.php";
+require_once "classes/Database.php";
 
 session_start();
 $errorLogin = "";
@@ -7,8 +7,8 @@ if (isset($_POST["login"])) {
     if (empty($_POST["usuario"]) || empty($_POST["password"])) {
         $errorLogin = "Debes introducir todos los campos";
     } else {
-        if (($id = checkUsuarioPass($_POST["usuario"], $_POST["password"])) !== 0) {
-            $_SESSION["visitante"] = getUsuario($id);
+        if (($id = Database::getInstance()->checkUsuarioPass($_POST["usuario"], $_POST["password"])) !== 0) {
+            $_SESSION["visitante"] = Database::getInstance()->getUsuario($id);
             header("Location: main.php");
             exit();
         } else {

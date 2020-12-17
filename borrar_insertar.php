@@ -2,14 +2,14 @@
 <div class='col-12 mt-3 alert alert-success text-center' role='alert'>CLASE DE EXITO</div>
 <div class='col-12 mt-3 alert alert-danger text-center' role='alert'>CLASE DE FALLO</div> -->
 <?php
-require_once "sql/queries.php";
+require_once "classes/Database.php";
 require_once "funciones.php";
 session_start();
 
 $mensajeError = "";
 if (isset($_POST["updateStock"])) {
-    try {
-        updateStock($_POST["idModelo"], $_POST["stockDispositivo"]);
+    try {//TODO: Retocar
+        Database::getInstance()->updateStock($_POST["idModelo"], $_POST["stockDispositivo"]);
         $mensajeError = "El stock se ha modificado a " . $_POST["stockDispositivo"] . " unidades";
     } catch (Exception $e) {
         $mensajeError .= $e->getMessage();

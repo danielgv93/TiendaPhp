@@ -1,6 +1,6 @@
 <?php
 require_once "sql/Conexion.php";
-
+// Hecho Dani
 function addUsuario($nombre, $apellidos, $email, $usuario, $password)
 {
     $conexion = getConexionPDO();
@@ -27,7 +27,7 @@ function addUsuario($nombre, $apellidos, $email, $usuario, $password)
         return false;
     }
 }
-
+// Hecho Dani
 function getUsuario($id)
 {
     $conexion = getConexionPDO();
@@ -52,7 +52,7 @@ function getUsuario($id)
     }
     return 0;
 }
-
+// Hecho Dani
 function checkUsuario($usuario)
 {
     $conexion = getConexionPDO();

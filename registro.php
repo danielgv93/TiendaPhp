@@ -1,5 +1,5 @@
 <?php
-require_once "sql/queries.php";
+require_once "classes/Database.php";
 
 $textoError = "";
 
@@ -13,7 +13,7 @@ if (isset($_POST["registro"])) {
                 && !empty($_POST["usuario"]) && !empty($_POST["contraseña"])
             ) {
                 /* Añadir usuario y redireccionar */
-                if (addUsuario($_POST["nombre"], $_POST["apellidos"], $_POST["email"], $_POST["usuario"], $_POST["contraseña"])) {
+                if (Database::getInstance()->addUsuario(new Usuario(1,$_POST["usuario"], $_POST["contraseña"], $_POST["nombre"], $_POST["apellidos"], $_POST["email"], "", 0))) {
                     header("Location: index.php");
                     exit();
                 } else {

@@ -7,9 +7,11 @@ class Movil extends Dispositivo
     private $camara;
     private $notch;
 
-    public function __construct($id_dispositivo, $modelo, $precio, $gama, $anio, $ram, $almacenamiento, $procesador, $bateria, $pulgadas, $stock, $imagen, $id_movil, $camara, $notch)
+    public function __construct($id_dispositivo, $modelo, $precio, $gama, $anio, $ram, $almacenamiento, $procesador,
+                                $bateria, $pulgadas, $stock, $imagen, $id_movil, $camara, $notch)
     {
-        parent::__construct($id_dispositivo, $modelo, $precio, $gama, $anio, $ram, $almacenamiento, $procesador, $bateria, $pulgadas, $stock, $imagen);
+        parent::__construct($id_dispositivo, $modelo, $precio, $gama, $anio, $ram, $almacenamiento, $procesador,
+            $bateria, $pulgadas, $stock, $imagen);
         $this->id_movil = $id_movil;
         $this->camara = $camara;
         $this->notch=$notch;

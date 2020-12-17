@@ -1,5 +1,5 @@
 <?php
-require_once "sql/queries.php";
+require_once "classes/Database.php";
 session_start();
 
 
@@ -14,7 +14,7 @@ if (isset($_POST["relojes"])) {
 }
 
 if (!isset($_POST["buscar"]) && !isset($_POST["telefonos"]) && !isset($_POST["relojes"])) {
-    $arrayDispositivos = getDispositivos();
+    //$arrayDispositivos = getDispositivos();
 }
 
 // Hacer click en el carrito
@@ -107,7 +107,7 @@ function busqueda($busquedaSelected)
                 </div>
                 <div class="dropdown">
                     <button class="btn bg-light dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Bienvenido <?= $_SESSION["visitante"]["nombre"] ?>
+                        Bienvenido <?= $_SESSION["visitante"]->getNombre() ?>
                     </button>
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                         <a class="dropdown-item" href="perfil.php" title="perfil"><i class="fas fa-user mr-2"></i>Perfil</a>
