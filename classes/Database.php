@@ -25,7 +25,7 @@ class Database
         return self::$instance;
     }
 
-    public function getConexion()
+    private function getConexion()
     {
         $opciones = array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8");
         return new PDO(
@@ -36,10 +36,9 @@ class Database
         );
     }
 
-    //Hecho Dani
     public function addUsuario($usuario)
     {
-        $conexion = $this->getConexion();
+        $conexion = self::getConexion();
         try {
             if (!Database::checkUsuario($usuario)) {
                 $sql = "INSERT INTO usuarios (usuario, pass, nombre, apellidos, email) VALUES (?, MD5(?), ?, ?, ?);";
@@ -62,10 +61,9 @@ class Database
         }
     }
 
-    //Hecho Dani
     public function checkUsuario($usuario)
     {
-        $conexion = $this->getConexion();
+        $conexion = self::getConexion();
         $sql = /** @lang MariaDB */
             "SELECT usuario from usuarios where usuario = ?";
         $consulta = $conexion->prepare($sql);
@@ -78,10 +76,9 @@ class Database
         return 0;
     }
 
-    //Hecho Dani
     function getUsuario($id)
     {
-        $conexion = $this->getConexion();
+        $conexion = self::getConexion();
         $sql = /** @lang MariaDB */
             "SELECT * from usuarios where id = ? ";
         $consulta = $conexion->prepare($sql);
@@ -102,10 +99,9 @@ class Database
         return 0;
     }
 
-    //HECHO DANI
     function checkUsuarioPass($usuario, $password)
     {
-        $conexion = $this->getConexion();
+        $conexion = self::getConexion();
         $sql = /** @lang MariaDB */
             "SELECT id, usuario, pass from usuarios where usuario = ? AND pass = MD5(?)";
         $consulta = $conexion->prepare($sql);
@@ -119,10 +115,10 @@ class Database
         }
         return 0;
     }
-    //HECHO DANI
+
     function updateUsuario($id, $nombre, $apellidos, $usuario, $email, $contraseña)
     {
-        $conexion = $this->getConexion();
+        $conexion = self::getConexion();
         $sql = /** @lang MariaDB */
             "UPDATE usuarios SET nombre = ?, apellidos = ?, usuario = ?, email = ?, pass = MD5(?)  WHERE id = ?;";
         $consulta = $conexion->prepare($sql);
@@ -133,16 +129,14 @@ class Database
         $consulta->bindParam(5, $contraseña);
         $consulta->bindParam(6, $id);
         if ($consulta->execute()){
-            unset($conexion);
             return true;
         }
-        unset($conexion);
         return false;
     }
 
     function getDispositivos()
     {
-        $conexion = $this->getConexion();
+        $conexion = self::getConexion();
         $sql = /** @lang MariaDB */
             "SELECT * from dispositivos order by modelo";
         $resultado = $conexion->query($sql);
@@ -164,11 +158,10 @@ class Database
         }
         return $datos;
     }
-    //HECHO MACHETE
 
     function updateStock($id, $stock)
     {
-        $conexion = $this->getConexion();
+        $conexion = self::getConexion();
         $sql = /** @lang MariaDB */
             "UPDATE dispositivos SET stock = ? WHERE id_dispositivo = ?;";
         $consulta = $conexion->prepare($sql);
@@ -180,7 +173,7 @@ class Database
 
     function getRelojes()
     {
-        $conexion = $this->getConexion();
+        $conexion = self::getConexion();
         $sql = /** @lang MariaDB */
             "SELECT * from dispositivos d inner join relojes m on d.id_dispositivo = m.id_reloj order by modelo;";
         $resultado = $conexion->query($sql);
@@ -207,7 +200,7 @@ class Database
 
     function getReloj($idSelected)
     {
-        $conexion = $this->getConexion();
+        $conexion = self::getConexion();
         $sql = /** @lang MariaDB */
             "SELECT * from dispositivos d inner join relojes m on d.id_dispositivo = m.id_reloj where id_dispositivo = ?;";
         $resultado = $conexion->prepare($sql);
@@ -235,7 +228,7 @@ class Database
 
     function getMoviles()
     {
-        $conexion = $this->getConexion();
+        $conexion = self::getConexion();
         $sql = /** @lang MariaDB */
             "SELECT * from dispositivos d inner join moviles m on d.id_dispositivo = m.id_movil order by modelo;";
         $resultado = $conexion->query($sql);
@@ -264,7 +257,7 @@ class Database
     //HECHO MACHETE
     function getMovil($idSelected)
     {
-        $conexion = $this->getConexion();
+        $conexion = self::getConexion();
         $sql = /** @lang MariaDB */
             "SELECT * from dispositivos d inner join moviles m on d.id_dispositivo = m.id_movil where id_dispositivo = ?;";
         $resultado = $conexion->prepare($sql);
@@ -288,12 +281,11 @@ class Database
         $resultado->fetch(PDO::FETCH_BOUND);
         $datos[$id] = new Movil(            $id, $modelo, $precio, $gama, $anio, $ram, $almacenamiento, $procesador, $bateria,
             $pulgadas, $stock, $imagen, $idMovil, $camara, $notch);
-        unset($conexion);
         return $datos;
     }
     function addMovil($movil)
     {
-        $conexion = $this->getConexion();
+        $conexion = self::getConexion();
         /* SE COMPRUEBA QUE NO HAY UN MISMO MODELO EN LA BASE DE DATOS */
         $sql = /** @lang MariaDB */
             "SELECT COUNT(*) as iguales from dispositivos where modelo = ?;";
@@ -334,11 +326,9 @@ class Database
                 throw new Exception("Error al insertar el movil");
             }
             $conexion->commit();
-            unset($conexion);
             return true;
         } catch (Exception $e) {
             $conexion->rollBack();
-            unset($conexion);
             return false;
         }
     }
@@ -346,7 +336,7 @@ class Database
     //HECHO MACHETE
     function addReloj($reloj)
     {
-        $conexion = $this->getConexion();
+        $conexion = self::getConexion();
         /* SE COMPRUEBA QUE NO HAY UN MISMO MODELO EN LA BASE DE DATOS */
         $sql = /** @lang MariaDB */
             "SELECT COUNT(*) as iguales from dispositivos where modelo = ?;";
@@ -394,7 +384,7 @@ class Database
     }
     function registrarCompra_RetirarStock($usuario, $dispositivo, $cantidad)
     {
-        $conexion = $this->getConexion();
+        $conexion = self::getConexion();
         try {
             $conexion->beginTransaction();
             $sql = /** @lang MariaDB */
@@ -434,7 +424,7 @@ class Database
     //HECHO DANI
     function borrarModelo($id)
     {
-        $conexion = $this->getConexion();
+        $conexion = self::getConexion();
         $sql = /** @lang MariaDB */
             "DELETE FROM dispositivos WHERE id_dispositivo = ?;";
         $delete = $conexion->prepare($sql);
@@ -450,7 +440,7 @@ class Database
     function getHistorial($idUsuario)
     {
 
-        $conexion = $this->getConexion();
+        $conexion = self::getConexion();
         $datos = null;
         $sql = /** @lang MariaDB */
             "SELECT id_compra, c.id_dispositivo, imagen, modelo, precio, unidades, fecha from dispositivos d left join compras c on d.id_dispositivo = c.id_dispositivo where c.id_usuario = ?;";
@@ -475,7 +465,7 @@ class Database
 
     function getTipoDispositivo($id)
     {
-        $conexion = $this->getConexion();
+        $conexion = self::getConexion();
         $sql = /** @lang MariaDB */
             "SELECT COUNT(*) as iguales from moviles where id_movil = ?;";
         $resultado = $conexion->prepare($sql);
@@ -499,7 +489,7 @@ class Database
 
     function updateFotoUsuario($id, $imagen)
     {
-        $conexion = $this->getConexion();
+        $conexion = self::getConexion();
         $sql = /** @lang MariaDB */
             "UPDATE usuarios SET foto_perfil = ?  WHERE id = ?;";
         $consulta = $conexion->prepare($sql);

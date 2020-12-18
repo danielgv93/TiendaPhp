@@ -84,22 +84,6 @@ if (isset($_POST["borrar"])) {
                 <li class="nav-item active">
                     <a class="nav-link" href="main.php">Inicio <span class="sr-only"></span></a>
                 </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Categorías
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <form action="<?= htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="post">
-                            <input type="hidden" name="telefonos">
-                            <input type="submit" class="dropdown-item" value="Teléfonos">
-                        </form>
-                        <form action="<?= htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="post">
-                            <input type="hidden" name="relojes">
-                            <input type="submit" class="dropdown-item" value="Smartwaches">
-                        </form>
-                    </div>
-                </li>
             </ul>
             <div class="dropdown">
                 <button class="btn bg-light dropdown-toggle" type="button" id="dropdownMenuButton"
