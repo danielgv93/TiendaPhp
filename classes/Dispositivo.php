@@ -1,7 +1,7 @@
 <?php
 
 
-abstract class Dispositivo
+class Dispositivo
 {
     protected $id_dispositivo;
     protected $modelo;

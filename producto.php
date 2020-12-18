@@ -1,10 +1,10 @@
 <?php
-require_once "sql/queries.php";
+require_once "classes/Database.php";
 session_start();
 
 if (isset($_POST["ficha"])) {
     $idSelected = $_POST["id"];
-    list($ficha, $tipo) = getFicha($idSelected);
+    list($ficha, $tipo) = Database::getInstance()->getFicha($idSelected);
     $ficha = $ficha[$idSelected];
 }
 ?>
@@ -16,7 +16,7 @@ if (isset($_POST["ficha"])) {
     <meta charset='UTF-8'>
     <meta name='viewport' content='width=device-width, initial-scale=1, shrink-to-fit=no'>
     <meta http-equiv='X-UA-Compatible' content='ie=edge'>
-    <title>P3 - <?= $ficha["modelo"] ?></title>
+    <title>P3 - <?= $ficha->getModelo() ?></title>
     <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css' integrity='sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm' crossorigin='anonymous'>
     <link rel="shorcut icon" href="img/iconTitle.png">
     <link rel="stylesheet" href="/font-awesome-4.7.0/css/font-awesome.min.css">
@@ -63,7 +63,7 @@ if (isset($_POST["ficha"])) {
                 </div>
                 <div class="dropdown">
                     <button class="btn bg-light dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Bienvenido <?= $_SESSION["visitante"]["nombre"] ?>
+                    Bienvenido <?= $_SESSION["visitante"]->getNombre() ?>
                     </button>
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                         <a class="dropdown-item" href="perfil.php" title="perfil"><i class="fas fa-user mr-2"></i>Perfil</a>
@@ -80,37 +80,37 @@ if (isset($_POST["ficha"])) {
                 <div class="col-md-4 offset-1">
                     <div class="mt-5 divImagen">
                         <div class="card-body">
-                            <img class="card-img-top img-fluid imagenP imagen-cursor" src="<?= $ficha["imagen"] ?>" alt="<?= $ficha["modelo"] ?>">
+                            <img class="card-img-top img-fluid imagenP imagen-cursor" src="<?= $ficha->getImagen() ?>" alt="<?= $ficha->getModelo() ?>">
                         </div>
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="card mb-3 mt-5 producto text-white" style="max-width: 700px;">
                         <div class="card-body">
-                            <h3 class="card-title"><?= $ficha["modelo"] ?></h3>
-                            <h4 class="card-text"><?= $ficha["precio"] ?> €</h4>
+                            <h3 class="card-title"><?= $ficha->getModelo() ?></h3>
+                            <h4 class="card-text"><?= $ficha->getPrecio() ?> €</h4>
                             <hr>
-                            <p class="card-text">Gama <?= $ficha["gama"] ?></p>
-                            <?php if (!empty($ficha["procesador"])) : ?>
-                                <p class="card-text">Procesador: <?= $ficha["procesador"] ?></p>
+                            <p class="card-text">Gama <?= $ficha->getGama() ?></p>
+                            <?php if (!empty($ficha->getProcesador())) : ?>
+                                <p class="card-text">Procesador: <?= $ficha->getProcesador() ?></p>
                             <?php endif; ?>
-                            <?php if (!empty($ficha["bateria"])) : ?>
-                                <p class="card-text">Batería: <?= $ficha["bateria"] ?>mAh</p>
+                            <?php if (!empty($ficha->getBateria())) : ?>
+                                <p class="card-text">Batería: <?= $ficha->getBateria() ?>mAh</p>
                             <?php endif; ?>
-                            <?php if (!empty($ficha["pulgadas"])) : ?>
-                                <p class="card-text">Pantalla: <?= $ficha["pulgadas"] ?> pulgadas</p>
+                            <?php if (!empty($ficha->getPulgadas())) : ?>
+                                <p class="card-text">Pantalla: <?= $ficha->getPulgadas() ?> pulgadas</p>
                             <?php endif; ?>
-                            <p class="card-text">Stock en tienda: <?= $ficha["stock"] ?> unidades</p>
+                            <p class="card-text">Stock en tienda: <?= $ficha->getStock() ?> unidades</p>
                             <?php if ($tipo == "movil") : ?>
-                                <p class="card-text">Camara trasera: <?= $ficha["camara"] ?>Mpx</p>
-                                <p class="card-text">Tiene notch: <?php if ($ficha["notch"]) {
+                                <p class="card-text">Camara trasera: <?= $ficha->getCamara() ?>Mpx</p>
+                                <p class="card-text">Tiene notch: <?php if ($ficha->getNotch()) {
                                                                         echo "Si";
                                                                     } else {
                                                                         echo "No";
                                                                     } ?></p>
                             <?php endif; ?>
                             <?php if ($tipo == "reloj") : ?>
-                                <p class="card-text">Tarjeta SIM: <?php if ($ficha["sim"]) {
+                                <p class="card-text">Tarjeta SIM: <?php if ($ficha->getSim()) {
                                                                         echo "Si";
                                                                     } else {
                                                                         echo "No";

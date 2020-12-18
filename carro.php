@@ -1,5 +1,5 @@
 <?php
-require_once "sql/queries.php";
+require_once "classes/Database.php";
 require_once "funciones.php";
 
 session_start();
@@ -38,7 +38,7 @@ session_start();
                 </ul>
                 <div class="dropdown">
                     <button class="btn bg-light dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Bienvenido <?= $_SESSION["visitante"]["nombre"] ?>
+                        Bienvenido <?= $_SESSION["visitante"]->getNombre() ?>
                     </button>
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                         <a class="dropdown-item" href="perfil.php" title="perfil"><i class="fas fa-user mr-2"></i>Perfil</a>
@@ -100,18 +100,18 @@ session_start();
                                                             <input type="hidden" name="id[]" value="<?= $id ?>">
                                                             <th scope="row" class="border-0">
                                                                 <div class="p-2">
-                                                                    <img src="<?= $producto["imagen"] ?>" alt="Imagen de <?= $producto["imagen"] ?>" width="70" class="img-fluid imagenCesta rounded shadow-sm">
+                                                                    <img src="<?= $producto->getImagen() ?>" alt="Imagen de <?= $producto->getImagen() ?>" width="70" class="img-fluid imagenCesta rounded shadow-sm">
                                                                     <div class="ml-3 d-inline-block align-middle">
                                                                         <h5 class="mb-0 text-dark d-inline-block align-middle">
-                                                                            <?= $producto["modelo"] ?>
+                                                                            <?= $producto->getModelo() ?>
                                                                         </h5>
                                                                         <span class="text-muted font-weight-normal font-italic d-block">
-                                                                            Categoría: <?php if (getTipoDispositivo($id) === "movil") echo "movil";
+                                                                            Categoría: <?php if (Database::getInstance()->getTipoDispositivo($id) === "movil") echo "movil";
                                                                                         else echo "smartwatch" ?></span>
                                                                     </div>
                                                                 </div>
                                                             </th>
-                                                            <td class="border-0 align-middle text-center"><strong><?= $producto["precio"] ?>€</strong><input type="hidden" name="precio[]" value="<?= $producto["precio"] ?>" readonly></td>
+                                                            <td class="border-0 align-middle text-center"><strong><?= $producto->getPrecio() ?>€</strong><input type="hidden" name="precio[]" value="<?= $producto->getPrecio() ?>" readonly></td>
                                                             <td class="border-0 align-middle"><input type="number" class="text-center cantidad" id="<?= $id ?>_cantidad" name="cantidad[]" value="1" oninput="calculo()" min="0" readonly></td>
                                                             <!-- BOTONES BIEN CHINGONES, FALTA QUE HAGAN ALGO -->
                                                             <td class="border-0 align-middle">
@@ -123,7 +123,7 @@ session_start();
                                                                 })();calculo()" class="btn mr-2"><i class="fas fa-minus"></i></button>
                                                                 <button type="button" class="d-inline btn" onclick="(()=>{
                                                                     let cantidad = document.getElementById('<?= $id ?>_cantidad');
-                                                                        if (cantidad.value < <?= $producto["stock"] ?>){
+                                                                        if (cantidad.value < <?= $producto->getStock() ?>){
                                                                             cantidad.value++;
                                                                         }
                                                                 })();calculo()" class="btn"><i class="fas fa-plus"></i></button>

@@ -1,9 +1,9 @@
 <?php
-require_once "sql/queries.php";
+require_once "classes/Database.php";
 require_once "funciones.php";
 
 session_start();
-$historiales=getHistorial($_SESSION["visitante"]["id"]);
+$historiales=Database::getInstance()->getHistorial($_SESSION["visitante"]->getId());
 ?>
 <!DOCTYPE html>
 <html lang='en'>
@@ -38,7 +38,7 @@ $historiales=getHistorial($_SESSION["visitante"]["id"]);
                 </ul>
                 <div class="dropdown">
                     <button class="btn bg-light dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Bienvenido <?= $_SESSION["visitante"]["nombre"] ?>
+                        Bienvenido <?= $_SESSION["visitante"]->getNombre() ?>
                     </button>
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                         <a class="dropdown-item" href="perfil.php" title="perfil"><i class="fas fa-user mr-2"></i>Perfil</a>

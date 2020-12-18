@@ -134,20 +134,7 @@ function updateStock($id, $stock)
     return $stock;
 }*/
 
-function addMovil(
-    $modelo,
-    $precio,
-    $gama,
-    $anio,
-    $ram,
-    $almacenamiento,
-    $procesador,
-    $bateria,
-    $pulgadas,
-    $imagen,
-    $camara,
-    $notch
-) {
+function addMovil($modelo, $precio, $gama, $anio, $ram, $almacenamiento, $procesador, $bateria, $pulgadas, $imagen, $camara, $notch) {
     $conexion = getConexionPDO();
     /* SE COMPRUEBA QUE NO HAY UN MISMO MODELO EN LA BASE DE DATOS */
     $sql = "SELECT COUNT(*) as iguales from dispositivos where modelo = ?;";
@@ -195,19 +182,7 @@ function addMovil(
     }
 }
 
-function addReloj(
-    $modelo,
-    $precio,
-    $gama,
-    $anio,
-    $ram,
-    $almacenamiento,
-    $procesador,
-    $bateria,
-    $pulgadas,
-    $imagen,
-    $sim
-) {
+function addReloj($modelo, $precio, $gama, $anio, $ram, $almacenamiento, $procesador, $bateria, $pulgadas, $imagen, $sim) {
     $conexion = getConexionPDO();
     /* SE COMPRUEBA QUE NO HAY UN MISMO MODELO EN LA BASE DE DATOS */
     $sql = "SELECT COUNT(*) as iguales from dispositivos where modelo = ?;";

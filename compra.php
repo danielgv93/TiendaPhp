@@ -12,7 +12,7 @@ if (isset($_POST["borrar"])) {
 if (isset($_POST["pago"])) {
     for ($i = 0; $i < count($_POST["id"]); $i++) {
         if ($_POST["cantidad"][$i] > 0) {
-            if (($error = Database::getInstance()->registrarCompra_RetirarStock($_SESSION["visitante"]["id"], $_POST["id"][$i], $_POST["cantidad"][$i])) !== true) {
+            if (($error = Database::getInstance()->registrarCompra_RetirarStock($_SESSION["visitante"]->getId(), $_POST["id"][$i], $_POST["cantidad"][$i])) !== true) {
                 $texto = $error;
                 $icono = "error";
                 break;

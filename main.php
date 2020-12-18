@@ -7,40 +7,40 @@ if (isset($_POST["buscar"])) {
     $arrayDispositivos = busqueda($_POST["busquedaInput"]);
 }
 if (isset($_POST["telefonos"])) {
-    $arrayDispositivos = getMoviles();
+    $arrayDispositivos = Database::getInstance()->getMoviles();
 }
 if (isset($_POST["relojes"])) {
-    $arrayDispositivos = getRelojes();
+    $arrayDispositivos = Database::getInstance()->getRelojes();
 }
 
 if (!isset($_POST["buscar"]) && !isset($_POST["telefonos"]) && !isset($_POST["relojes"])) {
-    //$arrayDispositivos = getDispositivos();
+    $arrayDispositivos = Database::getInstance()->getDispositivos();
 }
 
 // Hacer click en el carrito
 if (isset($_POST["cart"])) {
     // Si ya esta en el carrito
     if (isset($_SESSION["carrito"][$_POST["id"]])) {
-        $carrito = "El " . $_SESSION["carrito"][$_POST["id"]]["modelo"] . " ya estaba dentro de la cesta.";
+        $carrito = "El " . $_SESSION["carrito"][$_POST["id"]]->getModelo() . " ya estaba dentro de la cesta.";
         $icono = "error";
     } else {
         // Si no esta en el carrito
-        $productoAñadido = getProducto($_POST["id"]);
+        $productoAñadido = Database::getInstance()->getProducto($_POST["id"]);
         $_SESSION["carrito"][array_keys($productoAñadido)[0]] = array_values($productoAñadido)[0];
-        $carrito = "Se añadió " . $_SESSION["carrito"][$_POST["id"]]["modelo"] . " a la cesta.";
+        $carrito = "Se añadió " . $_SESSION["carrito"][$_POST["id"]]->getModelo() . " a la cesta.";
         $icono = "success";
     }
-    $url = $_SESSION["carrito"][$_POST["id"]]["imagen"];
+    $url = $_SESSION["carrito"][$_POST["id"]]->getImagen();
 }
 
 function busqueda($busquedaSelected)
 {
     if (empty($busquedaSelected)) {
-        $arrayDispositivos = getDispositivos();
+        $arrayDispositivos = Database::getInstance()->getDispositivos();
     } else {
         $busqueda = strtolower($busquedaSelected);
-        foreach (getDispositivos() as $id => $dispositivo) {
-            if (strpos(strtolower($dispositivo["modelo"]), $busqueda) !== false) {
+        foreach (Database::getInstance()->getDispositivos() as $id => $dispositivo) {
+            if (strpos(strtolower($dispositivo->getModelo()), $busqueda) !== false) {
                 $arrayDispositivos[$id] = $dispositivo;
             }
         }
@@ -141,13 +141,14 @@ function busqueda($busquedaSelected)
                     <div class="card text-white mt-4 carta">
                         <form action="producto.php" method="post" class="d-inline">
                             <div class="imagenCarta">
-                                <button type="submit" class="boton-imagen" name="ficha" id="ficha"><img class="card-img-top imagen-visible" src="<?= $producto["imagen"] ?>" alt="<?= $producto["modelo"] ?>"></button>
+                                <button type="submit" class="boton-imagen" name="ficha" id="ficha">
+                                    <img class="card-img-top imagen-visible" src="<?= $producto->getImagen() ?>" alt="<?= $producto->getModelo() ?>"></button>
                             </div>
                             <div class="card-body">
-                                <h5 class="card-title"><?= $producto["modelo"] ?></h5>
-                                <p class="card-text"><?= $producto["precio"] ?>€</p>
+                                <h5 class="card-title"><?= $producto->getModelo() ?></h5>
+                                <p class="card-text"><?= $producto->getPrecio() ?>€</p>
                                 <hr>
-                                <p class="card-text"> Quedan <?= $producto["stock"] ?> unidades </p>
+                                <p class="card-text"> Quedan <?= $producto->getStock() ?> unidades </p>
                                 <input type="hidden" name="id" value="<?= $id ?>">
                         </form>
                         <form action="<?= htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="post">
