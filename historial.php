@@ -48,7 +48,12 @@ $historiales=Database::getInstance()->getHistorial($_SESSION["visitante"]->getId
                 <form method="post" class="perfil form-inline my-2 my-lg-0" action="<?= htmlspecialchars($_SERVER["PHP_SELF"]) ?>">
                     <div class="usuario d-inline ml-1">
                         <a </div> <div class="logout d-inline ml-2">
-                            <a href="carro.php" title="cesta"><i class="fas fa-shopping-cart fa-2x"></i></a>
+                        <a href="carro.php" title="cesta"><i class="fab fa-opencart fa-2x"></i></a>
+                        <div class="contador d-inline">
+                            <?php if(!isset ($_SESSION["carrito"])) {
+                                echo 0;
+                            }else echo count($_SESSION["carrito"]);?>
+                        </div>
                     </div>
                 </form>
             </div>

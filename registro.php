@@ -92,7 +92,7 @@ if (isset($_POST["registro"])) {
 
                             <input type="submit" name="registro" class="boton" value="CREAR CUENTA">
 
-                            <a href="index.php"><button class="boton">VOLVER</button> </a>
+                            <a href="index.php"><button type="button" class="boton">VOLVER</button> </a>
 
                         </form>
                     </div>
