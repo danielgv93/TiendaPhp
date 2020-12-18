@@ -172,8 +172,8 @@ class Database
         $sql = /** @lang MariaDB */
             "UPDATE dispositivos SET stock = ? WHERE id_dispositivo = ?;";
         $consulta = $conexion->prepare($sql);
-        $consulta->bindValue(1, $id);
-        $consulta->bindValue(2, $stock);
+        $consulta->bindParam(1, $stock);
+        $consulta->bindParam(2, $id);
         if ($consulta->execute() != true) throw new Exception("No se ha podido actualizar el stock");
         return true;
     }
