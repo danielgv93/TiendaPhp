@@ -1,5 +1,6 @@
 <?php
 require_once "classes/Database.php";
+require_once "classes/Carrito.php";
 require_once "funciones.php";
 
 session_start();
@@ -52,7 +53,7 @@ session_start();
                             <div class="contador d-inline">
                                 <?php if(!isset ($_SESSION["carrito"])) {
                                 echo 0;
-                            }else echo count($_SESSION["carrito"]);?>
+                            }else echo count($_SESSION["carrito"]->getProductos());?>
                             </div>
                     </div>
                 </form>
@@ -95,7 +96,7 @@ session_start();
                                                 y sacas todos los productos que haya añadidos asin en esa tablita -->
                                                 <tbody>
 
-                                                    <?php if (isset($_SESSION["carrito"]))  foreach ($_SESSION["carrito"] as $id => $producto) : ?>
+                                                    <?php if (isset($_SESSION["carrito"]))  foreach ($_SESSION["carrito"]->getProductos() as $id => $producto) : ?>
                                                         <tr>
                                                             <input type="hidden" name="id[]" value="<?= $id ?>">
                                                             <th scope="row" class="border-0">

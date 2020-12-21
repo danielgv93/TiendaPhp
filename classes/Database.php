@@ -4,6 +4,7 @@ require_once "Compra.php";
 require_once "Dispositivo.php";
 require_once "Movil.php";
 require_once "Reloj.php";
+require_once "Cupon.php";
 
 class Database
 {
@@ -221,9 +222,8 @@ class Database
         $resultado->bindColumn(13, $idReloj);
         $resultado->bindColumn(14, $sim);
         $resultado->fetch(PDO::FETCH_BOUND);
-        $datos[$id] = new Reloj($id, $modelo, $precio, $gama, $anio, $ram, $almacenamiento, $procesador, $bateria,
+        return new Reloj($id, $modelo, $precio, $gama, $anio, $ram, $almacenamiento, $procesador, $bateria,
             $pulgadas, $stock, $imagen, $idReloj, $sim);
-        return $datos;
     }
 
     function getMoviles()
@@ -254,7 +254,6 @@ class Database
         return $datos;
     }
 
-    //HECHO MACHETE
     function getMovil($idSelected)
     {
         $conexion = self::getConexion();
@@ -279,10 +278,10 @@ class Database
         $resultado->bindColumn(14, $camara);
         $resultado->bindColumn(15, $notch);
         $resultado->fetch(PDO::FETCH_BOUND);
-        $datos[$id] = new Movil(            $id, $modelo, $precio, $gama, $anio, $ram, $almacenamiento, $procesador, $bateria,
+        return new Movil($id, $modelo, $precio, $gama, $anio, $ram, $almacenamiento, $procesador, $bateria,
             $pulgadas, $stock, $imagen, $idMovil, $camara, $notch);
-        return $datos;
     }
+
     function addMovil($movil)
     {
         $conexion = self::getConexion();
@@ -333,7 +332,6 @@ class Database
         }
     }
 
-    //HECHO MACHETE
     function addReloj($reloj)
     {
         $conexion = self::getConexion();
@@ -382,6 +380,7 @@ class Database
             return false;
         }
     }
+
     function registrarCompra_RetirarStock($usuario, $dispositivo, $cantidad)
     {
         $conexion = self::getConexion();
@@ -421,7 +420,7 @@ class Database
             return $e->getMessage();
         }
     }
-    //HECHO DANI
+
     function borrarModelo($id)
     {
         $conexion = self::getConexion();
@@ -510,5 +509,15 @@ class Database
         }
     }
 
+    function getCupon($cupon)
+    {
+        $conexion = self::getConexion();
+        $sql = /** @lang MariaDB */
+            "SELECT * from cupon where cupon = ?";
+        $resultado = $conexion->prepare($sql);
+        $resultado->bindParam(1, $cupon);
+        $resultado->execute();
+        return $resultado->fetchObject();
+    }
 
 }

@@ -1,4 +1,4 @@
-<?php
+<?php/*
 require_once "sql/Conexion.php";
 // Hecho Dani
 function addUsuario($nombre, $apellidos, $email, $usuario, $password)
@@ -122,7 +122,7 @@ function updateStock($id, $stock)
     return true;
 }
 
-/*function getStock($id)
+function getStock($id)
 {
     $conexion = getConexionPDO();
     $sql = "SELECT stock from dispositivos where id_dispositivo = ?;";
@@ -132,11 +132,11 @@ function updateStock($id, $stock)
     $resultado->bindColumn(1, $stock);
     $resultado->fetch(PDO::FETCH_BOUND);
     return $stock;
-}*/
+}
 
 function addMovil($modelo, $precio, $gama, $anio, $ram, $almacenamiento, $procesador, $bateria, $pulgadas, $imagen, $camara, $notch) {
     $conexion = getConexionPDO();
-    /* SE COMPRUEBA QUE NO HAY UN MISMO MODELO EN LA BASE DE DATOS */
+     SE COMPRUEBA QUE NO HAY UN MISMO MODELO EN LA BASE DE DATOS
     $sql = "SELECT COUNT(*) as iguales from dispositivos where modelo = ?;";
     $resultado = $conexion->prepare($sql);
     $resultado->bindParam(1, $modelo);
@@ -145,7 +145,7 @@ function addMovil($modelo, $precio, $gama, $anio, $ram, $almacenamiento, $proces
     if ($fila["iguales"] != 0) {
         throw new Exception("Ya hay un modelo igual en la base de datos");
     }
-    /* SE HACE INSERT CON TRANSACCIÓN EN dispositivos Y moviles */
+     SE HACE INSERT CON TRANSACCIÓN EN dispositivos Y moviles
     $conexion->beginTransaction();
     try {
         $sql = "INSERT INTO dispositivos (modelo, precio, gama, anio, ram, almacenamiento, procesador, bateria, pulgadas, imagen)
@@ -184,7 +184,7 @@ function addMovil($modelo, $precio, $gama, $anio, $ram, $almacenamiento, $proces
 
 function addReloj($modelo, $precio, $gama, $anio, $ram, $almacenamiento, $procesador, $bateria, $pulgadas, $imagen, $sim) {
     $conexion = getConexionPDO();
-    /* SE COMPRUEBA QUE NO HAY UN MISMO MODELO EN LA BASE DE DATOS */
+     SE COMPRUEBA QUE NO HAY UN MISMO MODELO EN LA BASE DE DATOS
     $sql = "SELECT COUNT(*) as iguales from dispositivos where modelo = ?;";
     $resultado = $conexion->prepare($sql);
     $resultado->bindParam(1, $modelo);
@@ -193,7 +193,7 @@ function addReloj($modelo, $precio, $gama, $anio, $ram, $almacenamiento, $proces
     if ($fila["iguales"] != 0) {
         throw new Exception("Ya hay un modelo igual en la base de datos");
     }
-    /* SE HACE INSERT CON TRANSACCIÓN EN dispositivos Y relojes */
+     SE HACE INSERT CON TRANSACCIÓN EN dispositivos Y relojes
     $conexion->beginTransaction();
     try {
         $sql = "INSERT INTO dispositivos (modelo, precio, gama, anio, ram, almacenamiento, procesador, bateria, pulgadas, imagen)

@@ -5,7 +5,6 @@ session_start();
 if (isset($_POST["ficha"])) {
     $idSelected = $_POST["id"];
     list($ficha, $tipo) = Database::getInstance()->getFicha($idSelected);
-    $ficha = $ficha[$idSelected];
 }
 ?>
 

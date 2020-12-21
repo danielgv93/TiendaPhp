@@ -1,5 +1,6 @@
 <?php
 require_once "classes/Database.php";
+require_once "classes/Carrito.php";
 session_start();
 
 
@@ -19,18 +20,20 @@ if (!isset($_POST["buscar"]) && !isset($_POST["telefonos"]) && !isset($_POST["re
 
 // Hacer click en el carrito
 if (isset($_POST["cart"])) {
+    $cesta = Carrito::cargaCesta();
+    $productoAñadido = Database::getInstance()->getProducto($_POST["id"]);
     // Si ya esta en el carrito
-    if (isset($_SESSION["carrito"][$_POST["id"]])) {
-        $carrito = "El " . $_SESSION["carrito"][$_POST["id"]]->getModelo() . " ya estaba dentro de la cesta.";
+    if (checkIfExists($cesta->getProductos(), $_POST["id"])) {
+        $carrito = "El " . $productoAñadido->getModelo() . " ya estaba dentro de la cesta.";
         $icono = "error";
     } else {
         // Si no esta en el carrito
-        $productoAñadido = Database::getInstance()->getProducto($_POST["id"]);
-        $_SESSION["carrito"][array_keys($productoAñadido)[0]] = array_values($productoAñadido)[0];
-        $carrito = "Se añadió " . $_SESSION["carrito"][$_POST["id"]]->getModelo() . " a la cesta.";
+        $cesta->nuevoArticulo($_POST["id"]);
+        $cesta->guardaCesta();
+        $carrito = "Se añadió " . $productoAñadido->getModelo() . " a la cesta.";
         $icono = "success";
     }
-    $url = $_SESSION["carrito"][$_POST["id"]]->getImagen();
+    $url = $productoAñadido->getImagen();
 }
 
 function busqueda($busquedaSelected)
@@ -50,6 +53,17 @@ function busqueda($busquedaSelected)
     }
     return false;
 }
+
+function checkIfExists($array, $id)
+{
+    foreach ($array as $item) {
+        if ($item->getIdDispositivo() === $id) {
+            return true;
+        }
+    }
+    return false;
+}
+
 
 ?>
 
