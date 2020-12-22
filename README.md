@@ -2,7 +2,8 @@
 ## Autores
 - [Daniel Garcia](https://github.com/danielgv93)
 - [Joseba Mantecon](https://github.com/josebamango)
-- Puedes encontrar el proyecto [aquí](https://github.com/danielgv93/TiendaPhp)
+
+Puedes encontrar el proyecto [aquí](https://github.com/danielgv93/TiendaPhp)
 
 ## Documentación
 ### Diagrama UML
