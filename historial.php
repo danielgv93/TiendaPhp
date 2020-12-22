@@ -52,7 +52,7 @@ $historiales=Database::getInstance()->getHistorial($_SESSION["visitante"]->getId
                         <div class="contador d-inline">
                             <?php if(!isset ($_SESSION["carrito"])) {
                                 echo 0;
-                            }else echo count($_SESSION["carrito"]);?>
+                            }else echo count($_SESSION["carrito"]->getProductos());?>
                         </div>
                     </div>
                 </form>
@@ -72,7 +72,6 @@ $historiales=Database::getInstance()->getHistorial($_SESSION["visitante"]->getId
                                     <div class="col-lg-12 p-5 bg-white rounded shadow-sm mb-5">
                                         <div class="table-responsive">
                                             <table class="table">
-                                                <!-- Esto asi a machete, no toques na -->
                                                 <thead>
                                                     <tr>
                                                         <th scope="col" class="border-0 bg-light">
@@ -92,10 +91,7 @@ $historiales=Database::getInstance()->getHistorial($_SESSION["visitante"]->getId
                                                         </th>
                                                     </tr>
                                                 </thead>
-                                                <!-- Esto lo metes en uno de esos bucles tuyos rechingones bien vergosos
-                                                y sacas todos los productos que haya añadidos asin en esa tablita -->
                                                 <tbody>
-
                                                     <?php if(isset($historiales)) foreach ($historiales as $producto) : ?>
                                                         <tr>
                                                             <td class="border-0 align-middle text-center"><strong><?= $producto["id_compra"] ?></strong></td>

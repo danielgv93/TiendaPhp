@@ -34,3 +34,31 @@ function getExtension($tipoImagen)
     } catch (Exception $e) {
     }
 }
+
+function checkIfExists($array, $id)
+{
+    foreach ($array as $item) {
+        if ($item->getIdDispositivo() === $id) {
+            return true;
+        }
+    }
+    return false;
+}
+
+function busqueda($busquedaSelected)
+{
+    if (empty($busquedaSelected)) {
+        $arrayDispositivos = Database::getInstance()->getDispositivos();
+    } else {
+        $busqueda = strtolower($busquedaSelected);
+        foreach (Database::getInstance()->getDispositivos() as $id => $dispositivo) {
+            if (strpos(strtolower($dispositivo->getModelo()), $busqueda) !== false) {
+                $arrayDispositivos[$id] = $dispositivo;
+            }
+        }
+    }
+    if (isset($arrayDispositivos)) {
+        return $arrayDispositivos;
+    }
+    return false;
+}

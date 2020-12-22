@@ -28,4 +28,18 @@ class Carrito
         else
             return ($_SESSION['carrito']);
     }
+
+    public function vaciarCesta()
+    {
+        $_SESSION["carrito"] = null;
+    }
+
+    public function isEmpty()
+    {
+        if (count($this->getProductos()) === 0) {
+            return true;
+        }
+        return false;
+    }
+
 }
