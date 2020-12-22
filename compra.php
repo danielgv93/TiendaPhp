@@ -6,18 +6,28 @@ $texto = "Compra realizada con éxito";
 $icono = "success";
 
 if (isset($_POST["borrar"])) {
-    $_SESSION["carrito"][$_POST["id"]] = null;
+    Carrito::cargaCesta()->vaciarCesta();
     header("Location: carro.php");
+    exit();
 }
+
 if (isset($_POST["pago"])) {
-    for ($i = 0; $i < count($_POST["id"]); $i++) {
-        if ($_POST["cantidad"][$i] > 0) {
-            if (($error = Database::getInstance()->registrarCompra_RetirarStock($_SESSION["visitante"]->getId(), $_POST["id"][$i], $_POST["cantidad"][$i])) !== true) {
-                $texto = $error;
-                $icono = "error";
-                break;
+    if (!Carrito::cargaCesta()->isEmpty()) {
+        for ($i = 0; $i < count($_POST["id"]); $i++) {
+            if ($_POST["cantidad"][$i] > 0) {
+                date_default_timezone_set('Europe/Berlin');
+                $date = date('Y/m/d', time());
+                $compra = new Compra(0, $_SESSION["visitante"]->getId(), $_POST["id"][$i], $date, $_POST["cantidad"][$i]);
+                if (($error = Database::getInstance()->registrarCompra_RetirarStock($compra)) !== true) {
+                    $texto = $error;
+                    $icono = "error";
+                    break;
+                }
             }
         }
+    } else {
+        header("Location: carro.php");
+        exit();
     }
 }
 unset($_SESSION["carrito"]);

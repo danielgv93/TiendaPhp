@@ -4,7 +4,7 @@ require_once "Compra.php";
 require_once "Dispositivo.php";
 require_once "Movil.php";
 require_once "Reloj.php";
-require_once "Cupon.php";
+require_once "Carrito.php";
 
 class Database
 {
@@ -129,6 +129,20 @@ class Database
         $consulta->bindParam(4, $email);
         $consulta->bindParam(5, $contraseña);
         $consulta->bindParam(6, $id);
+        if ($consulta->execute()){
+            return true;
+        }
+        return false;
+    }
+
+    function updateFotoUsuario($id, $imagen)
+    {
+        $conexion = self::getConexion();
+        $sql = /** @lang MariaDB */
+            "UPDATE usuarios SET foto_perfil = ?  WHERE id = ?;";
+        $consulta = $conexion->prepare($sql);
+        $consulta->bindParam(1, $imagen);
+        $consulta->bindParam(2, $id);
         if ($consulta->execute()){
             return true;
         }
@@ -381,35 +395,36 @@ class Database
         }
     }
 
-    function registrarCompra_RetirarStock($usuario, $dispositivo, $cantidad)
+    function registrarCompra_RetirarStock($compra)
     {
         $conexion = self::getConexion();
         try {
             $conexion->beginTransaction();
             $sql = /** @lang MariaDB */
-                "INSERT INTO compras (id_usuario, id_dispositivo, unidades) VALUES (?,?,?)";
+                "INSERT INTO compras (id_usuario, id_dispositivo, fecha, unidades) VALUES (?,?,?,?)";
             $consulta = $conexion->prepare($sql);
-            $consulta->bindParam(1, $usuario);
-            $consulta->bindParam(2, $dispositivo);
-            $consulta->bindParam(3, $cantidad);
+            $consulta->bindValue(1, $compra->getIdUsuario());
+            $consulta->bindValue(2, $compra->getIdDispositivo());
+            $consulta->bindValue(3, $compra->getFecha());
+            $consulta->bindValue(4, $compra->getUnidades());
             if ($consulta->execute() != true) {
                 throw new Exception("Error al registrar la compra");
             }
             $sql = /** @lang MariaDB */
                 "SELECT stock FROM dispositivos WHERE id_dispositivo = ?;";
             $consulta = $conexion->prepare($sql);
-            $consulta->bindParam(1, $dispositivo);
+            $consulta->bindValue(1, $compra->getIdDispositivo());
             $consulta->execute();
             $consulta->bindColumn(1, $stockTienda);
             $consulta->fetch(PDO::FETCH_BOUND);
-            if ($stockTienda < $cantidad) {
+            if ($stockTienda < $compra->getUnidades()) {
                 throw new Exception("No se ha realizado la compra. Stock menor al elegido");
             }
             $sql = /** @lang MariaDB */
                 "UPDATE dispositivos SET stock = (stock - ?) WHERE id_dispositivo = ?;";
             $consulta = $conexion->prepare($sql);
-            $consulta->bindParam(1, $cantidad);
-            $consulta->bindParam(2, $dispositivo);
+            $consulta->bindValue(1, $compra->getUnidades());
+            $consulta->bindValue(2, $compra->getIdDispositivo());
             if ($consulta->execute() != true) {
                 throw new Exception("Error al actualizar el stock");
             }
@@ -433,8 +448,6 @@ class Database
         }
         return true;
     }
-
-    //HECHO DANI
 
     function getHistorial($idUsuario)
     {
@@ -462,6 +475,15 @@ class Database
         return $datos;
     }
 
+    function getFicha($id)
+    {
+        if (self::getTipoDispositivo($id) == "movil") {
+            return [self::getMovil($id), "movil"];
+        } else {
+            return [self::getReloj($id), "reloj"];
+        }
+    }
+
     function getTipoDispositivo($id)
     {
         $conexion = self::getConexion();
@@ -484,40 +506,6 @@ class Database
         } else {
             return self::getReloj($id);
         }
-    }
-
-    function updateFotoUsuario($id, $imagen)
-    {
-        $conexion = self::getConexion();
-        $sql = /** @lang MariaDB */
-            "UPDATE usuarios SET foto_perfil = ?  WHERE id = ?;";
-        $consulta = $conexion->prepare($sql);
-        $consulta->bindParam(1, $imagen);
-        $consulta->bindParam(2, $id);
-        if ($consulta->execute()){
-            return true;
-        }
-        return false;
-    }
-
-    function getFicha($id)
-    {
-        if (self::getTipoDispositivo($id) == "movil") {
-            return [self::getMovil($id), "movil"];
-        } else {
-            return [self::getReloj($id), "reloj"];
-        }
-    }
-
-    function getCupon($cupon)
-    {
-        $conexion = self::getConexion();
-        $sql = /** @lang MariaDB */
-            "SELECT * from cupon where cupon = ?";
-        $resultado = $conexion->prepare($sql);
-        $resultado->bindParam(1, $cupon);
-        $resultado->execute();
-        return $resultado->fetchObject();
     }
 
 }

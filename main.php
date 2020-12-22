@@ -1,6 +1,6 @@
 <?php
 require_once "classes/Database.php";
-require_once "classes/Carrito.php";
+require_once "funciones.php";
 session_start();
 
 
@@ -21,50 +21,20 @@ if (!isset($_POST["buscar"]) && !isset($_POST["telefonos"]) && !isset($_POST["re
 // Hacer click en el carrito
 if (isset($_POST["cart"])) {
     $cesta = Carrito::cargaCesta();
-    $productoAñadido = Database::getInstance()->getProducto($_POST["id"]);
+    $productoAdded = Database::getInstance()->getProducto($_POST["id"]);
     // Si ya esta en el carrito
     if (checkIfExists($cesta->getProductos(), $_POST["id"])) {
-        $carrito = "El " . $productoAñadido->getModelo() . " ya estaba dentro de la cesta.";
+        $carrito = "El " . $productoAdded->getModelo() . " ya estaba dentro de la cesta.";
         $icono = "error";
     } else {
         // Si no esta en el carrito
         $cesta->nuevoArticulo($_POST["id"]);
         $cesta->guardaCesta();
-        $carrito = "Se añadió " . $productoAñadido->getModelo() . " a la cesta.";
+        $carrito = "Se añadió " . $productoAdded->getModelo() . " a la cesta.";
         $icono = "success";
     }
-    $url = $productoAñadido->getImagen();
+    $url = $productoAdded->getImagen();
 }
-
-function busqueda($busquedaSelected)
-{
-    if (empty($busquedaSelected)) {
-        $arrayDispositivos = Database::getInstance()->getDispositivos();
-    } else {
-        $busqueda = strtolower($busquedaSelected);
-        foreach (Database::getInstance()->getDispositivos() as $id => $dispositivo) {
-            if (strpos(strtolower($dispositivo->getModelo()), $busqueda) !== false) {
-                $arrayDispositivos[$id] = $dispositivo;
-            }
-        }
-    }
-    if (isset($arrayDispositivos)) {
-        return $arrayDispositivos;
-    }
-    return false;
-}
-
-function checkIfExists($array, $id)
-{
-    foreach ($array as $item) {
-        if ($item->getIdDispositivo() === $id) {
-            return true;
-        }
-    }
-    return false;
-}
-
-
 ?>
 
 <!DOCTYPE html>
@@ -128,18 +98,16 @@ function checkIfExists($array, $id)
                         <a class="dropdown-item" href="logout.php"><i class="fas fa-sign-out-alt mr-2"></i>Logout</a>
                     </div>
                 </div>
-                <form method="post" class="perfil form-inline my-2 my-lg-0" action="<?= htmlspecialchars($_SERVER["PHP_SELF"]) ?>">
                     <div class="usuario d-inline ml-1">
                         <div class="logout d-inline ml-2">
                             <a href="carro.php" title="cesta"><i class="fab fa-opencart fa-2x"></i></a>
                             <div class="contador d-inline">
                                 <?php if (!isset($_SESSION["carrito"])) {
                                     echo 0;
-                                } else echo count($_SESSION["carrito"]); ?>
+                                } else echo count($_SESSION["carrito"]->getProductos()); ?>
                             </div>
                         </div>
                     </div>
-                </form>
             </div>
         </nav>
 

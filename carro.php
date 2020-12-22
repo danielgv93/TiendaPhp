@@ -46,17 +46,15 @@ session_start();
                         <a class="dropdown-item" href="logout.php"><i class="fas fa-sign-out-alt mr-2"></i>Logout</a>
                     </div>
                 </div>
-                <form method="post" class="perfil form-inline my-2 my-lg-0" action="<?= htmlspecialchars($_SERVER["PHP_SELF"]) ?>">
-                    <div class="usuario d-inline ml-1">
-                        <a </div> <div class="logout d-inline ml-2">
-                            <a href="carro.php" title="cesta"><i class="fab fa-opencart fa-2x"></i></a>
-                            <div class="contador d-inline">
-                                <?php if(!isset ($_SESSION["carrito"])) {
-                                echo 0;
-                            }else echo count($_SESSION["carrito"]->getProductos());?>
-                            </div>
-                    </div>
-                </form>
+                <div class="usuario d-inline ml-1">
+                    <a </div> <div class="logout d-inline ml-2">
+                        <a href="carro.php" title="cesta"><i class="fab fa-opencart fa-2x"></i></a>
+                        <div class="contador d-inline">
+                            <?php if(!isset ($_SESSION["carrito"])) {
+                            echo 0;
+                        }else echo count($_SESSION["carrito"]->getProductos());?>
+                        </div>
+                </div>
             </div>
         </nav>
         <div class="container">
@@ -139,32 +137,8 @@ session_start();
                                 </div>
 
                                 <div class="row py-5 p-4 bg-white rounded shadow-sm">
-                                    <div class="col-lg-6">
-                                        <div class="bg-light px-4 py-3 text-uppercase font-weight-bold">Codigo de
-                                            descuento
-                                        </div>
-                                        <div class="p-4">
-                                            <p class="font-italic mb-4">Si tiene codigo de descuento, introducelo
-                                                debajo</p>
-                                            <div class="input-group mb-4 border p-2">
-                                                <input type="text" placeholder="Cupón descuento" aria-describedby="button-addon3" class="form-control">
-                                                <div class="input-group-append border-0">
-                                                    <button id="button-addon3" type="button" class="btn btn-dark px-4">
-                                                        <i class="fa fa-gift mr-2"></i>Aplicar cupón
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="bg-light px-4 py-3 text-uppercase font-weight-bold">Comentarios para
-                                            el vendedor
-                                        </div>
-                                        <div class="p-4">
-                                            <p class="font-italic mb-4">Si tiene algún comentario o sugerencia para el
-                                                vendedor, por favor escríbela debajo</p>
-                                            <textarea name="comentario" cols="30" rows="2" class="form-control"></textarea>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6">
+
+                                    <div class="col-lg-12">
                                         <div class="bg-light px-4 py-3 text-uppercase font-weight-bold">Resumen del
                                             pedido
                                         </div>
@@ -252,17 +226,7 @@ session_start();
             envio.innerHTML = precioEnvio2.toFixed(2) + " €";
         }
     }
-    <?php /*if (isset($_POST["borrar"])) : */ ?>
-    /*
-            Swal.fire({
-                icon: 'warning',
-                title: '¿Quieres borrar el elemento?',
-                backdrop: `rgba(0,0,123,0.4)`,
-                width: 400,
-                showConfirmButton: false
-            })
-    */
-    <?php /*endif */ ?>
+
 </script>
 
 </html>

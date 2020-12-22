@@ -1,5 +1,6 @@
 <?php
 require_once "classes/Database.php";
+require_once "classes/Carrito.php";
 session_start();
 
 if (isset($_POST["ficha"])) {
@@ -69,8 +70,14 @@ if (isset($_POST["ficha"])) {
                         <a class="dropdown-item" href="logout.php"><i class="fas fa-sign-out-alt mr-2"></i>Logout</a>
                     </div>
                 </div>
-                <div class="logout d-inline ml-2">
-                    <a href="carro.php" title="cesta"><i class="fas fa-shopping-cart fa-2x"></i></a>
+                <div class="usuario d-inline ml-1">
+                    <a </div> <div class="logout d-inline ml-2">
+                    <a href="carro.php" title="cesta"><i class="fab fa-opencart fa-2x"></i></a>
+                    <div class="contador d-inline">
+                        <?php if(!isset ($_SESSION["carrito"])) {
+                            echo 0;
+                        }else echo count($_SESSION["carrito"]->getProductos());?>
+                    </div>
                 </div>
             </div>
         </nav>
