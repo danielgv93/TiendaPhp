@@ -10,9 +10,9 @@ if (isset($_POST["updateFoto"])) {
     try {
         if (($targetFile = guardarImagenUsuario($_SESSION["visitante"]->getUsuario(), $_FILES["imagen"])) !== false) {
             if (!Database::getInstance()->updateFotoUsuario($_SESSION["visitante"]->getId(), $targetFile)) {
-                $_SESSION["visitante"] = Database::getInstance()->getUsuario($_SESSION["visitante"]->getId());
                 $texto = "Error al actualizar la foto!";
             }
+            $_SESSION["visitante"] = Database::getInstance()->getUsuario($_SESSION["visitante"]->getId());
         }
     } catch (Exception $e) {
         $texto = $e->getMessage();
